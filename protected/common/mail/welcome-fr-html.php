@@ -1,0 +1,449 @@
+<?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attitude Hotels</title>
+  <style type="text/css">
+    #outlook a{padding:0;}
+    .ExternalClass{width:100%;}
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div{line-height:100%;}
+    table td{border-collapse:collapse;}
+    table{border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;}
+    img{outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;}
+    a img{border:none;}
+    .image_fix{display:block;}
+    @-ms-viewport{width:device-width;}
+  </style>
+  <style type="text/css">
+    @media screen and (max-width:480px) {
+      .wrapper{width:100%!important;}
+      .toolbarContainer{display:block!important;width:100%!important;}
+      .toolbarText{text-align:center!important;}
+      .bannerImage{width:100%!important;height:auto!important;}
+      .bodyContainer{padding:20px 18px!important;}
+      .introText{line-height:150%!important;}
+      .featureColumn{display:block!important;width:100%!important;}
+      .featureGap{display:none!important;}
+      .featureImage{width:100%!important;height:auto!important;}
+      .sectionColumn{display:block!important;width:100%!important;}
+      .sectionGap{display:none!important;}
+      .sectionImage{width:100%!important;height:auto!important;}
+      .sectionContent{height:auto!important;padding:30px 20px 40px!important;}
+      .socialContainer{width:100%!important;}
+      .buttonContainer1{padding:10px 0!important;}
+      .buttonContainer2{padding:0!important;}
+      .buttonContainer3{padding:40px 0!important;}
+    }
+  </style>
+  <!--[if mso]>
+  <style>
+    td{mso-line-height-rule:exactly;}
+  </style>
+  <![endif]-->
+</head>
+<body bgcolor="#ffffff" style="width: 100%; margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+
+	<!-- Preview Text -->
+	<div style="display: none; max-height: 0px; overflow: hidden;">
+		Bonjour et bienvenue de la part des hôtels Attitude à l’île Maurice
+	</div>
+
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 100%; margin: 0; padding: 0; line-height: 100%; background-color: #ffffff;">
+    <tr>
+      <td valign="top">
+
+        <table class="wrapper" border="0" cellpadding="0" cellspacing="0" align="center" width="600" style="background-color: #ffffff;">
+          <tr>
+            <td valign="top">
+
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td valign="top" style="padding: 20px 18px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td class="toolbarContainer" valign="top">
+                          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                              <td class="toolbarText" valign="top" style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 150%; color: #222222; text-align: left;"><strong>Merci pour votre inscription</strong></td>
+                            </tr>
+                          </table>
+                        </td>
+                        <td class="toolbarContainer" valign="top">
+                          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                              <td class="toolbarText" valign="top" style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 150%; color: #222222; text-align: right;"><a href="<?= Url::to('@web/email/fr/', true) ?>" target="_blank" style="color: #000000; text-decoration: underline;">Ouvrir cet email dans mon navigateur</a></td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <!-- toolbar -->
+
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td valign="top"><a href="https://hotels-attitude.com/fr?utm_source=automation-emails&utm_medium=email&utm_campaign=18102021_attitude_enews_subscription_&utm_content=attitude_enews_subscription" target="_blank"><img class="bannerImage" src="<?= Url::to('@web/images/mail/fr/banner.gif', true) ?>" alt="" width="600" height="250" style="display: block; height: auto;" /></a></td>
+                </tr>
+              </table>
+              <!-- banner -->
+
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td class="bodyContainer" valign="top" style="padding: 35px 18px;">
+
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td class="introText" valign="top" style="padding-top: 20px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 200%; color: #222222; text-align: center;">Vous faites maintenant partie de la famille Attitude ! Nous sommes ravis de pouvoir partager avec vous les derni&egrave;res actualit&eacute;s de nos <strong style="color: #658e3c;">8 h&ocirc;tels</strong>, nos <strong style="color: #658e3c;">offres exclusives</strong>, nos <strong style="color: #658e3c;">inspirations</strong> et bien entendu tous nos conseils pour <strong style="color: #658e3c;">d&eacute;couvrir la vraie &icirc;le Maurice</strong> et y <strong style="color: #658e3c;">vivre un s&eacute;jour authentique</strong> et <strong style="color: #658e3c;">responsable</strong>.</td>
+                      </tr>
+                    </table>
+                    <!-- intro -->
+
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td valign="top">
+                          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                              <td class="featureColumn" width="264" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                  <tr>
+                                    <td valign="top" style="padding: 20px 0;">
+                                      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                          <td valign="top"><img class="featureImage" src="<?= Url::to('@web/images/mail/fr/img-feature-1.jpg', true) ?>" alt="" width="264" height="264" style="display: block; height: auto;" /></td>
+                                        </tr>
+                                        <tr>
+                                          <td valign="top" style="padding: 10px 0; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 150%; color: #222222; text-align: center;">Notre vision : <strong style="color: #658e3c;">un tourisme responsable</strong><br />et <strong style="color: #658e3c;">durable</strong> &agrave; travers notre<br /><strong style="color: #658e3c;">mouvement Positive Impact</strong>.</td>
+                                        </tr>
+                                        <tr>
+                                          <td class="buttonContainer1" valign="top" style="padding: 10px 62px; text-align: center;">
+                                            <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                              <tr>
+                                                <td valign="top"><a href="https://hotels-attitude.com/fr/positive-impact?utm_source=automation-emails&utm_medium=email&utm_campaign=18102021_attitude_enews_subscription_&utm_content=attitude_enews_subscription" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/btn-join-the-movement.jpg', true) ?>" alt="" width="140" height="35" style="display: block; height: auto;" /></a></td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                              <td class="featureGap" width="36" valign="top">&nbsp;</td>
+                              <td class="featureColumn" width="264" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                  <tr>
+                                    <td valign="top" style="padding: 20px 0;">
+                                      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                          <td valign="top"><img class="featureImage" src="<?= Url::to('@web/images/mail/fr/img-feature-2.jpg', true) ?>" alt="" width="264" height="264" style="display: block; height: auto;" /></td>
+                                        </tr>
+                                        <tr>
+                                          <td valign="top" style="padding: 10px 0; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 150%; color: #222222; text-align: center;"><strong style="color: #658e3c;">Vacances en famille</strong>, entre <strong style="color: #658e3c;">amis</strong>, ou <strong style="color: #658e3c;">s&eacute;jour en couple</strong> dans une <strong style="color: #658e3c;">atmosph&egrave;re intimiste</strong><br />et <strong style="color: #658e3c;">paisible</strong> ? A vous de choisir !</td>
+                                        </tr>
+                                        <tr>
+                                          <td class="buttonContainer1" valign="top" style="padding: 10px 62px; text-align: center;">
+                                            <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                              <tr>
+                                                <td valign="top"><a href="https://hotels-attitude.com/fr/nos-hotels-ile-maurice?utm_source=automation-emails&utm_medium=email&utm_campaign=18102021_attitude_enews_subscription_&utm_content=attitude_enews_subscription" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/btn-discover.jpg', true) ?>" alt="" width="140" height="35" style="display: block; height: auto;" /></a></td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                              <td class="featureColumn" width="264" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                  <tr>
+                                    <td valign="top" style="padding: 20px 0;">
+                                      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                          <td valign="top"><img class="featureImage" src="<?= Url::to('@web/images/mail/fr/img-feature-3.jpg', true) ?>" alt="" width="264" height="264" style="display: block; height: auto;" /></td>
+                                        </tr>
+                                        <tr>
+                                          <td valign="top" style="padding: 10px 0; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 150%; color: #222222; text-align: center;">Attitude est le <strong style="color: #658e3c;">premier et l'unique groupe h&ocirc;telier</strong> labellis&eacute; <strong style="color: #658e3c;">&lsquo;&rsquo;Made in Moris&rdquo;</strong> pour le <strong style="color: #658e3c;">soutien &agrave; l&rsquo;&eacute;conomie</strong> et &agrave; la <strong style="color: #658e3c;">communaut&eacute; locales</strong>.</td>
+                                        </tr>
+                                        <tr>
+                                          <td class="buttonContainer1" valign="top" style="padding: 10px 62px; text-align: center;">
+                                            <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                              <tr>
+                                                <td valign="top"><a href="https://madeinmoris.mu/" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/btn-discover.jpg', true) ?>" alt="" width="140" height="35" style="display: block; height: auto;" /></a></td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                              <td class="featureGap" width="36" valign="top">&nbsp;</td>
+                              <td class="featureColumn" width="264" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                  <tr>
+                                    <td valign="top" style="padding: 20px 0;">
+                                      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                          <td valign="top"><img class="featureImage" src="<?= Url::to('@web/images/mail/fr/img-feature-4.jpg', true) ?>" alt="" width="264" height="264" style="display: block; height: auto;" /></td>
+                                        </tr>
+                                        <tr>
+                                          <td valign="top" style="padding: 10px 0; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 150%; color: #222222; text-align: center;">Le <strong style="color: #658e3c;">sourire</strong> et la <strong style="color: #658e3c;">bienveillance</strong> de nos Family Members, 100% d&eacute;vou&eacute;s &agrave; <strong style="color: #658e3c;">votre bien-&ecirc;tre</strong>.<br />Un aper&ccedil;u de ce qui vous attend ?</td>
+                                        </tr>
+                                        <tr>
+                                          <td class="buttonContainer1" valign="top" style="padding: 10px 62px; text-align: center;">
+                                            <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                              <tr>
+                                                <td valign="top"><a href="https://www.facebook.com/HotelsAttitudeFR/videos/4253635098068226/" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/btn-discover.jpg', true) ?>" alt="" width="140" height="35" style="display: block; height: auto;" /></a></td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                    <!-- feature -->
+
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td valign="top" style="padding: 20px 0;">
+                          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                              <td valign="top" style="text-align: center;"><img src="<?= Url::to('@web/images/mail/fr/ico-otentik.png', true) ?>" alt="" width="56" height="78" style="display: inline; height: auto; vertical-align: top;" /></td>
+                            </tr>
+                            <tr>
+                              <td valign="top" style="padding: 20px 0; font-family: Arial, Helvetica, sans-serif; font-size: 18px; line-height: 150%; color: #0c4059; text-align: center;"><strong>Les Exp&eacute;riences Otentik</strong><br /><em>pour d&eacute;couvrir l'&icirc;le Maurice authentique</em></td>
+                            </tr>
+                            <tr>
+                              <td valign="top" style="background-color: #03aac9;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                  <tr>
+                                    <td class="sectionColumn" width="282" valign="top">
+                                      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                          <td valign="top"><img class="sectionImage" src="<?= Url::to('@web/images/mail/fr/img-otentik.gif', true) ?>" alt="" width="282" height="282" style="display: block; height: auto;" /></td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                    <td class="sectionColumn" width="282" valign="middle">
+                                      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                          <td class="sectionContent" valign="top" style="padding: 20px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                              <tr>
+                                                <td valign="top" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 150%; color: #ffffff; text-align: center;"><strong>Les 5 incontournables !</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td valign="top" style="padding: 15px 0; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 150%; color: #222222; text-align: center;">D&eacute;ambulez dans les all&eacute;es des <strong>march&eacute;s locaux</strong>, savourez le meilleur de la <strong>Street Food mauricienne</strong>, d&eacute;couvrez les <strong>talents musicaux de l&rsquo;&icirc;le</strong>... Venez &agrave; la <strong>rencontre de notre pays</strong> et de <strong>notre culture</strong>.</td>
+                                              </tr>
+                                              <tr>
+                                                <td class="buttonContainer2" valign="top" style="padding: 0 51px; text-align: center;">
+                                                  <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                                    <tr>
+                                                      <td valign="top"><a href="https://hotels-attitude.com/fr/experiences-authentiques?utm_source=automation-emails&utm_medium=email&utm_campaign=18102021_attitude_enews_subscription_&utm_content=attitude_enews_subscription" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/btn-discover.jpg', true) ?>" alt="" width="140" height="35" style="display: block; height: auto;" /></a></td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                    <!-- section -->
+
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td valign="top" style="padding: 20px 0;">
+                          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                              <td valign="top" style="text-align: center;"><img src="<?= Url::to('@web/images/mail/fr/ico-poz.png', true) ?>" alt="" width="32" height="42" style="display: inline; height: auto; vertical-align: top;" /></td>
+                            </tr>
+                            <tr>
+                              <td valign="top" style="padding: 20px 0; font-family: Arial, Helvetica, sans-serif; font-size: 18px; line-height: 150%; color: #7a6e66; text-align: center;"><strong>POZ</strong><br /><em>Une nouvelle exp&eacute;rience, inspir&eacute;e par la nature, inspir&eacute;e par l'&icirc;le Maurice</em></td>
+                            </tr>
+                            <tr>
+                              <td valign="top" style="background-color: #d6d1ca;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                  <tr>
+                                    <td class="sectionColumn" width="282" valign="middle">
+                                      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                          <td class="sectionContent" valign="top" style="padding: 20px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                              <tr>
+                                                <td valign="top" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 150%; color: #266d37; text-align: center;"><strong>Plus qu'un spa...</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td valign="top" style="padding: 15px 0; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 150%; color: #222222; text-align: center;">&bull; Des soins issus de nos <strong>traditions ancestrales</strong> &bull; Des produits <strong>100% naturels et faits main</strong>, fabriqu&eacute;s &agrave; partir d&rsquo;ingr&eacute;dients <strong>locaux ou r&eacute;gionaux</strong> &bull; Des contenants <strong>100% recyclables</strong> &bull; Collaboration avec une <strong>entreprise mauricienne</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="buttonContainer2" valign="top" style="padding: 0 51px; text-align: center;">
+                                                  <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                                    <tr>
+                                                      <td valign="top"><a href="https://hotels-attitude.com/fr/spa-poz?utm_source=automation-emails&utm_medium=email&utm_campaign=18102021_attitude_enews_subscription_&utm_content=attitude_enews_subscription" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/btn-learn-more.png', true) ?>" alt="" width="140" height="42" style="display: block; height: auto;" /></a></td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                    <td class="sectionColumn" width="282" valign="top">
+                                      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                          <td valign="top"><img class="sectionImage" src="<?= Url::to('@web/images/mail/fr/img-poz.gif', true) ?>" alt="" width="282" height="282" style="display: block; height: auto;"" /></td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                    <!-- section -->
+
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td valign="top" style="padding: 20px 0;">
+                          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                              <td valign="top" style="text-align: center;"><img src="<?= Url::to('@web/images/mail/fr/ico-seaside-break.png', true) ?>" alt="" width="48" height="60" style="display: inline; height: auto; vertical-align: top;" /></td>
+                            </tr>
+                            <tr>
+                              <td valign="top" style="padding: 20px 0; font-family: Arial, Helvetica, sans-serif; font-size: 18px; line-height: 150%; color: #e26c3c; text-align: center;"><strong>Cap sur l' &icirc;le Maurice pour vos prochaines vacances !</strong><br /><em>R&eacute;servez maintenant et profitez de nombreux avantages</em></td>
+                            </tr>
+                            <tr>
+                              <td valign="top"><a href="https://hotels-attitude.com/fr/reserver-en-direct?utm_source=automation-emails&utm_medium=email&utm_campaign=18102021_attitude_enews_subscription_&utm_content=attitude_enews_subscription" target="_blank"><img class="sectionImage" src="<?= Url::to('@web/images/mail/fr/img-seaside-break.jpg', true) ?>" alt="" width="564" height="94" style="display: block; height: auto;" /></a></td>
+                            </tr>
+                            <tr>
+                              <td class="buttonContainer3" valign="top" style="padding: 40px 212px; text-align: center;">
+                                <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                  <tr>
+                                    <td valign="top"><a href="https://hotels-attitude.com/fr/reserver-en-direct?utm_source=automation-emails&utm_medium=email&utm_campaign=18102021_attitude_enews_subscription_&utm_content=attitude_enews_subscription" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/btn-discover.jpg', true) ?>" alt="" width="140" height="35" style="display: block; height: auto;" /></a></td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                  <tr>
+                                    <td valign="top">
+                                      <table class="socialContainer" border="0" cellpadding="0" cellspacing="0" align="left">
+                                        <tr>
+                                          <td valign="top" style="padding: 5px 15px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                              <tr>
+                                                <td valign="top"><a href="https://www.facebook.com/HotelsAttitudeFR" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/ico-facebook.png', true) ?>" alt="" width="24" height="24" style="display: block; height: auto;" /></a></td>
+                                                <td valign="middle" style="padding-left: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 150%; color: #222222;"><a href="https://www.facebook.com/HotelsAttitudeFR" target="_blank" style="color: #222222; text-decoration: none;">Facebook</a></td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                      <table class="socialContainer" border="0" cellpadding="0" cellspacing="0" align="left">
+                                        <tr>
+                                          <td valign="top" style="padding: 5px 15px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                              <tr>
+                                                <td valign="top"><a href="https://hotels-attitude.com/fr?utm_source=automation-emails&utm_medium=email&utm_campaign=18102021_attitude_enews_subscription_&utm_content=attitude_enews_subscription" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/ico-link.png', true) ?>" alt="" width="24" height="24" style="display: block; height: auto;" /></a></td>
+                                                <td valign="middle" style="padding-left: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 150%; color: #222222;"><a href="https://hotels-attitude.com/fr?utm_source=automation-emails&utm_medium=email&utm_campaign=18102021_attitude_enews_subscription_&utm_content=attitude_enews_subscription" target="_blank" style="color: #222222; text-decoration: none;">Website</a></td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                      <table class="socialContainer" border="0" cellpadding="0" cellspacing="0" align="left">
+                                        <tr>
+                                          <td valign="top" style="padding: 5px 15px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                              <tr>
+                                                <td valign="top"><a href="https://www.instagram.com/attitude_hotels/" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/ico-instagram.png', true) ?>" alt="" width="24" height="24" style="display: block; height: auto;" /></a></td>
+                                                <td valign="middle" style="padding-left: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 150%; color: #222222;"><a href="https://www.instagram.com/attitude_hotels/" target="_blank" style="color: #222222; text-decoration: none;">Instagram</a></td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                      <table class="socialContainer" border="0" cellpadding="0" cellspacing="0" align="left">
+                                        <tr>
+                                          <td valign="top" style="padding: 5px 15px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                              <tr>
+                                                <td valign="top"><a href="https://enjoymaurice.com/" target="_blank"><img class="image_fix" src="<?= Url::to('@web/images/mail/fr/ico-blog.png', true) ?>" alt="" width="24" height="24" style="display: block; height: auto;" /></a></td>
+                                                <td valign="middle" style="padding-left: 5px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 150%; color: #222222;"><a href="https://enjoymaurice.com/" target="_blank" style="color: #222222; text-decoration: none;">Blog</a></td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                    <!-- section -->
+
+                  </td>
+                </tr>
+              </table>
+              <!-- body -->
+
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td valign="top" style="padding: 20px 18px 40px; border-top: #eaeaea solid 2px; font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 150%; color: #222222; text-align: center;"><em>Copyright &copy; 2021 Attitude Hospitality Management Ltd., All rights reserved.</em><br /><br /><strong>Our mailing address is:</strong><br />Attitude Hospitality Management Ltd.<br />The Junction Business Hub - Bloc C<br />Calebasses Branch Road<br />Calebasses, Mauritius.
+                  </td>
+                </tr>
+              </table>
+              <!-- footer -->
+
+            </td>
+          </tr>
+        </table>
+        <!-- container -->
+
+      </td>
+    </tr>
+  </table>
+  <!-- wrapper -->
+
+</body>
+</html>

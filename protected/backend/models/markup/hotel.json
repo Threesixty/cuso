@@ -1,0 +1,37 @@
+<script type="application/ld+json">{
+  "@context": "http://schema.org" 
+  ,"@type": "Hotel"
+  ,"name": "[markup_name]"
+  ,"url": "[markup_url]"
+  ,"logo": "[markup_logo]"
+  ,"image": "[markup_image]"
+  ,"description": "[markup_description]"
+  ,"telephone": "[markup_telephone]"
+  ,"email": "[markup_email]"
+  ,"checkinTime": "[markup_checkinTime]"
+  ,"checkoutTime": "[markup_checkoutTime]"
+  ,"address" :  {
+    "@type" : "PostalAddress"
+    ,"streetAddress": "[markup_streetAddress]"
+    ,"addressCountry": "Maurice"
+  }
+  ,"availableLanguage": "[markup_availableLanguage]"
+  ,"priceRange": "[markup_priceRange]"
+  ,"starRating": { 
+    "@type" : "Rating"
+    , "ratingValue": "[markup_starRating]" 
+  }
+  ,"petsAllowed": "[markup_petsAllowed]"
+  ,"smokingAllowed": "[markup_smokingAllowed]"
+  ,"makesOffer" : {
+    "@type" : "Offer"
+    ,"acceptedPaymentMethod": [
+      [markup_acceptedPaymentMethod]
+    ]
+  }
+  ,"amenityFeature": [
+    [markup_amenityFeature]
+  ]    
+}
+</script>
+      

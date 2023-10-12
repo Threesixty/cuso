@@ -1,0 +1,30 @@
+/* Gallery */
+.gallery-grid {
+  margin: 30px -10px -40px;
+}
+.gallery-grid--item {
+  padding: 0 10px 20px;
+}
+.gallery-grid--item a {
+  display: block;
+}
+.gallery-grid--item img {
+  width: 100%;
+  height: auto;
+}
+
+/* mobile */
+@media (max-width: 767px) {
+  .gallery-grid--sizer,
+  .gallery-grid--item {
+    width: 50%;
+  }
+}
+
+/* tablet - desktop */
+@media (min-width: 768px) {
+  .gallery-grid--sizer,
+  .gallery-grid--item {
+    width: 33.333333%;
+  }
+}

@@ -1,0 +1,26 @@
+<script type="application/ld+json">{
+  "@context": "http://schema.org"
+  ,"@type": ["HotelRoom", "Product"]
+  ,"name": "[markup_name]"
+  ,"url": "[markup_url]"
+  ,"image": "[markup_image]"
+  ,"description": "[markup_description]"
+  ,"petsAllowed": "[markup_petsAllowed]"
+  ,"smokingAllowed": "[markup_smokingAllowed]"
+  ,"brand": { 
+    "@type" : "http://schema.org/Brand"
+    ,"name": "[markup_brandName]" 
+  } 
+  ,"bed": {
+    "@type" : "BedDetails" 
+    ,"numberOfBeds" : [markup_numberOfBeds]
+  }
+  ,"occupancy": {
+    "@type" : "QuantitativeValue"
+    ,"maxValue" : "[markup_occupancyMaxValue]"
+    ,"unitCode" : "C62"
+  }
+  ,"amenityFeature": [
+    [markup_amenityFeature]
+  ]
+}</script>
