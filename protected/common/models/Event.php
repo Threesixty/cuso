@@ -33,4 +33,19 @@ class Event extends ActiveRecord
         return [
         ];
     }
+
+    // BO
+    public static function getEventList($type) {
+
+        return Cms::find()
+            ->innerJoinWith('event')
+            ->where([
+                'Cms.type' => $type,
+            ])
+            ->andWhere([
+                'is', 'lang_parent_id', new \yii\db\Expression('null')
+            ])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->all();
+    }
 }

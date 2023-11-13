@@ -19,6 +19,7 @@ use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\UserForm;
 use backend\models\CmsForm;
+use backend\models\EventForm;
 use backend\models\OptionForm;
 use common\components\MainHelper;
 
@@ -313,11 +314,12 @@ class SiteController extends Controller
         }
 
         if (null !== $delId = Yii::$app->request->post('delete-item')) {
+            //Event::deleteItem($delId);
             Cms::deleteItem($delId);
         }
 
         return $this->render('event', [
-            'eventList' => Cms::getCmsList('event'),
+            'eventList' => Event::getEventList('event'),
         ]);
     }
 
@@ -333,7 +335,6 @@ class SiteController extends Controller
         }
 
         $model = new EventForm();
-        $model->photoId = '[]';
 
         if (!empty(Yii::$app->request->get('id')) && !$model->find())
             return $this->redirect(Url::to(['site/edit-event']));

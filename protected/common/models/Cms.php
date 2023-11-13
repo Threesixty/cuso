@@ -5,6 +5,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Url;
 use yii\helpers\Json;
+use common\models\Event;
 use common\components\MainHelper;
 
 /**
@@ -88,6 +89,11 @@ class Cms extends ActiveRecord
 
             return false;
         }
+    }
+
+    // BO
+    public function getEvent() {
+        return $this->hasOne(Event::className(), ['cms_id' => 'id']);
     }
 
     // FO
