@@ -30,6 +30,15 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un contenu', tru
                 ])
                 ->label(false) ?>
 
+            <?= $form->field($model, 'type', [
+                    'options' => ['tag' => false], 
+                    'errorOptions' => ['tag' => null],
+                ])
+                ->hiddenInput([
+                    'value' => 'cms'
+                ])
+                ->label(false) ?>
+
             <!--begin::Subheader-->
             <div class="subheader py-2 py-lg-6 subheader-transparent bg-primary" id="kt_subheader">
                 <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
@@ -192,81 +201,6 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un contenu', tru
                                                     ])
                                                     ->label(false) ?>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="mb-0">Photo principale : 
-                                                    <a href="javascript:;" class="btn btn-icon btn-light-success btn-circle btn-md pulse pulse-success mr-4 show-media">
-                                                        <i class="flaticon-attachment"></i>
-                                                        <span class="pulse-ring"></span>
-                                                    </a>
-                                                </label>
-                                                <span class="form-text text-muted mt-0">1 photo maxi</span>
-                                                <div class="mt-3 text-center card-body bg-white rounded p-0 content-media">
-                                                    <?= $form->field($model, 'photoId', [
-                                                            'options' => ['tag' => false], 
-                                                            'errorOptions' => ['tag' => null],
-                                                        ])
-                                                        ->hiddenInput()
-                                                        ->label(false) ?>
-
-                                                    <?php
-                                                    $photoArr = JSON::decode($model->photoId); ?>
-
-                                                    <div class="row draggable-zone draggable-max p-5" data-draggable-max="1">
-                                                        <p class="content-photo-msg m-5 text-center" <?= !empty($photoArr) ? 'style="display: none"' : '' ?>>Glisser-déposer une photo provenant de la bibliothèque</p>
-
-                                                        <?php
-                                                        if (null !== $photoArr) {
-                                                            foreach ($photoArr as $photoId) {
-                                                                $photo = Media::findOne($photoId);
-                                                                if (null !== $photo) { ?>
-
-                                                                    <div class="col-md-6 mt-3 mb-3 draggable" role="button" data-toggle="tooltip" data-placement="left" data-theme="dark" title="<?= $photo->title ?>" data-id="<?= $photo->id ?>" tabindex="-1" style="">
-                                                                        <div class="action-btn">
-                                                                            <a href="javascript:;" class="btn btn-icon btn-danger btn-circle btn-lg remove-media" data-media-id="<?= $photo->id ?>">
-                                                                                <i class="flaticon2-trash"></i>
-                                                                            </a>
-                                                                            <a href="javascript:;" class="btn btn-icon btn-primary btn-circle btn-sm edit-media" data-toggle="modal" data-target="#modalEditMedia" data-media-src="<?= Yii::getAlias('@uploadWeb').'/'.$photo->path ?>" data-media-id="<?= $photo->id ?>" data-getmedia-url="<?= Url::to(['site/get-media']) ?>">
-                                                                                <i class="flaticon2-edit"></i>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="overflow-image rounded draggable-handle">
-                                                                            <img src="<?= Yii::getAlias('@uploadWeb').'/'.$photo->path ?>">
-                                                                        </div>
-                                                                    </div>
-
-                                                                <?php }
-                                                            }
-                                                        } ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Vidéo principale :</label>
-                                                <span class="form-text text-muted">Embed Youtube</span>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-light-dark">
-                                                            <?php
-                                                            $checkboxTemplate = '<label class="checkbox checkbox-inline checkbox-primary">{input}<span></span></label>'; ?>
-                                                            <?= $form->field($model, 'youtubeOn', ['options' => ['tag' => false]])
-                                                                ->checkbox([
-                                                                    'template' => $checkboxTemplate,
-                                                                ])
-                                                                ->label(false); ?>
-                                                        </span>
-                                                    </div>
-                                                    <?= $form->field($model, 'youtubeEmbed', [
-                                                            'options' => ['tag' => false],
-                                                            'errorOptions' => ['tag' => null],
-                                                        ])
-                                                        ->textInput([
-                                                            'class' => 'form-control', 
-                                                            'placeholder' => "Embed Youtube",
-                                                        ])
-                                                        ->label(false) ?>
-                                                </div>
-                                            </div>
-
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
@@ -407,6 +341,54 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un contenu', tru
                                                         ]
                                                     )
                                                     ->label(false) ?>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="mb-0">Photo principale : 
+                                                    <a href="javascript:;" class="btn btn-icon btn-light-success btn-circle btn-md pulse pulse-success mr-4 show-media">
+                                                        <i class="flaticon-attachment"></i>
+                                                        <span class="pulse-ring"></span>
+                                                    </a>
+                                                </label>
+                                                <span class="form-text text-muted mt-0">1 photo maxi</span>
+                                                <div class="mt-3 text-center card-body bg-white rounded p-0 content-media">
+                                                    <?= $form->field($model, 'photoId', [
+                                                            'options' => ['tag' => false], 
+                                                            'errorOptions' => ['tag' => null],
+                                                        ])
+                                                        ->hiddenInput()
+                                                        ->label(false) ?>
+
+                                                    <?php
+                                                    $photoArr = JSON::decode($model->photoId); ?>
+
+                                                    <div class="row draggable-zone draggable-max p-5" data-draggable-max="1">
+                                                        <p class="content-photo-msg m-5 text-center" <?= !empty($photoArr) ? 'style="display: none"' : '' ?>>Glisser-déposer une photo provenant de la bibliothèque</p>
+
+                                                        <?php
+                                                        if (null !== $photoArr) {
+                                                            foreach ($photoArr as $photoId) {
+                                                                $photo = Media::findOne($photoId);
+                                                                if (null !== $photo) { ?>
+
+                                                                    <div class="col-md-6 mt-3 mb-3 draggable" role="button" data-toggle="tooltip" data-placement="left" data-theme="dark" title="<?= $photo->title ?>" data-id="<?= $photo->id ?>" tabindex="-1" style="">
+                                                                        <div class="action-btn">
+                                                                            <a href="javascript:;" class="btn btn-icon btn-danger btn-circle btn-lg remove-media" data-media-id="<?= $photo->id ?>">
+                                                                                <i class="flaticon2-trash"></i>
+                                                                            </a>
+                                                                            <a href="javascript:;" class="btn btn-icon btn-primary btn-circle btn-sm edit-media" data-toggle="modal" data-target="#modalEditMedia" data-media-src="<?= Yii::getAlias('@uploadWeb').'/'.$photo->path ?>" data-media-id="<?= $photo->id ?>" data-getmedia-url="<?= Url::to(['site/get-media']) ?>">
+                                                                                <i class="flaticon2-edit"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="overflow-image rounded draggable-handle">
+                                                                            <img src="<?= Yii::getAlias('@uploadWeb').'/'.$photo->path ?>">
+                                                                        </div>
+                                                                    </div>
+
+                                                                <?php }
+                                                            }
+                                                        } ?>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

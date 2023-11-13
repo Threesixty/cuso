@@ -15,6 +15,7 @@ use common\components\MainHelper;
  */
 class CmsForm extends Model
 {
+    public $type;
     public $title;
     public $url;
     public $urlRedirect;
@@ -47,9 +48,9 @@ class CmsForm extends Model
     public function rules()
     {
         return [
-            [['title', 'metaTitle'], 'required'],
+            [['type', 'title', 'metaTitle'], 'required'],
             [['tags'], 'default', 'value' => null],
-            [['url', 'urlRedirect', 'status', 'photoId', 'template', 'youtubeEmbed', 'youtubeOn', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang'], 'safe'],
+            [['url', 'urlRedirect', 'status', 'photoId', 'template', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang'], 'safe'],
         ];
     }
 
@@ -81,14 +82,13 @@ class CmsForm extends Model
                 $update = 'new';
             }
 
+            $cms->type = $this->type;
             $cms->title = $this->title;
             $cms->url = $this->url != '' ? trim(MainHelper::cleanUrl($this->url), '/') : trim(MainHelper::cleanUrl($this->title), '/');
             $cms->url_redirect = $this->urlRedirect;
             $cms->template = $this->template;
             $cms->tags = Json::encode($this->tags);
             $cms->photo_id = $this->photoId;
-            $cms->youtube_embed = $this->youtubeEmbed;
-            $cms->youtube_on = $this->youtubeOn;
             $cms->meta_title = $this->metaTitle;
             $cms->meta_description = $this->metaDescription;
             $cms->summary = $this->summary;
@@ -122,14 +122,13 @@ class CmsForm extends Model
         }
 
         if (null !== $cms) {
+            $this->type = $cms->type;
             $this->title = $cms->title;
             $this->url = $cms->url;
             $this->urlRedirect = $cms->url_redirect;
             $this->template = $cms->template;
             $this->tags = Json::decode($cms->tags);
             $this->photoId = $cms->photo_id;
-            $this->youtubeEmbed = $cms->youtube_embed;
-            $this->youtubeOn = $cms->youtube_on;
             $this->metaTitle = $cms->meta_title;
             $this->metaDescription = $cms->meta_description;
             $this->summary = $cms->summary;

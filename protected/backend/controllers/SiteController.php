@@ -9,28 +9,17 @@ use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use common\models\User;
-use common\models\Hotel;
-use common\models\Feature;
-use common\models\FeatureKids;
-use common\models\RoomCategory;
 use common\models\Cms;
+use common\models\Event;
 use common\models\Media;
 use common\models\Option;
 use common\models\Update;
-use common\models\Newsletter;
-use common\models\Form;
-use common\models\Faq;
 use backend\models\LoginForm;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\UserForm;
-use backend\models\HotelForm;
-use backend\models\FeatureForm;
-use backend\models\FeatureKidsForm;
-use backend\models\RoomCategoryForm;
 use backend\models\CmsForm;
 use backend\models\OptionForm;
-use backend\models\FaqForm;
 use common\components\MainHelper;
 
 /**
@@ -269,7 +258,7 @@ class SiteController extends Controller
         }
 
         return $this->render('cms', [
-            'cmsList' => Cms::getCmsList(),
+            'cmsList' => Cms::getCmsList('cms'),
         ]);
     }
 
@@ -308,6 +297,65 @@ class SiteController extends Controller
         }
 
         return $this->render('edit/cms', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Event list
+     *
+     * @return mixed
+     */
+    public function actionEvent()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        if (null !== $delId = Yii::$app->request->post('delete-item')) {
+            Cms::deleteItem($delId);
+        }
+
+        return $this->render('event', [
+            'eventList' => Cms::getCmsList('event'),
+        ]);
+    }
+
+    /**
+     * Edit cms
+     *
+     * @return mixed
+     */
+    public function actionEditEvent()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new EventForm();
+        $model->photoId = '[]';
+
+        if (!empty(Yii::$app->request->get('id')) && !$model->find())
+            return $this->redirect(Url::to(['site/edit-event']));
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($event = $model->save()) {
+                Yii::$app->session->setFlash('success', 'Evénement sauvegardé avec succès');
+
+                $dest = MainHelper::getDestination('event', $event, Yii::$app->request->post('main-submit'));
+                return $this->redirect(Url::to($dest));
+
+            } else {
+                Yii::$app->session->setFlash('warning', 'Impossible de sauvegarder l\'événement.<br>Veuillez contacter l‘administrateur');
+            }
+        }
+
+        if (null !== $delId = Yii::$app->request->post('delete-item')) {
+            Media::deleteItem($delId);
+        }
+
+        return $this->render('edit/event', [
             'model' => $model,
         ]);
     }

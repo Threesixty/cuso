@@ -51,47 +51,9 @@ class MainHelper
         
 	}
 
-	public static function isAHuman($type = 'phrase', $data = null) {
-
-		$htmlContent = '<div class="text-for-a-human"><strong>'.Yii::t('app', "Recopiez le mot en rouge dans le texte ci-dessous :").'</strong><br><p>&laquo;--phrase--&raquo;</p></div>';
-		$phrase = Yii::t('app', "Un CAPTCHA vous aide à vous protéger contre le spam et le décryptage de données en vous demandant de remplir un test simple qui prouve que vous êtes un humain et non un ordinateur essayant de s'introduire dans une zone protégée");
-
-		switch ($type) {
-			case 'verify':
-				$currentData = static::session('get', 'isAHumanData');
-				if ($currentData != null && $currentData == $data) {
-					static::session('get', 'isAHumanData', null, true);
-					return true;
-				} else {
-					return false;
-				}
-
-				break;
-			
-			default:
-				$word = static::session('get', 'isAHumanData');
-				if (null === $word || static::session('get', 'isAHumanLang') != Yii::$app->language) {
-					$phraseArr = explode(' ', $phrase);
-					$key = array_rand($phraseArr, 1);
-					while (strlen($phraseArr[$key]) < 4) {
-						$key = array_rand($phraseArr, 1);
-					}
-					static::session('set', 'isAHumanData', $phraseArr[$key]);
-					static::session('set', 'isAHumanLang', Yii::$app->language);
-					$phraseArr[$key] = '<span>'.$phraseArr[$key].'</span>'; 
-					$phrase = implode(' ', $phraseArr);
-				} else {
-					$phrase = str_replace($word, '<span>'.$word.'</span>', $phrase);
-				}
-
-				return str_replace('--phrase--', $phrase, $htmlContent);
-				break;
-		}
-	}
-
     public static function getPageTitle($title, $alt = '', $page = false, $after = false) {
     	$sep = $page ? ' | ' : '';
-    	$site = $page ? 'Hotels Attitude' : '';
+    	$site = $page ? 'Clubs utilisateurs de solutions Oracle' : '';
     	$title = $title != '' ? $title : $alt;
 
     	if ($after)
@@ -107,6 +69,9 @@ class MainHelper
     public static function getRoles($roleId = null) {
 
     	$roles = [
+    			1 => 'Contact Oracle',
+    			2 => 'Prospect',
+    			3 => 'Member',
     			4 => 'Admin',
     			5 => 'Super Admin',
     		];

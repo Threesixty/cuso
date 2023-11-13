@@ -11,14 +11,13 @@ use common\components\MainHelper;
  * Cms model
  *
  * @property integer $id
+ * @property string $type
  * @property string $title
  * @property string $url
  * @property string $url_rewrite
  * @property string $template
  * @property string $tags
  * @property string $photo_id
- * @property string $youtube_embed
- * @property string $youtube_on
  * @property string $meta_title
  * @property string $meta_description
  * @property string $summary
@@ -57,14 +56,16 @@ class Cms extends ActiveRecord
     }
 
     // BO
-    public static function getCmsList() {
+    public static function getCmsList($type) {
 
-        return static::find()->where([
+        return static::find()->where(['type' => $type])
+            ->andWhere([
                 'is', 'lang_parent_id', new \yii\db\Expression('null')
             ])
             ->orderBy(['created_at' => SORT_DESC])
             ->all();
     }
+    
     // BO
     public static function deleteItem($itemId)
     {

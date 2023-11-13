@@ -62507,8 +62507,8 @@ nav.block-menu {
     text-align: right;
     z-index: 0;
     padding: 10px 10px 10px 50px;
-	border-radius: 10px;
-	background: rgba(180,228,239, .9);
+    border-radius: 10px;
+    background: rgba(228,228,228, .9);
 
 	-webkit-transition: all 0.5s ease;
 	transition: all 0.5s ease;

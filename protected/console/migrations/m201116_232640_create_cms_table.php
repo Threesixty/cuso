@@ -25,20 +25,15 @@ class m201116_232640_create_cms_table extends Migration
             'url_redirect' => $this->string(),
             'template' => $this->string(),
             'tags' => $this->string(),
-
             'photo_id' => $this->string(),
-            'youtube_embed' => $this->string(),
-            'youtube_on' => $this->string()->defaultValue(0),
-
-            'meta_title' => $this->string()->notNull(),
-            'meta_description' => $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext'),
-
             'summary' => $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext'),
             'content' => $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext'),
 
             'status' => $this->integer()->notNull()->defaultValue(0),
             'start_date' => $this->integer()->notNull(),
             'end_date' => $this->integer(),
+            'meta_title' => $this->string()->notNull(),
+            'meta_description' => $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext'),
             
             'lang' => $this->string()->notNull(),
             'lang_parent_id' => $this->integer(),
