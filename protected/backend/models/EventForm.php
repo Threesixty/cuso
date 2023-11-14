@@ -10,6 +10,7 @@ use common\models\Event;
 use common\models\Media;
 use common\models\Update;
 use common\models\CmsForm;
+use common\models\ModelRelations;
 use common\components\MainHelper;
 
 /**
@@ -85,6 +86,8 @@ class EventForm extends Model
 
             $model = new CmsForm();
             $model->photoId = '[]';
+            $event = Event::findOne(['cms_id' => $cms->id]);
+            $modelRelations = [];
 
             if ($model->load(Yii::$app->request->post())) {
 
@@ -92,7 +95,6 @@ class EventForm extends Model
 
                     // Save event
                     $update = 'update';
-                    $event = Event::findOne(['cms_id' => $cms->id]);
                     if (null === $currentEvent) {
                         $event = new Event();
                         $event->cms_id = $cms->id;
@@ -115,11 +117,82 @@ class EventForm extends Model
                     $event->registerable = $this->registerable;
                     $event->documents = $this->documents;
                     
-                    if ($event->save())
+                    if ($event->save()) {
+
+                        // Save model relations
+                        foreach ($this->interests as $key => $value) {
+                            $modelRelations['option'] = [
+                                    'typeName' => 'interests',
+                                    'typeId' => $key,
+                                    'typeValue' => $value
+                                ];
+                            $args = [
+                                    'model' => 'event',
+                                    'modelId' => $cms->id,
+                                    'type' => 'option',
+                                    'typeName' => 'interests',
+                                    'typeId' => $key,
+                                    'typeValue' => $value
+                                ];
+                            ModelRelations::add($args);
+                        }
+
+                        foreach ($this->products as $key => $value) {
+                            $modelRelations['option'] = [
+                                    'typeName' => 'products',
+                                    'typeId' => $key,
+                                    'typeValue' => $value
+                                ];
+                            $args = [
+                                    'model' => 'event',
+                                    'modelId' => $cms->id,
+                                    'type' => 'option',
+                                    'typeName' => 'products',
+                                    'typeId' => $key,
+                                    'typeValue' => $value
+                                ];
+                            ModelRelations::add($args);
+                        }
+
+                        foreach ($this->communities as $key => $value) {
+                            $modelRelations['communities'] = [
+                                    'typeName' => null,
+                                    'typeId' => $key,
+                                    'typeValue' => $value
+                                ];
+                            $args = [
+                                    'model' => 'event',
+                                    'modelId' => $cms->id,
+                                    'type' => 'community',
+                                    'typeName' => null,
+                                    'typeId' => $key,
+                                    'typeValue' => $value
+                                ];
+                            ModelRelations::add($args);
+                        }
+
+                        foreach ($this->speakers as $key => $value) {
+                            $modelRelations['user'] = [
+                                    'typeName' => null,
+                                    'typeId' => $key,
+                                    'typeValue' => $value
+                                ];
+                            $args = [
+                                    'model' => 'event',
+                                    'modelId' => $cms->id,
+                                    'type' => 'user',
+                                    'typeName' => null,
+                                    'typeId' => $key,
+                                    'typeValue' => $value
+                                ];
+                            ModelRelations::add($args);
+                        }
+
                         Update::add('event', $cms->id, $update);
+                    }
                 }
 
-                return [$csm, $event];
+                return [$csm, $event, $modelRelations];
             }
         }
         
