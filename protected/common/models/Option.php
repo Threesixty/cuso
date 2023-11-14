@@ -98,12 +98,13 @@ class Option extends ActiveRecord
                     $format = [];
                     foreach ($optionList as $opt) {
                     	
-                    	if (isset($opt['name']))
-                        	$format[$opt['key']] = $opt['name'];
+                        if (isset($opt['name']))
+                            $format[$opt['key']] = $opt['name'];
 
                     	if (isset($opt['children']) && $withChildren) {
+                            unset($format[$opt['key']]);
 		                    foreach ($opt['children'] as $child) {
-                        		$format[$child['key']] = $child['name'];
+                        		$format[$opt['name']][$child['key']] = $child['name'];
 		                    }
 		                }
 		            }

@@ -36,7 +36,9 @@ class m231025_213504_create_event_table extends Migration
             'program' => $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext'),
             'synthesis' => $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext'),
 
+            'registerable' => $this->integer()->notNull()->defaultValue(1),
             'prospect' => $this->integer()->notNull()->defaultValue(0),
+            'documents' => $this->string(),
         ], $tableOptions);
     }
 

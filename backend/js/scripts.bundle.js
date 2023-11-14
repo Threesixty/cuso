@@ -1033,6 +1033,17 @@ var KTApp = function() {
             useCurrent: false,
         });
 
+        $('.dt-event-start').datetimepicker({
+            locale: 'fr',
+            format: 'DD/MM/YYYY HH:mm',
+            useCurrent: false,
+        });
+        $('.dt-event-end').datetimepicker({
+            locale: 'fr',
+            format: 'DD/MM/YYYY HH:mm',
+            useCurrent: false,
+        });
+
         $('.dt-start').on('change.datetimepicker', function (e) {
             $('.dt-end').datetimepicker('minDate', e.date);
         });
@@ -1161,8 +1172,8 @@ var KTApp = function() {
                 responsive: true,
                 paging: true,
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [4] }],
-                order: [[3, 'desc']],
+                columnDefs: [{ "orderable": false, "targets": [5] }],
+                order: [[4, 'desc']],
                 language: datatableLanguage
             });
         }

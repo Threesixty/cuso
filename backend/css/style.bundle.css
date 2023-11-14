@@ -58820,7 +58820,8 @@ select.select2 {
   .note-editor .note-toolbar {
     position: static;
     padding: 0.5rem 0.5rem;
-    border-radius: 0.675rem; }
+    border-radius: 0.675rem;
+    border: none; }
     .note-editor .note-toolbar .note-btn-group {
       margin-top: 0; }
       .note-editor .note-toolbar .note-btn-group .btn {
@@ -58837,7 +58838,12 @@ select.select2 {
           .note-editor .note-toolbar .note-btn-group .btn:hover i, .note-editor .note-toolbar .note-btn-group .btn:focus i, .note-editor .note-toolbar .note-btn-group .btn:active i, .note-editor .note-toolbar .note-btn-group .btn.active i {
             color: #273240; }
       .note-editor .note-toolbar .note-btn-group.note-color .dropdown-toggle:after {
-        margin-left: 0; }
+        margin-left: 0;  }
+  .note-editor .note-editing-area {
+    border: 1px solid #E4E6EF;
+    border-radius: 0.675rem 0.675rem 0 0;
+    margin-top: 5px;
+  }
   .note-editor .modal .modal-header {
     -webkit-box-align: center;
     -ms-flex-align: center;

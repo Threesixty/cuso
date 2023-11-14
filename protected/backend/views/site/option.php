@@ -34,6 +34,7 @@ $this->title = MainHelper::getPageTitle('Liste des options', '', true);
                                         <tr>
                                             <th width="50">#ID</th>
                                             <th>Titre</th>
+                                            <th>Slug</th>
                                             <th>Description</th>
                                             <th>Date de création</th>
                                             <th class="text-center">Actions</th>
@@ -49,16 +50,17 @@ $this->title = MainHelper::getPageTitle('Liste des options', '', true);
                                                     <?php
                                                     if ($option->description == 'SPECIAL') { ?>
                                                         <td>
-                                                            <span class="label label-lg font-weight-bold label-light-primary label-inline"><?= $option->description ?></span>
                                                             <span class="text-dark-50"><?= $option->title ?></i>
                                                         </td>
                                                         <td><code class="d-inline-block"><?= $option->name ?></code></td>
+                                                        <td><span class="label label-lg font-weight-bold label-light-primary label-inline"><?= $option->description ?></span></td>
                                                         <td data-order="<?= $option->created_at ?>"><?= utf8_encode(strftime('%e %B %Y' , $option->created_at)) ?></td>
                                                         <td nowrap="nowrap" class="text-center"></td>
                                                     <?php } else { ?>
                                                         <td class="h6">
                                                             <a href="<?= Url::to(['site/edit-option', 'id' => $option->id]) ?>"><strong><?= $option->title ?></strong></a>
                                                         </td>
+                                                        <td><code class="d-inline-block"><?= $option->name ?></code></td>
                                                         <td><?= $option->description ?></td>
                                                         <td data-order="<?= $option->created_at ?>"><?= utf8_encode(strftime('%e %B %Y' , $option->created_at)) ?></td>
                                                         <td nowrap="nowrap" class="text-center">
