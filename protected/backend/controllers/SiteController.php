@@ -335,6 +335,8 @@ class SiteController extends Controller
         }
 
         $model = new EventForm();
+        $model->photoId = '[]';
+        $model->documents = '[]';
 
         if (!empty(Yii::$app->request->get('id')) && !$model->find())
             return $this->redirect(Url::to(['site/edit-event']));
