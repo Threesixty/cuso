@@ -23,9 +23,9 @@ class m231113_115419_create_model_relations_table extends Migration
             'model' => $this->string()->notNull(),
             'model_id' => $this->integer()->notNull(),
             'type' => $this->string()->notNull(),
-            'type_name' => $this->string()->notNull(),
+            'type_name' => $this->string(),
             'type_id' => $this->integer()->notNull(),
-            'type_value' => $this->string()->notNull(),
+            'type_value' => $this->string(),
         ], $tableOptions);
     }
 

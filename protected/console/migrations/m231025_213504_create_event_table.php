@@ -24,7 +24,7 @@ class m231025_213504_create_event_table extends Migration
 
             'start_datetime' => $this->integer(),
             'end_datetime' => $this->integer(),
-            'type' => $this->string()->notNull(),
+            'event_type' => $this->string()->notNull(),
 
             'address' => $this->string(),
             'street_number' => $this->string(),

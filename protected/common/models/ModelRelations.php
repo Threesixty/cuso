@@ -48,7 +48,7 @@ class ModelRelations extends ActiveRecord
         $modelRelations->type = $args['type'];
         $modelRelations->type_name = $args['typeName'];
         $modelRelations->type_id = $args['typeId'];
-        $modelRelations->type_value = $args['typeValue'];
+        $modelRelations->type_value = isset($args['typeValue']) ? $args['typeValue'] : null;
 
         return $modelRelations->save();
     }

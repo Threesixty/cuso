@@ -9,8 +9,8 @@ use common\models\Cms;
 use common\models\Event;
 use common\models\Media;
 use common\models\Update;
-use common\models\CmsForm;
 use common\models\ModelRelations;
+use backend\models\CmsForm;
 use common\components\MainHelper;
 
 /**
@@ -76,39 +76,38 @@ class EventForm extends Model
         return [
             [['type', 'title', 'metaTitle'], 'required'],
             [['tags'], 'default', 'value' => null],
-            [['url', 'urlRedirect', 'status', 'photoId', 'template', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'startDatetime', 'endDatetime', 'type', 'address', 'streetNumber', 'route', 'postalCode', 'locality', 'addressDetail', 'program', 'synthesis', 'prospect', 'registerable'], 'safe'],
+            [['url', 'urlRedirect', 'status', 'photoId', 'template', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'startDatetime', 'endDatetime', 'eventType', 'address', 'streetNumber', 'route', 'postalCode', 'locality', 'addressDetail', 'program', 'synthesis', 'prospect', 'registerable', 'documents', 'interests', 'products', 'communities', 'speakers'], 'safe'],
         ];
     }
 
     public function save() {
 
-MainHelper::pp('Save event');
         if ($this->validate()) {
 
-MainHelper::pp('validate');
             $model = new CmsForm();
             $model->photoId = '[]';
-            $event = Event::findOne(['cms_id' => $cms->id]);
-            $modelRelations = [];
 
-            if ($model->load(Yii::$app->request->post())) {
-MainHelper::pp('Load CmsForm');
+            $event;
+            $modelRelations = [];
+            $err = null;
+
+            if (isset($_POST['EventForm'])) {
+                $model->attributes = $_POST['EventForm'];
 
                 if ($cms = $model->save()) {
+                    $event = Event::findOne(['cms_id' => $cms->id]);
 
-MainHelper::pp('Cms Saved');
                     // Save event
                     $update = 'update';
-                    if (null === $currentEvent) {
+                    if (null === $event) {
                         $event = new Event();
                         $event->cms_id = $cms->id;
                         $update = 'new';
                     }
 
-                    $event->type = $this->eventType;
+                    $event->event_type = $this->eventType;
                     $event->start_datetime = $this->startDatetime;
                     $event->end_datetime = $this->endDatetime;
-                    $event->type = $this->type;
                     $event->address = $this->address;
                     $event->street_number = $this->streetNumber;
                     $event->route = $this->route;
@@ -122,83 +121,88 @@ MainHelper::pp('Cms Saved');
                     $event->documents = $this->documents;
                     
                     if ($event->save()) {
-MainHelper::pp('Event Saved');
 
                         // Save model relations
-                        foreach ($this->interests as $key => $value) {
-                            $modelRelations['option'] = [
-                                    'typeName' => 'interests',
-                                    'typeId' => $key,
-                                    'typeValue' => $value
-                                ];
-                            $args = [
-                                    'model' => 'event',
-                                    'modelId' => $cms->id,
-                                    'type' => 'option',
-                                    'typeName' => 'interests',
-                                    'typeId' => $key,
-                                    'typeValue' => $value
-                                ];
-                            ModelRelations::add($args);
-                        }
-
-MainHelper::pp('Interests saved');
-                        foreach ($this->products as $key => $value) {
-                            $modelRelations['option'] = [
-                                    'typeName' => 'products',
-                                    'typeId' => $key,
-                                    'typeValue' => $value
-                                ];
-                            $args = [
-                                    'model' => 'event',
-                                    'modelId' => $cms->id,
-                                    'type' => 'option',
-                                    'typeName' => 'products',
-                                    'typeId' => $key,
-                                    'typeValue' => $value
-                                ];
-                            ModelRelations::add($args);
-                        }
-
-MainHelper::pp('products saved');
-                        foreach ($this->communities as $key => $value) {
-                            $modelRelations['communities'] = [
-                                    'typeName' => null,
-                                    'typeId' => $key,
-                                    'typeValue' => $value
-                                ];
-                            $args = [
-                                    'model' => 'event',
-                                    'modelId' => $cms->id,
-                                    'type' => 'community',
-                                    'typeName' => null,
-                                    'typeId' => $key,
-                                    'typeValue' => $value
-                                ];
-                            ModelRelations::add($args);
-                        }
-
-MainHelper::pp('communities saved');
-                        foreach ($this->speakers as $key => $value) {
-                            $modelRelations['user'] = [
-                                    'typeName' => null,
-                                    'typeId' => $key,
-                                    'typeValue' => $value
-                                ];
-                            $args = [
-                                    'model' => 'event',
-                                    'modelId' => $cms->id,
-                                    'type' => 'user',
-                                    'typeName' => null,
-                                    'typeId' => $key,
-                                    'typeValue' => $value
-                                ];
-                            if (!ModelRelations::add($args)) {
-                                $err = ['ModelRelations', $args];
+                        if (is_array($this->interests)) {
+                            foreach ($this->interests as $value) {
+                                $modelRelations['option'][] = [
+                                        'typeName' => 'interests',
+                                        'typeId' => $value
+                                    ];
+                                $args = [
+                                        'model' => 'event',
+                                        'modelId' => $cms->id,
+                                        'type' => 'option',
+                                        'typeName' => 'interests',
+                                        'typeId' => $value
+                                    ];
+                                    
+                                if (!ModelRelations::add($args)) {
+                                    $err = ['ModelRelations', $args];
+                                }
                             }
                         }
 
-MainHelper::pp('speakers saved');
+                        if (is_array($this->products)) {
+                            foreach ($this->products as $$value) {
+                                $modelRelations['option'][] = [
+                                        'typeName' => 'products',
+                                        'typeId' => $value
+                                    ];
+                                $args = [
+                                        'model' => 'event',
+                                        'modelId' => $cms->id,
+                                        'type' => 'option',
+                                        'typeName' => 'products',
+                                        'typeId' => $value
+                                    ];
+                                    
+                                if (!ModelRelations::add($args)) {
+                                    $err = ['ModelRelations', $args];
+                                }
+                            }
+                        }
+
+                        if (is_array($this->communities)) {
+                            foreach ($this->communities as $value) {
+                                $modelRelations['communities'][] = [
+                                        'typeName' => null,
+                                        'typeId' => $value
+                                    ];
+                                $args = [
+                                        'model' => 'event',
+                                        'modelId' => $cms->id,
+                                        'type' => 'community',
+                                        'typeName' => null,
+                                        'typeId' => $value
+                                    ];
+                                    
+                                if (!ModelRelations::add($args)) {
+                                    $err = ['ModelRelations', $args];
+                                }
+                            }
+                        }
+
+                        if (is_array($this->speakers)) {
+                            foreach ($this->speakers as $value) {
+                                $modelRelations['speakers'][] = [
+                                        'typeName' => null,
+                                        'typeId' => $value
+                                    ];
+                                $args = [
+                                        'model' => 'event',
+                                        'modelId' => $cms->id,
+                                        'type' => 'speakers',
+                                        'typeName' => null,
+                                        'typeId' => $value
+                                    ];
+
+                                if (!ModelRelations::add($args)) {
+                                    $err = ['ModelRelations', $args];
+                                }
+                            }
+                        }
+
                         Update::add('event', $cms->id, $update);
                     } else {
                         $err = ['Event', $model];
@@ -207,7 +211,12 @@ MainHelper::pp('speakers saved');
                     $err = ['Cms', $model];
                 }
 
-                return [$csm, $event, $modelRelations, $err];
+                return [
+                    'cms' => $cms, 
+                    'event' => $event, 
+                    'modelRelations' => $modelRelations, 
+                    'error' => $err
+                ];
             }
         }
         

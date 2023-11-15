@@ -342,11 +342,9 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 
             if ($event = $model->save()) {
-MainHelper::pp('Entire event saved');
-MainHelper::pp($event);
                 Yii::$app->session->setFlash('success', 'Evénement sauvegardé avec succès');
 
-                $dest = MainHelper::getDestination('event', $event, Yii::$app->request->post('main-submit'));
+                $dest = MainHelper::getDestination('event', $event['cms'], Yii::$app->request->post('main-submit'));
                 return $this->redirect(Url::to($dest));
 
             } else {

@@ -393,7 +393,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                         $tplOption = Option::getOption('name', 'event-types', 'select');
                                                         $tpl = array_replace(array(''=>''), $tplOption); ?>
 
-                                                        <?= $form->field($model, 'template', ['options' => ['tag' => false]])
+                                                        <?= $form->field($model, 'eventType', ['options' => ['tag' => false]])
                                                             ->dropDownList(
                                                                 $tpl, 
                                                                 [
