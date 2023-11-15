@@ -40,15 +40,15 @@ class ModelRelations extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function add($model, $modelId, $type, $typeName, $typeId, $typeValue)
+    public static function add($args)
     {
         $modelRelations = new ModelRelations();
-        $modelRelations->model = $model;
-        $modelRelations->model_id = $modelId;
-        $modelRelations->type = $type;
-        $modelRelations->type_name = $typeName;
-        $modelRelations->type_id = $typeId;
-        $modelRelations->type_value = $typeValue;
+        $modelRelations->model = $args['model'];
+        $modelRelations->model_id = $args['modelId'];
+        $modelRelations->type = $args['type'];
+        $modelRelations->type_name = $args['typeName'];
+        $modelRelations->type_id = $args['typeId'];
+        $modelRelations->type_value = $args['typeValue'];
 
         return $modelRelations->save();
     }

@@ -25,8 +25,12 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
+    const STATUS_REFUSED = 2;
+    const STATUS_EX_MEMBER = 2;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
+
+    const IS_SPEAKER = 1;
 
 
     /**
@@ -234,5 +238,14 @@ class User extends ActiveRecord implements IdentityInterface
 
             return false;
         }
+    }
+
+    //BO
+    public static function getSpeakers()
+    {
+        return static::find()
+            ->where(['status' => self::STATUS_ACTIVE, 'is_speaker' => self::IS_SPEAKER])
+            ->andWhere(['>=', 'role', 3])
+            ->all();
     }
 }

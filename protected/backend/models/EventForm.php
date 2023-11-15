@@ -82,17 +82,21 @@ class EventForm extends Model
 
     public function save() {
 
+MainHelper::pp('Save event');
         if ($this->validate()) {
 
+MainHelper::pp('validate');
             $model = new CmsForm();
             $model->photoId = '[]';
             $event = Event::findOne(['cms_id' => $cms->id]);
             $modelRelations = [];
 
             if ($model->load(Yii::$app->request->post())) {
+MainHelper::pp('Load CmsForm');
 
                 if ($cms = $model->save()) {
 
+MainHelper::pp('Cms Saved');
                     // Save event
                     $update = 'update';
                     if (null === $currentEvent) {
@@ -118,6 +122,7 @@ class EventForm extends Model
                     $event->documents = $this->documents;
                     
                     if ($event->save()) {
+MainHelper::pp('Event Saved');
 
                         // Save model relations
                         foreach ($this->interests as $key => $value) {
@@ -137,6 +142,7 @@ class EventForm extends Model
                             ModelRelations::add($args);
                         }
 
+MainHelper::pp('Interests saved');
                         foreach ($this->products as $key => $value) {
                             $modelRelations['option'] = [
                                     'typeName' => 'products',
@@ -154,6 +160,7 @@ class EventForm extends Model
                             ModelRelations::add($args);
                         }
 
+MainHelper::pp('products saved');
                         foreach ($this->communities as $key => $value) {
                             $modelRelations['communities'] = [
                                     'typeName' => null,
@@ -171,6 +178,7 @@ class EventForm extends Model
                             ModelRelations::add($args);
                         }
 
+MainHelper::pp('communities saved');
                         foreach ($this->speakers as $key => $value) {
                             $modelRelations['user'] = [
                                     'typeName' => null,
@@ -185,14 +193,21 @@ class EventForm extends Model
                                     'typeId' => $key,
                                     'typeValue' => $value
                                 ];
-                            ModelRelations::add($args);
+                            if (!ModelRelations::add($args)) {
+                                $err = ['ModelRelations', $args];
+                            }
                         }
 
+MainHelper::pp('speakers saved');
                         Update::add('event', $cms->id, $update);
+                    } else {
+                        $err = ['Event', $model];
                     }
+                } else {
+                    $err = ['Cms', $model];
                 }
 
-                return [$csm, $event, $modelRelations];
+                return [$csm, $event, $modelRelations, $err];
             }
         }
         

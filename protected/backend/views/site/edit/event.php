@@ -8,6 +8,7 @@ use yii\helpers\Url;
 use yii\helpers\Json;
 use common\models\Media;
 use common\models\Option;
+use common\models\User;
 use backend\widgets\BlockWidget;
 use common\components\MainHelper;
 
@@ -414,7 +415,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                 $tags, 
                                                                 [
                                                                     'class' => 'form-control select2-tags',
-                                                                    'data-placeholder' => 'Sélectionnez une étiquette',
+                                                                    'data-placeholder' => 'Sélectionnez des sujets',
                                                                     'multiple' => true,
                                                                 ]
                                                             )
@@ -431,7 +432,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                 $tags, 
                                                                 [
                                                                     'class' => 'form-control select2-tags',
-                                                                    'data-placeholder' => 'Sélectionnez une étiquette',
+                                                                    'data-placeholder' => 'Sélectionnez des produits',
                                                                     'multiple' => true,
                                                                 ]
                                                             )
@@ -448,7 +449,27 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                 $communities, 
                                                                 [
                                                                     'class' => 'form-control select2-tags',
-                                                                    'data-placeholder' => 'Sélectionnez une étiquette',
+                                                                    'data-placeholder' => 'Sélectionnez des communautés',
+                                                                    'multiple' => true,
+                                                                ]
+                                                            )
+                                                            ->label(false) ?>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Intervenants :</label>
+                                                        <?php 
+                                                        $userSpeakers = User::getSpeakers();
+                                                        foreach ($userSpeakers as $speaker) {
+                                                            $tplSpeakers[$speaker->id] = $speaker->firstname.' '.$speaker->lastname.' (COMPANY)';
+                                                        }
+                                                        $speakers = array_replace(array(''=>''), $tplSpeakers); ?>
+
+                                                        <?= $form->field($model, 'speakers', ['options' => ['tag' => false]])
+                                                            ->dropDownList(
+                                                                $speakers, 
+                                                                [
+                                                                    'class' => 'form-control select2-tags',
+                                                                    'data-placeholder' => 'Sélectionnez des intervenants',
                                                                     'multiple' => true,
                                                                 ]
                                                             )
