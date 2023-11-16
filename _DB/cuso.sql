@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 13 nov. 2023 à 13:33
+-- Généré le : jeu. 16 nov. 2023 à 17:28
 -- Version du serveur : 10.4.25-MariaDB
 -- Version de PHP : 7.4.30
 
@@ -76,7 +76,8 @@ CREATE TABLE `cms` (
 --
 
 INSERT INTO `cms` (`id`, `type`, `title`, `url`, `url_redirect`, `template`, `tags`, `photo_id`, `youtube_embed`, `youtube_on`, `meta_title`, `meta_description`, `summary`, `content`, `status`, `start_date`, `end_date`, `lang`, `lang_parent_id`, `author`, `created_at`) VALUES
-(1, 'cms', 'Accueil', 'accueil', '', 'index', 'null', '[]', '', '0', 'Accueil', '', '', '[]', 1, 1697061600, 0, 'fr', NULL, 1, 1697106833);
+(1, 'cms', 'Accueil', 'accueil', '', 'index', '[\"contact-form\"]', '[4]', '', '0', 'Accueil', '', '', '[]', 1, 1697061600, 0, 'fr', NULL, 1, 1697106833),
+(23, 'event', 'Test', 'test', '', NULL, 'null', '[]', NULL, '0', 'Test', '', '', '[]', 1, 1700089200, 0, 'fr', NULL, 1, 1700134631);
 
 -- --------------------------------------------------------
 
@@ -136,7 +137,7 @@ CREATE TABLE `event` (
   `cms_id` int(11) NOT NULL,
   `start_datetime` int(11) DEFAULT NULL,
   `end_datetime` int(11) DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `event_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `street_number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `route` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -145,8 +146,17 @@ CREATE TABLE `event` (
   `address_detail` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `program` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `synthesis` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `prospect` int(11) NOT NULL DEFAULT 0
+  `registerable` int(11) NOT NULL DEFAULT 1,
+  `prospect` int(11) NOT NULL DEFAULT 0,
+  `documents` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `event`
+--
+
+INSERT INTO `event` (`id`, `cms_id`, `start_datetime`, `end_datetime`, `event_type`, `address`, `street_number`, `route`, `postal_code`, `locality`, `address_detail`, `program`, `synthesis`, `registerable`, `prospect`, `documents`) VALUES
+(1, 23, 1700134620, 1700153580, 'Groupe de travail', '170 rue Pierre Gilles de Gennes', NULL, NULL, NULL, NULL, '<p>Accès </p>', '<p>Programme<br></p>', '', 1, 1, '[]');
 
 -- --------------------------------------------------------
 
@@ -205,7 +215,7 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m201211_081019_update_user_table', 1607674639),
 ('m201214_102628_create_update_table', 1607941891),
 ('m231018_102537_update_cms_table', 1697625000),
-('m231025_213504_create_event_table', 1699877440),
+('m231025_213504_create_event_table', 1699975924),
 ('m231113_105518_create_company_table', 1699877440),
 ('m231113_115419_create_model_relations_table', 1699877440),
 ('m231113_115635_create_forum_table', 1699877440),
@@ -224,10 +234,23 @@ CREATE TABLE `model_relations` (
   `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `model_id` int(11) NOT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `type_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `type_id` int(11) NOT NULL,
-  `type_value` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `type_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `type_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `model_relations`
+--
+
+INSERT INTO `model_relations` (`id`, `model`, `model_id`, `type`, `type_name`, `type_id`) VALUES
+(91, 'event', 23, 'option', 'interests', 'Achat / Supply Distribution '),
+(92, 'event', 23, 'option', 'interests', 'Techno : Développement et Optimisation Technique'),
+(93, 'event', 23, 'option', 'products', 'Base de Données, Middleware, Operating Systemes'),
+(94, 'event', 23, 'option', 'products', 'Business Intelligence – OBIEE – Endeca'),
+(95, 'event', 23, 'community', NULL, 'J.D.Edwards World'),
+(96, 'event', 23, 'community', NULL, 'Peoplesoft PeopleTools'),
+(97, 'event', 23, 'speakers', NULL, '1'),
+(98, 'event', 23, 'speakers', NULL, '18');
 
 -- --------------------------------------------------------
 
@@ -253,17 +276,17 @@ CREATE TABLE `option` (
 --
 
 INSERT INTO `option` (`id`, `title`, `name`, `description`, `options`, `options_contents`, `lang`, `lang_parent_id`, `author`, `created_at`) VALUES
-(1, 'Catégories CMS', 'cms-categories', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Défaut\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_2\",\"name\":\"Défaut\",\"content\":[{\"slug\":\"option_value\",\"value\":\"default\"}]}]', 'fr', NULL, 1, 1616515487),
-(2, 'Modèles de page', 'cms-template', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Accueil\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_5\",\"text\":\"Contactez-nous\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_2\",\"name\":\"Accueil\",\"content\":[{\"slug\":\"option_value\",\"value\":\"index\"}]},{\"id\":\"j1_5\",\"name\":\"Contactez-nous\",\"content\":[{\"slug\":\"option_value\",\"value\":\"form/contact-us\"}]}]', 'fr', NULL, 1, 1616515552),
-(3, 'Étiquettes CMS', 'cms-tags', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_14\",\"text\":\"Formulaire de contact\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_14\",\"name\":\"Formulaire de contact\",\"content\":[{\"slug\":\"option_value\",\"value\":\"contact-form\"}]}]', 'fr', NULL, 1, 1616515606),
-(5, 'Configuration des menus front-office', '_menus_', 'SPECIAL', '[{\"id\":\"j1_1\",\"text\":\"Menus\",\"state\":{\"opened\":true},\"data\":{},\"children\":[{\"id\":\"j1_5\",\"text\":\"Menu principal\",\"state\":{\"opened\":true},\"data\":[],\"children\":[{\"id\":\"j1_4\",\"text\":\"Accueil\",\"state\":{\"opened\":true},\"data\":{\"id\":\"1\"},\"children\":[],\"type\":\"file\"}],\"type\":\"default\"},{\"id\":\"j1_47\",\"text\":\"MENU FOOTER - Contact\",\"state\":{\"opened\":true},\"data\":[],\"children\":[],\"type\":\"default\"}],\"type\":\"default\"}]', '[]', 'fr', NULL, 1, 1619700894),
-(6, 'Menus', 'menus', 'Liste des menus de navigation front', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Menu principal\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_13\",\"text\":\"MENU FOOTER - Contact\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_2\",\"name\":\"Menu principal\",\"content\":[{\"slug\":\"option_value\",\"value\":\"main-menu\"}]},{\"id\":\"j1_13\",\"name\":\"MENU FOOTER - Contact\",\"content\":[{\"slug\":\"option_value\",\"value\":\"0\"}]}]', 'fr', NULL, 1, 1620824065),
-(20, 'Catégorie événement', 'event-categories', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[]}]', '[]', 'fr', NULL, 1, 1698320336),
-(21, 'Type d\'événements', 'event-types', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Atelier\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_3\",\"text\":\"Commission\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_4\",\"text\":\"Groupe de travail\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_5\",\"text\":\"Evénements Oracle\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_6\",\"text\":\"Webinar\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[]', 'fr', NULL, 1, 1698320365),
-(22, 'Produits utilisés', 'products', 'Produits utilisés par un membre', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"AUFO\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_3\",\"text\":\"Base de Données, Middleware, Operating Systemes\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_4\",\"text\":\"Business Intelligence – OBIEE – Endeca\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_5\",\"text\":\"Customer Experience (CXM) – Marketing et Social Cloud (Eloqua, Responsys, Oracle social cloud)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_6\",\"text\":\"Customer Experience (CXM) – Sales Cloud, Oracle CRM On Demand (OCOD)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_7\",\"text\":\"Customer Experience (CXM) – Siebel\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_8\",\"text\":\"Customer Experience (CXM) – Service Cloud (Rightnow, Endeca)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_9\",\"text\":\"Engineered systems\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_10\",\"text\":\"Financials, Procurement, Governance &amp; Risk – eBusiness Suite\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_11\",\"text\":\"Financials, Procurement, Governance &amp; Risk – Fusion\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_12\",\"text\":\"Human Capital Management (HCM) – Fusion\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_13\",\"text\":\"Human Capital Management (HCM) – Taleo\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_14\",\"text\":\"Hyperion &amp; EPM\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_15\",\"text\":\"NetSuite\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_16\",\"text\":\"Outils de développement – Autres\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_17\",\"text\":\"utils de développement – JAVA\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_18\",\"text\":\"Project Management &amp; Primavera\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_19\",\"text\":\"Supply Chain &amp; Manufacturing – eBusiness Suite\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_20\",\"text\":\"Supply Chain &amp; Manufacturing – Fusion\",\"state\":{\"opened\":true},\"children\":[]}]},{\"id\":\"j1_21\",\"text\":\"JD Edwards\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_22\",\"text\":\"J.D.Edwards Enterprise One 7.33\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_23\",\"text\":\"J.D.Edwards Enterprise One 8.12\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_24\",\"text\":\"J.D.Edwards Enterprise One 9.0\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_25\",\"text\":\"J.D.Edwards Enterprise One 9.1\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_26\",\"text\":\"J.D.Edwards Enterprise One 9.2\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_27\",\"text\":\"J.D.Edwards World\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_28\",\"text\":\"NetSuite\",\"state\":{\"opened\":true},\"children\":[]}]},{\"id\":\"j1_29\",\"text\":\"PeopleSoft\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_30\",\"text\":\"NetSuite\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_31\",\"text\":\"Peoplesoft CRM (Customer Relationship Management)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_32\",\"text\":\"Peoplesoft FSCM (Financials)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_33\",\"text\":\"Peoplesoft HCM (Human Capital Management)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_34\",\"text\":\"Peoplesoft PeopleTools\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_35\",\"text\":\"Peoplesoft Portal\",\"state\":{\"opened\":true},\"children\":[]}]}]}]', '[]', 'fr', NULL, 1, 1698320541),
-(23, 'Centres d\'intérêts', 'interests', 'Centres d\'intérêts d\'un membre', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Achat / Supply Distribution\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_3\",\"text\":\"Cloud : Saas, Iaas &amp; Paas\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_4\",\"text\":\"Finance\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_5\",\"text\":\"Gestion de la relation client\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_6\",\"text\":\"Informatique décisionnel / Pilotage / Planification / Tableaux de bord\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_7\",\"text\":\"Matériel\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_8\",\"text\":\"Mobilité et Géolocalisation\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_9\",\"text\":\"Pilotage de Projet et Gouvernance\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_10\",\"text\":\"Production\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_11\",\"text\":\"Ressources Humaines\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_12\",\"text\":\"Techno : Administration des applications\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_13\",\"text\":\"Techno : Middleware / Base de Données\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_14\",\"text\":\"Techno : Développement et Optimisation Technique\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_15\",\"text\":\"Utilisation des Applications / Paramétrages / Cas d’usage\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_16\",\"text\":\"Vente / Commercial / Marketing\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[]', 'fr', NULL, 1, 1698320576),
-(24, 'Périmètre décisionnel', 'decision-scope', 'Périmètre décisionnel d\'un membre', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Direction Générale\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_3\",\"text\":\"Pilotage SI/ Architecture/ Roadmap/ Gouvernance SI\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_4\",\"text\":\"Pilotage de Projet/ Déploiement/ Gestion Changement\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_5\",\"text\":\"Administration Fonctionnelle / Evolution &amp; Maintenance / Support Fonctionnel / Usage\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_6\",\"text\":\"Technique &amp; Systèmes\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_7\",\"text\":\"Autres\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[]', 'fr', NULL, 1, 1698699624),
-(25, 'Catégories forum', 'forum-categories', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Emploi\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[]', 'fr', NULL, 1, 1698703522);
+(1, 'Configuration des menus front-office', '_menus_', 'SPECIAL', '[{\"id\":\"j1_1\",\"text\":\"Menus\",\"state\":{\"opened\":true},\"data\":{},\"children\":[{\"id\":\"j1_5\",\"text\":\"Menu principal\",\"state\":{\"opened\":true},\"data\":[],\"children\":[{\"id\":\"j1_4\",\"text\":\"Accueil\",\"state\":{\"opened\":true},\"data\":{\"id\":\"1\"},\"children\":[],\"type\":\"file\"}],\"type\":\"default\"},{\"id\":\"j1_47\",\"text\":\"MENU FOOTER - Contact\",\"state\":{\"opened\":true},\"data\":[],\"children\":[],\"type\":\"default\"}],\"type\":\"default\"}]', '[]', 'fr', NULL, 1, 1698320186),
+(2, 'Modèles de page', 'cms-template', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Accueil\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_5\",\"text\":\"Contactez-nous\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_2\",\"name\":\"Accueil\",\"content\":[{\"slug\":\"option_value\",\"value\":\"index\"}]},{\"id\":\"j1_5\",\"name\":\"Contactez-nous\",\"content\":[{\"slug\":\"option_value\",\"value\":\"form/contact-us\"}]}]', 'fr', NULL, 1, 1698320200),
+(3, 'Étiquettes CMS', 'cms-tags', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_14\",\"text\":\"Formulaire de contact\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_14\",\"name\":\"Formulaire de contact\",\"content\":[{\"slug\":\"option_value\",\"value\":\"contact-form\"}]}]', 'fr', NULL, 1, 1698320236),
+(4, 'Catégories CMS', 'cms-categories', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Défaut\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_2\",\"name\":\"Défaut\",\"content\":[{\"slug\":\"option_value\",\"value\":\"default\"}]}]', 'fr', NULL, 1, 1698320266),
+(5, 'Menus', 'menus', 'Liste des menus de navigation front', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Menu principal\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_13\",\"text\":\"MENU FOOTER - Contact\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_2\",\"name\":\"Menu principal\",\"content\":[{\"slug\":\"option_value\",\"value\":\"main-menu\"}]},{\"id\":\"j1_13\",\"name\":\"MENU FOOTER - Contact\",\"content\":[{\"slug\":\"option_value\",\"value\":\"0\"}]}]', 'fr', NULL, 1, 1698320306),
+(6, 'Catégories événement', 'event-categories', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Webinar\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_2\",\"name\":\"Webinar\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Webinar\"}]}]', 'fr', NULL, 1, 1698320336),
+(7, 'Type d\'événements', 'event-types', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Atelier\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_3\",\"text\":\"Commission\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_4\",\"text\":\"Groupe de travail\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_5\",\"text\":\"Evénements Oracle\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_6\",\"text\":\"Webinar\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_2\",\"name\":\"Atelier\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Atelier\"}]},{\"id\":\"j1_3\",\"name\":\"Commission\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Commission\"}]},{\"id\":\"j1_4\",\"name\":\"Groupe de travail\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Groupe de travail\"}]},{\"id\":\"j1_5\",\"name\":\"Evénements Oracle\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Evénements Oracle\"}]},{\"id\":\"j1_6\",\"name\":\"Webinar\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Webinar\"}]}]', 'fr', NULL, 1, 1698320365),
+(8, 'Produits utilisés', 'products', 'Produits utilisés par un membre', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"AUFO\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_3\",\"text\":\"Base de Données, Middleware, Operating Systemes\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_4\",\"text\":\"Business Intelligence – OBIEE – Endeca\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_5\",\"text\":\"Customer Experience (CXM) – Marketing et Social Cloud (Eloqua, Responsys, Oracle social cloud)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_6\",\"text\":\"Customer Experience (CXM) – Sales Cloud, Oracle CRM On Demand (OCOD)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_7\",\"text\":\"Customer Experience (CXM) – Siebel\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_8\",\"text\":\"Customer Experience (CXM) – Service Cloud (Rightnow, Endeca)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_9\",\"text\":\"Engineered systems\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_10\",\"text\":\"Financials, Procurement, Governance &amp; Risk – eBusiness Suite\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_11\",\"text\":\"Financials, Procurement, Governance &amp; Risk – Fusion\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_12\",\"text\":\"Human Capital Management (HCM) – Fusion\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_13\",\"text\":\"Human Capital Management (HCM) – Taleo\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_14\",\"text\":\"Hyperion &amp; EPM\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_15\",\"text\":\"NetSuite\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_16\",\"text\":\"Outils de développement – Autres\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_17\",\"text\":\"Outils de développement – JAVA\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_18\",\"text\":\"Project Management &amp; Primavera\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_19\",\"text\":\"Supply Chain and Manufacturing – eBusiness Suite\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_20\",\"text\":\"Supply Chain and Manufacturing – Fusion\",\"state\":{\"opened\":true},\"children\":[]}]},{\"id\":\"j1_21\",\"text\":\"JD Edwards\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_22\",\"text\":\"J.D.Edwards Enterprise One 7.33\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_23\",\"text\":\"J.D.Edwards Enterprise One 8.12\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_24\",\"text\":\"J.D.Edwards Enterprise One 9.0\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_25\",\"text\":\"J.D.Edwards Enterprise One 9.1\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_26\",\"text\":\"J.D.Edwards Enterprise One 9.2\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_27\",\"text\":\"J.D.Edwards World\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_28\",\"text\":\"NetSuite\",\"state\":{\"opened\":true},\"children\":[]}]},{\"id\":\"j1_29\",\"text\":\"PeopleSoft\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_30\",\"text\":\"NetSuite\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_31\",\"text\":\"Peoplesoft CRM (Customer Relationship Management)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_32\",\"text\":\"Peoplesoft FSCM (Financials)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_33\",\"text\":\"Peoplesoft HCM (Human Capital Management)\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_34\",\"text\":\"Peoplesoft PeopleTools\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_35\",\"text\":\"Peoplesoft Portal\",\"state\":{\"opened\":true},\"children\":[]}]}]}]', '[{\"id\":\"j1_3\",\"name\":\"Base de Données, Middleware, Operating Systemes\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Base de Données, Middleware, Operating Systemes\"}]},{\"id\":\"j1_4\",\"name\":\"Business Intelligence – OBIEE – Endeca\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Business Intelligence – OBIEE – Endeca\"}]},{\"id\":\"j1_5\",\"name\":\"Customer Experience (CXM) – Marketing et Social Cloud (Eloqua, Responsys, Oracle social cloud)\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Customer Experience (CXM) – Marketing et Social Cloud (Eloqua, Responsys, Oracle social cloud)\"}]},{\"id\":\"j1_6\",\"name\":\"Customer Experience (CXM) – Sales Cloud, Oracle CRM On Demand (OCOD)\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Customer Experience (CXM) – Sales Cloud, Oracle CRM On Demand (OCOD)\"}]},{\"id\":\"j1_7\",\"name\":\"Customer Experience (CXM) – Siebel\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Customer Experience (CXM) – Siebel\"}]},{\"id\":\"j1_8\",\"name\":\"Customer Experience (CXM) – Service Cloud (Rightnow, Endeca)\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Customer Experience (CXM) – Service Cloud (Rightnow, Endeca)\"}]},{\"id\":\"j1_9\",\"name\":\"Engineered systems\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Engineered systems\"}]},{\"id\":\"j1_10\",\"name\":\"Financials, Procurement, Governance & Risk – eBusiness Suite\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Financials, Procurement, Governance & Risk – eBusiness Suite\"}]},{\"id\":\"j1_11\",\"name\":\"Financials, Procurement, Governance & Risk – Fusion\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Financials, Procurement, Governance & Risk – Fusion\"}]},{\"id\":\"j1_12\",\"name\":\"Human Capital Management (HCM) – Fusion\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Human Capital Management (HCM) – Fusion\"}]},{\"id\":\"j1_13\",\"name\":\"Human Capital Management (HCM) – Taleo\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Human Capital Management (HCM) – Taleo\"}]},{\"id\":\"j1_14\",\"name\":\"Hyperion & EPM\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Hyperion & EPM\"}]},{\"id\":\"j1_15\",\"name\":\"NetSuite\",\"content\":[{\"slug\":\"option_value\",\"value\":\"AUFO NetSuite\"}]},{\"id\":\"j1_16\",\"name\":\"Outils de développement – Autres\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Outils de développement – Autres\"}]},{\"id\":\"j1_17\",\"name\":\"utils de développement – JAVA\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Outils de développement – JAVA\"}]},{\"id\":\"j1_18\",\"name\":\"Project Management & Primavera\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Project Management & Primavera\"}]},{\"id\":\"j1_20\",\"name\":\"Supply Chain and Manufacturing – Fusion\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Project Management and Primavera\"}]},{\"id\":\"j1_19\",\"name\":\"Supply Chain and Manufacturing – eBusiness Suite\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Supply Chain and Manufacturing – eBusiness Suite\"}]},{\"id\":\"j1_22\",\"name\":\"J.D.Edwards Enterprise One 7.33\",\"content\":[{\"slug\":\"option_value\",\"value\":\"J.D.Edwards Enterprise One 7.33\"}]},{\"id\":\"j1_23\",\"name\":\"J.D.Edwards Enterprise One 8.12\",\"content\":[{\"slug\":\"option_value\",\"value\":\"J.D.Edwards Enterprise One 8.12\"}]},{\"id\":\"j1_25\",\"name\":\"J.D.Edwards Enterprise One 9.1\",\"content\":[{\"slug\":\"option_value\",\"value\":\"J.D.Edwards Enterprise One 9.1\"}]},{\"id\":\"j1_24\",\"name\":\"J.D.Edwards Enterprise One 9.0\",\"content\":[{\"slug\":\"option_value\",\"value\":\"J.D.Edwards Enterprise One 9.0\"}]},{\"id\":\"j1_26\",\"name\":\"J.D.Edwards Enterprise One 9.2\",\"content\":[{\"slug\":\"option_value\",\"value\":\"J.D.Edwards Enterprise One 9.2\"}]},{\"id\":\"j1_27\",\"name\":\"J.D.Edwards World\",\"content\":[{\"slug\":\"option_value\",\"value\":\"J.D.Edwards World\"}]},{\"id\":\"j1_28\",\"name\":\"NetSuite\",\"content\":[{\"slug\":\"option_value\",\"value\":\"JD Edwards NetSuite\"}]},{\"id\":\"j1_30\",\"name\":\"NetSuite\",\"content\":[{\"slug\":\"option_value\",\"value\":\"PeopleSoft NetSuite\"}]},{\"id\":\"j1_31\",\"name\":\"Peoplesoft CRM (Customer Relationship Management)\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Peoplesoft CRM (Customer Relationship Management)\"}]},{\"id\":\"j1_32\",\"name\":\"Peoplesoft FSCM (Financials)\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Peoplesoft FSCM (Financials)\"}]},{\"id\":\"j1_33\",\"name\":\"Peoplesoft HCM (Human Capital Management)\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Peoplesoft HCM (Human Capital Management)\"}]},{\"id\":\"j1_34\",\"name\":\"Peoplesoft PeopleTools\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Peoplesoft PeopleTools\"}]},{\"id\":\"j1_35\",\"name\":\"Peoplesoft Portal\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Peoplesoft Portal\"}]}]', 'fr', NULL, 1, 1698320541),
+(9, 'Centres d\'intérêts', 'interests', 'Centres d\'intérêts d\'un membre', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Achat / Supply Distribution\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_3\",\"text\":\"Cloud : Saas, Iaas &amp; Paas\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_4\",\"text\":\"Finance\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_5\",\"text\":\"Gestion de la relation client\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_6\",\"text\":\"Informatique décisionnel / Pilotage / Planification / Tableaux de bord\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_7\",\"text\":\"Matériel\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_8\",\"text\":\"Mobilité et Géolocalisation\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_9\",\"text\":\"Pilotage de Projet et Gouvernance\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_10\",\"text\":\"Production\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_11\",\"text\":\"Ressources Humaines\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_12\",\"text\":\"Techno : Administration des applications\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_13\",\"text\":\"Techno : Middleware / Base de Données\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_14\",\"text\":\"Techno : Développement et Optimisation Technique\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_15\",\"text\":\"Utilisation des Applications / Paramétrages / Cas d’usage\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_16\",\"text\":\"Vente / Commercial / Marketing\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[{\"id\":\"j1_2\",\"name\":\"Achat / Supply Distribution\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Achat / Supply Distribution \"}]},{\"id\":\"j1_3\",\"name\":\"Cloud : Saas, Iaas & Paas\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Cloud : Saas, Iaas & Paas \"}]},{\"id\":\"j1_4\",\"name\":\"Finance\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Finance\"}]},{\"id\":\"j1_5\",\"name\":\"Gestion de la relation client\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Gestion de la relation client \"}]},{\"id\":\"j1_6\",\"name\":\"Informatique décisionnel / Pilotage / Planification / Tableaux de bord\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Informatique décisionnel / Pilotage / Planification / Tableaux de bord\"}]},{\"id\":\"j1_7\",\"name\":\"Matériel\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Matériel\"}]},{\"id\":\"j1_8\",\"name\":\"Mobilité et Géolocalisation\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Mobilité et Géolocalisation \"}]},{\"id\":\"j1_9\",\"name\":\"Pilotage de Projet et Gouvernance\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Pilotage de Projet et Gouvernance\"}]},{\"id\":\"j1_10\",\"name\":\"Production\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Production\"}]},{\"id\":\"j1_12\",\"name\":\"Techno : Administration des applications\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Techno : Administration des applications\"}]},{\"id\":\"j1_11\",\"name\":\"Ressources Humaines\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Ressources Humaines\"}]},{\"id\":\"j1_13\",\"name\":\"Techno : Middleware / Base de Données\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Techno : Middleware / Base de Données\"}]},{\"id\":\"j1_14\",\"name\":\"Techno : Développement et Optimisation Technique\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Techno : Développement et Optimisation Technique\"}]},{\"id\":\"j1_15\",\"name\":\"Utilisation des Applications / Paramétrages / Cas d’usage\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Utilisation des Applications / Paramétrages / Cas d’usage\"}]},{\"id\":\"j1_16\",\"name\":\"Vente / Commercial / Marketing\",\"content\":[{\"slug\":\"option_value\",\"value\":\"Vente / Commercial / Marketing\"}]}]', 'fr', NULL, 1, 1698320576),
+(10, 'Périmètre décisionnel', 'decision-scope', 'Périmètre décisionnel d\'un membre', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Direction Générale\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_3\",\"text\":\"Pilotage SI/ Architecture/ Roadmap/ Gouvernance SI\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_4\",\"text\":\"Pilotage de Projet/ Déploiement/ Gestion Changement\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_5\",\"text\":\"Administration Fonctionnelle / Evolution &amp; Maintenance / Support Fonctionnel / Usage\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_6\",\"text\":\"Technique &amp; Systèmes\",\"state\":{\"opened\":true},\"children\":[]},{\"id\":\"j1_7\",\"text\":\"Autres\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[]', 'fr', NULL, 1, 1698699624),
+(11, 'Catégories forum', 'forum-categories', '', '[{\"id\":\"j1_1\",\"text\":\"Option\",\"state\":{\"opened\":true},\"children\":[{\"id\":\"j1_2\",\"text\":\"Emploi\",\"state\":{\"opened\":true},\"children\":[]}]}]', '[]', 'fr', NULL, 1, 1698703522);
 
 -- --------------------------------------------------------
 
@@ -285,33 +308,20 @@ CREATE TABLE `update` (
 --
 
 INSERT INTO `update` (`id`, `model`, `model_id`, `action`, `date`, `author`) VALUES
-(1, 'user', 1, 'update', 1697113559, 1),
-(2, 'user', 1, 'update', 1697113634, 1),
-(3, 'option', 3, 'update', 1697115194, 1),
-(4, 'media', 1, 'new', 1697116680, 1),
-(5, 'media', 1, 'delete', 1697117118, 1),
-(6, 'media', 2, 'new', 1697192222, 1),
-(7, 'media', 2, 'delete', 1697192230, 1),
-(8, 'menus', 5, 'update', 1697192254, 1),
-(9, 'menus', 5, 'update', 1697192259, 1),
-(10, 'option', 20, 'new', 1698320336, 1),
-(11, 'option', 21, 'new', 1698320366, 1),
-(12, 'option', 21, 'update', 1698320442, 1),
-(13, 'option', 1, 'update', 1698320502, 1),
-(14, 'option', 22, 'new', 1698320541, 1),
-(15, 'option', 23, 'new', 1698320576, 1),
-(16, 'option', 23, 'update', 1698320596, 1),
-(17, 'option', 23, 'update', 1698320776, 1),
-(18, 'option', 23, 'update', 1698320796, 1),
-(19, 'option', 22, 'update', 1698321108, 1),
-(20, 'media', 3, 'new', 1698323975, 1),
-(21, 'menus', 5, 'update', 1698324012, 1),
-(22, 'media', 3, 'delete', 1698685628, 1),
-(23, 'option', 23, 'update', 1698699338, 1),
-(24, 'option', 22, 'update', 1698699363, 1),
-(25, 'option', 24, 'new', 1698699624, 1),
-(26, 'option', 24, 'update', 1698700392, 1),
-(27, 'option', 25, 'new', 1698703523, 1);
+(1, 'event', 23, 'update', 1700150780, 1),
+(2, 'event', 23, 'update', 1700151412, 1),
+(3, 'event', 23, 'update', 1700151419, 1),
+(4, 'event', 23, 'update', 1700151441, 1),
+(5, 'event', 23, 'update', 1700151472, 1),
+(6, 'event', 23, 'update', 1700151876, 1),
+(7, 'media', 4, 'delete', 1700151880, 1),
+(8, 'event', 23, 'update', 1700151886, 1),
+(9, 'event', 23, 'update', 1700151892, 1),
+(10, 'event', 23, 'update', 1700152007, 1),
+(11, 'event', 23, 'update', 1700152041, 1),
+(12, 'user', 1, 'update', 1700152062, 1),
+(13, 'user', 18, 'update', 1700152078, 1),
+(14, 'user', 18, 'update', 1700152083, 1);
 
 -- --------------------------------------------------------
 
@@ -349,7 +359,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `photo_id`, `gender`, `firstname`, `lastname`, `company_id`, `is_speaker`, `phone`, `mobile`, `department`, `function`, `decision_scope`, `role`, `status`, `created_at`, `updated_at`, `verification_token`) VALUES
-(1, 'michael.convergence@gmail.com', 'vzOTuHgr6qCV7nCuvo5Ls4SPL4SBtlfH', '$2y$13$D/tdMxWY30CKGPvBlMxH2.Q6ihMwRGeZkRO8lRo46jjIqp3jPqvmi', 'UoB28i32eum5zOaWgxhGGUM3mJql1STx_1606321467', 'michael.convergence@gmail.com', NULL, 'Mr', 'Michael', 'THOMAS', 0, 0, NULL, NULL, NULL, NULL, NULL, 5, 10, 1605009349, 1697113634, 'mJd519zaQzC8rJpXyD_N2r01txIIKdAy_1605009349');
+(1, 'michael.convergence@gmail.com', 'vfZYLvc7nnPWkoyWlzUGaF0bgTMZYIkl', '$2y$13$9SAXbuKxddZeIdFozolJIebsevqLpmxeVpWEXR7f..uicaEp6F6iO', 'UoB28i32eum5zOaWgxhGGUM3mJql1STx_1606321467', 'michael.convergence@gmail.com', NULL, 'Mr', 'Michael', 'THOMAS', 0, 1, NULL, NULL, NULL, NULL, NULL, 5, 10, 1605009349, 1700152062, 'mJd519zaQzC8rJpXyD_N2r01txIIKdAy_1605009349'),
+(18, 'nmorant@nux-digital.com', 'vRfHi61AkoXmmgnpo_hk2pudBF0IETZ1', '$2y$13$7FdJ/P4Pgkfe50lEtlzcfejuK8GtohvxObdPObP98V5/ZNYTA.BWy', NULL, 'nmorant@nux-digital.com', NULL, 'Mr', 'Nicoals', 'Morant', 0, 1, NULL, NULL, NULL, NULL, NULL, 5, 10, 1700046777, 1700152083, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -449,7 +460,7 @@ ALTER TABLE `chatbot`
 -- AUTO_INCREMENT pour la table `cms`
 --
 ALTER TABLE `cms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT pour la table `community`
@@ -467,7 +478,7 @@ ALTER TABLE `company`
 -- AUTO_INCREMENT pour la table `event`
 --
 ALTER TABLE `event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `forum`
@@ -479,13 +490,13 @@ ALTER TABLE `forum`
 -- AUTO_INCREMENT pour la table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `model_relations`
 --
 ALTER TABLE `model_relations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT pour la table `option`
@@ -497,13 +508,13 @@ ALTER TABLE `option`
 -- AUTO_INCREMENT pour la table `update`
 --
 ALTER TABLE `update`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Contraintes pour les tables déchargées

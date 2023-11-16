@@ -58941,12 +58941,12 @@ body.swal2-height-auto {
     background-color: rgba(246, 78, 96, 0.75); }
 
 .swal2-icon.swal2-success {
-  border-color: #d01f25;
-  color: #d01f25; }
+  border-color: #5cc22f;
+  color: #5cc22f; }
   .swal2-icon.swal2-success [class^=swal2-success-line] {
-    background-color: #d01f25; }
+    background-color: #5cc22f; }
   .swal2-icon.swal2-success .swal2-success-ring {
-    border-color: rgba(208, 31, 37, 0.3); }
+    border-color: rgba(92, 194, 47, 0.3); }
 
 .swal2-icon.swal2-info {
   border-color: #8950FC;
