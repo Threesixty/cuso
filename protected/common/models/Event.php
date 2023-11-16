@@ -59,19 +59,27 @@ class Event extends ActiveRecord
                         ->innerJoinWith('modelRelations')
                         ->where([
                             'lang_parent_id' => Yii::$app->request->get('id'), 
-                            'lang' => Yii::$app->request->get('lang'),
-                            'modelRelations.model' => 'event'
+                            'lang' => Yii::$app->request->get('lang')
                         ])
                         ->one();
 
-            if (null === $cms)
+            if (null === $event) {
                 $event = Cms::find()
                             ->innerJoinWith('event')
                             ->innerJoinWith('modelRelations')
                             ->where([
-                                'id' => Yii::$app->request->get('id')
+                                'cms.id' => Yii::$app->request->get('id')
                             ])
                             ->one();
+
+                // Empty modelReltions
+                if (null === $event) 
+                    $event = Cms::find()
+                                ->innerJoinWith('event')
+                                ->where([
+                                    'cms.id' => Yii::$app->request->get('id')
+                                ])->one();
+            }
         } else {
             $event = Cms::find()
                         ->innerJoinWith('event')
@@ -79,6 +87,14 @@ class Event extends ActiveRecord
                         ->where([
                             'cms.id' => Yii::$app->request->get('id')
                         ])->one();
+
+            // Empty modelReltions
+            if (null === $event) 
+                $event = Cms::find()
+                            ->innerJoinWith('event')
+                            ->where([
+                                'cms.id' => Yii::$app->request->get('id')
+                            ])->one();
         }
 
         return $event;

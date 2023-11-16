@@ -54,7 +54,7 @@ class CmsForm extends Model
         ];
     }
 
-    public function save() {
+    public function save($type) {
 
         if ($this->validate()) {
 
@@ -101,7 +101,7 @@ class CmsForm extends Model
 
             $cms->url = MainHelper::uniqueUrl($cms, Yii::$app->request->get('id'));
 
-            if ($cms->save())
+            if ($cms->save() && null === $type)
                 Update::add('cms', $cms->id, $update);
 
             return $cms;

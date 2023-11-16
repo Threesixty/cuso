@@ -94,7 +94,7 @@ class EventForm extends Model
             if (isset($_POST['EventForm'])) {
                 $model->attributes = $_POST['EventForm'];
 
-                if ($cms = $model->save()) {
+                if ($cms = $model->save('event')) {
                     $event = Event::findOne(['cms_id' => $cms->id]);
 
                     // Save event
@@ -119,7 +119,7 @@ class EventForm extends Model
                     $event->prospect = $this->prospect;
                     $event->registerable = $this->registerable;
                     $event->documents = $this->documents;
-                    
+
                     if ($event->save()) {
 
                         // Save model relations
@@ -144,7 +144,7 @@ class EventForm extends Model
                         }
 
                         if (is_array($this->products)) {
-                            foreach ($this->products as $$value) {
+                            foreach ($this->products as $value) {
                                 $modelRelations['option'][] = [
                                         'typeName' => 'products',
                                         'typeId' => $value
@@ -262,6 +262,20 @@ class EventForm extends Model
                 $this->prospect = $event->prospect;
                 $this->registerable = $event->registerable;
                 $this->documents = $event->documents;
+            }
+
+            if (isset($cms['modelRelations'])) {
+
+                foreach ($cms['modelRelations'] as $modelRelation) {
+                    if ($modelRelation->type == 'option' && $modelRelation->type_name == 'interests')
+                        $this->interests[] = $modelRelation->type_id;
+                    if ($modelRelation->type == 'option' && $modelRelation->type_name == 'products')
+                        $this->products[] = $modelRelation->type_id;
+                    if ($modelRelation->type == 'community')
+                        $this->communities[] = $modelRelation->type_id;
+                    if ($modelRelation->type == 'speakers')
+                        $this->speakers[] = $modelRelation->type_id;
+                }
             }
 
             return true;

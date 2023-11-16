@@ -407,12 +407,12 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                     <div class="form-group">
                                                         <label>Sujets abordés :</label>
                                                         <?php 
-                                                        $tplTags = Option::getOption('name', 'interests', 'select');
-                                                        $tags = array_replace(array(''=>''), $tplTags); ?>
+                                                        $tplInterests = Option::getOption('name', 'interests', 'select');
+                                                        $interests = array_replace(array(''=>''), $tplInterests); ?>
 
                                                         <?= $form->field($model, 'interests', ['options' => ['tag' => false]])
                                                             ->dropDownList(
-                                                                $tags, 
+                                                                $interests, 
                                                                 [
                                                                     'class' => 'form-control select2-tags',
                                                                     'data-placeholder' => 'Sélectionnez des sujets',
@@ -424,12 +424,12 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                     <div class="form-group">
                                                         <label>Produits concernés :</label>
                                                         <?php 
-                                                        $tplTags = Option::getOption('name', 'products', 'select', true);
-                                                        $tags = array_replace(array(''=>''), $tplTags); ?>
+                                                        $tplProducts = Option::getOption('name', 'products', 'select', true);
+                                                        $products = array_replace(array(''=>''), $tplProducts); ?>
 
                                                         <?= $form->field($model, 'products', ['options' => ['tag' => false]])
                                                             ->dropDownList(
-                                                                $tags, 
+                                                                $products, 
                                                                 [
                                                                     'class' => 'form-control select2-tags',
                                                                     'data-placeholder' => 'Sélectionnez des produits',
