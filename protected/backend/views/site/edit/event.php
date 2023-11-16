@@ -645,7 +645,8 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                 if (null !== $docsArr) {
                                                                     foreach ($docsArr as $docId) {
                                                                         $doc = Media::findOne($docId);
-                                                                        if (null !== $doc) { ?>
+                                                                        if (null !== $doc) {
+                                                        					$pathInfo = pathinfo(Yii::getAlias('@uploadFolder').'/'.$doc->path); ?>
 
                                                                             <div class="col-md-6 mt-3 mb-3 draggable" role="button" data-toggle="tooltip" data-placement="left" data-theme="dark" title="<?= $doc->title ?>" data-id="<?= $doc->id ?>" tabindex="-1" style="">
                                                                                 <div class="action-btn">
@@ -657,7 +658,25 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                                     </a>
                                                                                 </div>
                                                                                 <div class="overflow-image rounded draggable-handle">
-                                                                                    <img src="<?= Yii::$app->request->BaseUrl ?>/media/document.png">
+					                                                                <?php
+					                                                                switch ($pathInfo['extension']) {
+					                                                                    case 'jpg':
+					                                                                    case 'png':
+					                                                                    case 'gif':
+					                                                                    case 'svg': ?>
+					                                                                        <img src="<?= Yii::getAlias('@uploadWeb').'/'.$photo->path ?>">
+					                                                                        <?php break;
+
+					                                                                    case 'mp4': ?>
+					                                                                        <video class="rounded" controls="">
+					                                                                            <source src="<?= Yii::getAlias('@uploadWeb').'/'.$photo->path ?>">
+					                                                                        </video>
+					                                                                        <?php break;
+					                                                                    
+					                                                                    default: ?>
+                                                                                    		<img src="<?= Yii::$app->request->BaseUrl ?>/media/document.png">
+					                                                                        <?php break;
+					                                                                } ?>
                                                                                 </div>
                                                                             </div>
 

@@ -17,7 +17,7 @@ use common\components\MainHelper;
 					<input type="hidden" name="media_lang">
 					<input type="hidden" name="media_path">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Informations media</h5>
+						<h5 class="modal-title">Informations media</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<i aria-hidden="true" class="ki ki-close"></i>
 						</button>
@@ -28,7 +28,7 @@ use common\components\MainHelper;
 								<div class="form-group">
 									<div class="overflow-image rounded text-center p-0">
 										<img class="d-none" src="">
-										 <video class="rounded d-none" controls></video> 
+										<video class="rounded d-none" controls></video> 
 									</div>
 								</div>
 							</div>

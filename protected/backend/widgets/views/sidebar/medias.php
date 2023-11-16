@@ -108,9 +108,9 @@ use common\components\MainHelper;
 							                                        	</video>
 					                                        			<?php break;
 					                                        		
-					                                        		default: 
-					                                        			# code...
-					                                        			break;
+                                                                    default: ?>
+                                                                		<img src="<?= Yii::$app->request->BaseUrl ?>/media/document.png">
+                                                                        <?php break;
 					                                        	} ?>
 					                                        </div>
 					                                    </div>

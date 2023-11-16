@@ -23,14 +23,9 @@ class SidebarWidget extends Widget
         switch ($this->action) {
             case 'index':
             case 'cms':
-            case 'hotel':
-            case 'feature':
-            case 'room-category':
-            case 'hotel':
-            case 'hotel':
+            case 'event':
             case 'user':
             case 'option':
-            case 'faq':
             	$sidebarMenu = MainHelper::getSidebarMenu();
                 return $this->render('sidebar/menus', [
                         'menus' => null !== $sidebarMenu['menus'] ? $sidebarMenu['menusOptChildren'] : $sidebarMenu['menusList'],

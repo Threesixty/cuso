@@ -274,15 +274,15 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new CmsForm();
-        $model->photoId = '[]';
+        $cmsForm = new CmsForm();
+        $cmsForm->photoId = '[]';
 
-        if (!empty(Yii::$app->request->get('id')) && !$model->find())
+        if (!empty(Yii::$app->request->get('id')) && !$cmsForm->find())
             return $this->redirect(Url::to(['site/edit-cms']));
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($cmsForm->load(Yii::$app->request->post())) {
 
-            if ($cms = $model->save()) {
+            if ($cms = $cmsForm->save()) {
                 Yii::$app->session->setFlash('success', 'Contenu sauvegardé avec succès');
 
                 $dest = MainHelper::getDestination('cms', $cms, Yii::$app->request->post('main-submit'));
@@ -298,7 +298,7 @@ class SiteController extends Controller
         }
 
         return $this->render('edit/cms', [
-            'model' => $model,
+            'model' => $cmsForm,
         ]);
     }
 

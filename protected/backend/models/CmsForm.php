@@ -54,7 +54,7 @@ class CmsForm extends Model
         ];
     }
 
-    public function save($type) {
+    public function save($type = null) {
 
         if ($this->validate()) {
 

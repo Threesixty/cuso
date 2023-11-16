@@ -1272,7 +1272,7 @@ var KTApp = function() {
         		case 'png':
         		case 'gif':
             		$('#modalEditMedia video').addClass('d-none');
-            		$('#modalEditMedia img').removeClass('d-none').attr('src', $(this).data('media-src'));
+            		$('#modalEditMedia img').removeClass('d-none w-50').attr('src', $(this).data('media-src'));
             		break;
 
         		case 'mp4': 
@@ -1290,6 +1290,8 @@ var KTApp = function() {
         			break;
 
             	default:
+            		$('#modalEditMedia video').addClass('d-none');
+            		$('#modalEditMedia img').removeClass('d-none').attr('src', $(this).closest('.draggable').find('.draggable-handle img').attr('src')).attr('class', 'w-50');
             		break;
             }
 
@@ -3063,7 +3065,7 @@ var KTApp = function() {
                     //maxFileSize: 1000000, // 1mb
                     //maxNumberOfFiles: 5,
                     minNumberOfFiles: 1,
-                    allowedFileTypes: ['image/*', 'video/*']
+                    allowedFileTypes: ['image/*', 'video/*', 'application/pdf']
                 },
             });
 

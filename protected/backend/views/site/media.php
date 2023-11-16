@@ -98,10 +98,10 @@ $this->title = MainHelper::getPageTitle('Liste des médias', '', true);
 			                                        		<source src="<?= Yii::getAlias('@uploadWeb').'/'.$media->path ?>">
 			                                        	</video>
 	                                        			<?php break;
-	                                        		
-	                                        		default: 
-	                                        			# code...
-	                                        			break;
+					                                        		
+                                                    default: ?>
+                                                		<img src="<?= Yii::$app->request->BaseUrl ?>/media/document.png">
+                                                        <?php break;
 	                                        	} ?>
 	                                        </div>
 	                                    </div>
