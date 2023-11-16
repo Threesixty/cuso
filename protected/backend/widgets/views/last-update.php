@@ -26,17 +26,8 @@ use common\components\MainHelper;
 										 	case 'user':
 										 		$type = "l'utilisateur";
 										 		break;
-										 	case 'hotel':
-										 		$type = "l'hôtel";
-										 		break;
-										 	case 'feature':
-										 		$type = "la caractéristique";
-										 		break;
-										 	case 'featureKids':
-										 		$type = "la caractéristique enfant";
-										 		break;
-										 	case 'roomCategory':
-										 		$type = "la catégorie de chambre";
+										 	case 'event':
+										 		$type = "l'événement";
 										 		break;
 										 	
 										 	default:

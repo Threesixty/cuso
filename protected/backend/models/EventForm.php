@@ -122,6 +122,9 @@ class EventForm extends Model
 
                     if ($event->save()) {
 
+                        // Delete model relations
+                        $delModelRelations = ModelRelations::deleteAll(['model_id' => $cms->id, 'model' => 'event']);
+
                         // Save model relations
                         if (is_array($this->interests)) {
                             foreach ($this->interests as $value) {

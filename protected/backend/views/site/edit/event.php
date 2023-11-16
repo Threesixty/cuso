@@ -638,7 +638,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                             <?php
                                                             $docsArr = JSON::decode($model->documents); ?>
 
-                                                            <div class="row draggable-zone draggable-max p-5">
+                                                            <div class="row draggable-zone draggable-full p-5">
                                                                 <p class="content-photo-msg m-5 text-center" <?= !empty($docsArr) ? 'style="display: none"' : '' ?>>Glisser-déposer un document provenant de la bibliothèque</p>
 
                                                                 <?php

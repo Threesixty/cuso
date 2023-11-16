@@ -41,6 +41,12 @@ class UpdateWidget extends Widget
 		    						'lang_parent_id' => $modelId,
 		    					]);
 			 		break;
+			 	case 'event':
+		    		$contentLang = Cms::findOne([
+		    						'lang' => Yii::$app->request->get('lang'),
+		    						'lang_parent_id' => $modelId,
+		    					]);
+			 		break;
 			 	case 'option':
 		    		$contentLang = Option::findOne([
 		    						'lang' => Yii::$app->request->get('lang'),
@@ -49,31 +55,6 @@ class UpdateWidget extends Widget
 			 		break;
 			 	case 'media':
 		    		$contentLang = Media::findOne([
-		    						'lang' => Yii::$app->request->get('lang'),
-		    						'lang_parent_id' => $modelId,
-		    					]);
-			 		break;
-			 		break;
-			 	case 'hotel':
-		    		$contentLang = Hotel::findOne([
-		    						'lang' => Yii::$app->request->get('lang'),
-		    						'lang_parent_id' => $modelId,
-		    					]);
-			 		break;
-			 	case 'feature':
-		    		$contentLang = Feature::findOne([
-		    						'lang' => Yii::$app->request->get('lang'),
-		    						'lang_parent_id' => $modelId,
-		    					]);
-			 		break;
-			 	case 'featureKids':
-		    		$contentLang = FeatureKids::findOne([
-		    						'lang' => Yii::$app->request->get('lang'),
-		    						'lang_parent_id' => $modelId,
-		    					]);
-			 		break;
-			 	case 'roomCategory':
-		    		$contentLang = RoomCategory::findOne([
 		    						'lang' => Yii::$app->request->get('lang'),
 		    						'lang_parent_id' => $modelId,
 		    					]);
