@@ -48,4 +48,39 @@ class Event extends ActiveRecord
             ->orderBy(['created_at' => SORT_DESC])
             ->all();
     }
+
+    // BO
+    public static function getEvent() {
+
+        $event = null;
+        if (!empty(Yii::$app->request->get('lang'))) {
+            $event = Cms::find()
+                        ->innerJoinWith('event')
+                        ->innerJoinWith('modelRelations')
+                        ->where([
+                            'lang_parent_id' => Yii::$app->request->get('id'), 
+                            'lang' => Yii::$app->request->get('lang'),
+                            'modelRelations.model' => 'event'
+                        ])
+                        ->one();
+
+            if (null === $cms)
+                $event = Cms::find()
+                            ->innerJoinWith('event')
+                            ->innerJoinWith('modelRelations')
+                            ->where([
+                                'id' => Yii::$app->request->get('id')
+                            ])
+                            ->one();
+        } else {
+            $event = Cms::find()
+                        ->innerJoinWith('event')
+                        ->innerJoinWith('modelRelations')
+                        ->where([
+                            'cms.id' => Yii::$app->request->get('id')
+                        ])->one();
+        }
+
+        return $event;
+    }
 }

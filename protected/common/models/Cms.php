@@ -6,6 +6,7 @@ use yii\db\ActiveRecord;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use common\models\Event;
+use common\models\ModelRelations;
 use common\components\MainHelper;
 
 /**
@@ -93,7 +94,14 @@ class Cms extends ActiveRecord
 
     // BO
     public function getEvent() {
-        return $this->hasOne(Event::className(), ['cms_id' => 'id']);
+        return $this->hasOne(Event::className(), [
+                'cms_id' => 'id'
+            ]);
+    }
+    public function getModelRelations() {
+        return $this->hasMany(ModelRelations::className(), [
+                'model_id' => 'id'
+            ]);
     }
 
     // FO

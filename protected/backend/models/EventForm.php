@@ -106,8 +106,8 @@ class EventForm extends Model
                     }
 
                     $event->event_type = $this->eventType;
-                    $event->start_datetime = $this->startDatetime;
-                    $event->end_datetime = $this->endDatetime;
+                    $event->start_datetime = $this->startDatetime != '' ? strtotime(str_replace('/', '-', $this->startDatetime)) : null;
+                    $event->end_datetime = $this->endDatetime != '' ? strtotime(str_replace('/', '-', $this->endDatetime)) : null;
                     $event->address = $this->address;
                     $event->street_number = $this->streetNumber;
                     $event->route = $this->route;
@@ -225,14 +225,7 @@ class EventForm extends Model
 
     public function find() {
 
-        $cms = null;
-        if (!empty(Yii::$app->request->get('lang'))) {
-            $cms = Cms::findOne(['lang_parent_id' => Yii::$app->request->get('id'), 'lang' => Yii::$app->request->get('lang')]);
-            if (null === $cms)
-                $cms = Cms::findOne(['id' => Yii::$app->request->get('id')]);
-        } else {
-            $cms = Cms::findOne(['id' => Yii::$app->request->get('id')]);
-        }
+        $cms = Event::getEvent();
 
         if (null !== $cms) {
             $this->type = $cms->type;
@@ -251,6 +244,25 @@ class EventForm extends Model
             $this->endDate = $cms->end_date ? date('d/m/Y)', $cms->end_date) : '';
             $this->lang = $cms->lang;
             $this->langParentId = $cms->lang_parent_id;
+
+            if (isset($cms['event'])) {
+                $event = $cms['event'];
+
+                $this->eventType = $event->event_type;
+                $this->startDatetime = date('d/m/Y H:i', $event->start_datetime);
+                $this->endDatetime = date('d/m/Y H:i', $event->end_datetime);
+                $this->address = $event->address;
+                $this->streetNumber = $event->street_number;
+                $this->route = $event->route;
+                $this->postalCode = $event->postal_code;
+                $this->locality = $event->locality;
+                $this->addressDetail = $event->address_detail;
+                $this->program = $event->program;
+                $this->synthesis = $event->synthesis;
+                $this->prospect = $event->prospect;
+                $this->registerable = $event->registerable;
+                $this->documents = $event->documents;
+            }
 
             return true;
         } else {

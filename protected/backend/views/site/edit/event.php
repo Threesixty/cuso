@@ -487,7 +487,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                         ])
                                                                         ->checkbox([
                                                                                 'template' => '{input}<span></span>',
-                                                                                'checked' => $model->prospect,
+                                                                                'checked' => $model->prospect == 1 ? true : false,
                                                                         ])
                                                                         ->label(false) ?>
                                                                 </label>
@@ -504,7 +504,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                         ])
                                                                         ->checkbox([
                                                                                 'template' => '{input}<span></span>',
-                                                                                'checked' => $model->prospect == null ? true : $model->prospect,
+                                                                                'checked' => $model->registerable == 1 ? true : false,
                                                                         ])
                                                                         ->label(false) ?>
                                                                 </label>
