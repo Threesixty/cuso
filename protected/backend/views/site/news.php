@@ -9,9 +9,9 @@ use common\models\Option;
 use backend\widgets\PopinWidget;
 use common\components\MainHelper;
 
-$this->title = MainHelper::getPageTitle('Liste des événements', '', true);
+$this->title = MainHelper::getPageTitle('Liste des actualités', '', true);
 
-#MainHelper::pp($eventList);
+#MainHelper::pp($cmsList);
 ?>
 
     <!--begin::Content-->
@@ -25,18 +25,17 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                         <!--begin::Card-->
                         <div class="card card-custom gutter-b example example-compact">
                             <div class="card-header pl-5">
-                                <h3 class="card-title text-uppercase">Liste des événements</h3>
+                                <h3 class="card-title text-uppercase">Liste des actualités</h3>
                             </div>
 
                             <div class="card-body">
                                 <!--begin: Datatable-->
-                                <table class="table table-separate table-head-custom table-checkable" id="datatableEvent">
+                                <table class="table table-separate table-head-custom table-checkable" id="datatableNews">
                                     <thead>
                                         <tr>
                                             <th>#ID</th>
                                             <th>Titre</th>
-                                            <th>Date de l'événement</th>
-                                            <th>Nombre d'inscrits</th>
+                                            <th>Étiquettes</th>
                                             <th>Dates de publication</th>
                                             <th>Status</th>
                                             <th class="text-center">Actions</th>
@@ -44,20 +43,19 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                     </thead>
                                     <tbody>
                                         <?php
-                                        if (!empty($eventList)) {
-                                            foreach ($eventList as $event) { ?>
+                                        if (!empty($cmsList)) {
+                                            foreach ($cmsList as $cms) { ?>
 
                                                 <tr>
-                                                    <td><?= $event->id ?></td>
-                                                    <td class="h6"><a href="<?= Url::to(['site/edit-event', 'id' => $event->id]) ?>"><strong><?= $event->title ?></strong></a></td>
-                                                    <td>Date</td>
-                                                    <td>Nombre d'inscrits</td>
-                                                    <td data-sort="<?= $event->start_date ?>">
-                                                        <?= 0 !== $event->end_date ? 'Du' : '' ?> <?= utf8_encode(strftime('%e %B %Y', $event->start_date)) ?>
-                                                        <?= 0 !== $event->end_date ? '<br>au '.utf8_encode(strftime('%e %B %Y', $event->end_date)) : '' ?></td>
-                                                    <td><span class="label label-xl font-weight-bold label-light-<?= $event->status ? 'success' : 'danger' ?> label-inline"><?= $event->status ? 'Publié' : 'Dépublié' ?></span></td>
+                                                    <td><?= $cms->id ?></td>
+                                                    <td class="h6"><a href="<?= Url::to(['site/edit-cms', 'id' => $cms->id]) ?>"><strong><?= $cms->title ?></strong></a></td>
+                                                    <td><?= Option::getOptionLabel('cms-tags', JSON::decode($cms->tags)) ?></td>
+                                                    <td data-sort="<?= $cms->start_date ?>">
+                                                        <?= 0 !== $cms->end_date ? 'Du' : '' ?> <?= utf8_encode(strftime('%e %B %Y', $cms->start_date)) ?>
+                                                        <?= 0 !== $cms->end_date ? '<br>au '.utf8_encode(strftime('%e %B %Y', $cms->end_date)) : '' ?></td>
+                                                    <td><span class="label label-xl font-weight-bold label-light-<?= $cms->status ? 'success' : 'danger' ?> label-inline"><?= $cms->status ? 'Publié' : 'Dépublié' ?></span></td>
                                                     <td nowrap="nowrap" class="text-center">
-                                                        <a href="<?= Url::to(['site/edit-event', 'id' => $event->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
+                                                        <a href="<?= Url::to(['site/edit-cms', 'id' => $cms->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
                                                             <i class="la la-edit"></i>
                                                         </a>
                                                         <span class="list-delete" data-toggle="modal" data-target="#deleteModal">
@@ -65,7 +63,7 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                                                 <i class="la la-trash"></i>
                                                             </a>
                                                         </span>
-                                                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon <?= $event->status ? 'add-to-menu' : '' ?>" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="<?= $event->status ? 'Ajouter au menu' : 'Pour ajouter ce contenu aux menus, ce dernier doit être publié' ?>" <?= $event->status ? '' : ' data-theme="dark"' ?>>
+                                                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon <?= $cms->status ? 'add-to-menu' : '' ?>" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="<?= $cms->status ? 'Ajouter au menu' : 'Pour ajouter ce contenu aux menus, ce dernier doit être publié' ?>" <?= $cms->status ? '' : ' data-theme="dark"' ?>>
                                                             <i class="la la-plus"></i>
                                                         </a>
                                                     </td>

@@ -122,7 +122,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                             <div class="card card-custom gutter-b example example-compact">
                                 <div class="card-header pl-5">
                                     <h3 class="card-title text-uppercase">Informations générales</h3>
-                                    <div class="card-toolbar">
+                                    <!--div class="card-toolbar">
                                         <div class="btn-group" role="group">
                                             <a href="<?= Url::to(['site/edit-event', 'id' => Yii::$app->request->get('id')]) ?>" class="btn btn-success <?= !Yii::$app->request->get('lang') ? 'active' : '' ?>">Français</a>
                                             <?php
@@ -130,7 +130,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                 <a href="<?= Url::to(['site/edit-event', 'id' => Yii::$app->request->get('id'), 'lang' => 'en']) ?>" class="btn btn-success <?= Yii::$app->request->get('lang') == 'en' ? 'active' : '' ?>">Anglais</a>
                                             <?php } ?>
                                         </div>
-                                    </div>
+                                    </div-->
                                 </div>
 
                                 <div class="card-body">
@@ -174,12 +174,12 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label>Description :</label>
+                                                <label>Extrait :</label>
                                                 <?= $form->field($model, 'summary')
                                                     ->textarea([
                                                         'rows' => '3', 
                                                         'class' => 'form-control textarea-autosize', 
-                                                        'placeholder' => "Description de l'événement"
+                                                        'placeholder' => "Extrait de l'événement"
                                                     ])
                                                     ->label(false) ?>
                                             </div>

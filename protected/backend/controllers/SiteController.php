@@ -303,6 +303,65 @@ class SiteController extends Controller
     }
 
     /**
+     * News list
+     *
+     * @return mixed
+     */
+    public function actionNews()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        if (null !== $delId = Yii::$app->request->post('delete-item')) {
+            Cms::deleteItem($delId);
+        }
+
+        return $this->render('news', [
+            'newsList' => Cms::getCmsList('news'),
+        ]);
+    }
+
+    /**
+     * Edit cms
+     *
+     * @return mixed
+     */
+    public function actionEditNews()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $newsForm = new NewsForm();
+        $newsForm->photoId = '[]';
+
+        if (!empty(Yii::$app->request->get('id')) && !$newsForm->find())
+            return $this->redirect(Url::to(['site/edit-news']));
+
+        if ($newsForm->load(Yii::$app->request->post())) {
+
+            if ($news = $newsForm->save()) {
+                Yii::$app->session->setFlash('success', 'Contenu sauvegardé avec succès');
+
+                $dest = MainHelper::getDestination('news', $news, Yii::$app->request->post('main-submit'));
+                return $this->redirect(Url::to($dest));
+
+            } else {
+                Yii::$app->session->setFlash('warning', 'Impossible de sauvegarder le contenu.<br>Veuillez contacter l‘administrateur');
+            }
+        }
+
+        if (null !== $delId = Yii::$app->request->post('delete-item')) {
+            Media::deleteItem($delId);
+        }
+
+        return $this->render('edit/cms', [
+            'model' => $newsForm,
+        ]);
+    }
+
+    /**
      * Event list
      *
      * @return mixed

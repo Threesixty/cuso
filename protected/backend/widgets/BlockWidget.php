@@ -13,7 +13,8 @@ class BlockWidget extends Widget
     public $idx; # block idx
 
     public static $blocks = [
-            'hero-pic' => 'Hero Pic',
+            'simple-title' => 'Titre',
+            'text-and-image' => 'Texte et image',
         ];
 
     public function init()

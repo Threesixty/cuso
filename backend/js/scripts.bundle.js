@@ -1126,32 +1126,24 @@ var KTApp = function() {
             });
         }
 
-        if ($('#datatableHotel').length) {
-            $('#datatableHotel').DataTable({
+        if ($('#datatableEvent').length) {
+            $('#datatableEvent').DataTable({
                 responsive: true,
                 paging: true,
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [6] }],
+                order: [[4, 'desc']],
                 language: datatableLanguage
             });
         }
 
-        if ($('#datatableFeature').length) {
-            $('#datatableFeature').DataTable({
+        if ($('#datatableNews').length) {
+            $('#datatableNews').DataTable({
                 responsive: true,
                 paging: true,
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [3] }],
-                language: datatableLanguage
-            });
-        }
-
-        if ($('#datatableRoomCategory').length) {
-            $('#datatableRoomCategory').DataTable({
-                responsive: true,
-                paging: true,
-                pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [4] }],
+                columnDefs: [{ "orderable": false, "targets": [5] }],
+                order: [[3, 'desc']],
                 language: datatableLanguage
             });
         }
