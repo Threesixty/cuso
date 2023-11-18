@@ -14,7 +14,7 @@ use common\components\MainHelper;
  * @property integer $id
  * @property string $lang
  */
-class Event extends ActiveRecord
+class News extends ActiveRecord
 {
 
     /**
@@ -22,7 +22,7 @@ class Event extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%event}}';
+        return '{{%news}}';
     }
 
     /**
@@ -35,12 +35,11 @@ class Event extends ActiveRecord
     }
 
     // BO
-    public static function getEventList() {
+    public static function getNewsList() {
 
         return Cms::find()
-            ->innerJoinWith('event')
             ->where([
-                'Cms.type' => 'event',
+                'Cms.type' => 'news',
             ])
             ->andWhere([
                 'is', 'lang_parent_id', new \yii\db\Expression('null')
@@ -50,12 +49,11 @@ class Event extends ActiveRecord
     }
 
     // BO
-    public static function getEvent() {
+    public static function getNews() {
 
-        $event = null;
+        $news = null;
         if (!empty(Yii::$app->request->get('lang'))) {
-            $event = Cms::find()
-                        ->innerJoinWith('event')
+            $news = Cms::find()
                         ->innerJoinWith('modelRelations')
                         ->where([
                             'lang_parent_id' => Yii::$app->request->get('id'), 
@@ -63,9 +61,8 @@ class Event extends ActiveRecord
                         ])
                         ->one();
 
-            if (null === $event) {
-                $event = Cms::find()
-                            ->innerJoinWith('event')
+            if (null === $news) {
+                $news = Cms::find()
                             ->innerJoinWith('modelRelations')
                             ->where([
                                 'cms.id' => Yii::$app->request->get('id')
@@ -73,30 +70,27 @@ class Event extends ActiveRecord
                             ->one();
 
                 // Empty modelReltions
-                if (null === $event) 
-                    $event = Cms::find()
-                                ->innerJoinWith('event')
+                if (null === $news) 
+                    $news = Cms::find()
                                 ->where([
                                     'cms.id' => Yii::$app->request->get('id')
                                 ])->one();
             }
         } else {
-            $event = Cms::find()
-                        ->innerJoinWith('event')
+            $news = Cms::find()
                         ->innerJoinWith('modelRelations')
                         ->where([
                             'cms.id' => Yii::$app->request->get('id')
                         ])->one();
 
             // Empty modelReltions
-            if (null === $event) 
-                $event = Cms::find()
-                            ->innerJoinWith('event')
+            if (null === $news) 
+                $news = Cms::find()
                             ->where([
                                 'cms.id' => Yii::$app->request->get('id')
                             ])->one();
         }
 
-        return $event;
+        return $news;
     }
 }

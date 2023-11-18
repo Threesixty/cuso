@@ -31,7 +31,6 @@ class CmsForm extends Model
     public $status = 0;
     public $startDate;
     public $endDate;
-    public $markup;
     public $lang;
     public $langParentId;
     public $author;

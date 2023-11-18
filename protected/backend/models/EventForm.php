@@ -26,8 +26,6 @@ class EventForm extends Model
     public $template;
     public $tags;
     public $photoId;
-    public $youtubeEmbed;
-    public $youtubeOn = 0;
     public $metaTitle;
     public $metaDescription;
     public $summary;
@@ -35,7 +33,6 @@ class EventForm extends Model
     public $status = 0;
     public $startDate;
     public $endDate;
-    public $markup;
     public $lang;
     public $langParentId;
     public $author;

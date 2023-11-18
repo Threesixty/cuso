@@ -58,9 +58,9 @@ class Cms extends ActiveRecord
     }
 
     // BO
-    public static function getCmsList($type) {
+    public static function getCmsList() {
 
-        return static::find()->where(['type' => $type])
+        return static::find()->where(['type' => 'cms'])
             ->andWhere([
                 'is', 'lang_parent_id', new \yii\db\Expression('null')
             ])
