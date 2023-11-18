@@ -66,22 +66,6 @@ class MainHelper
     	return explode('/', mime_content_type(Yii::getAlias('@uploadFolder').'/'.$url))[0] == 'video' ? false : true;
     }
 
-    public static function getRoles($roleId = null) {
-
-    	$roles = [
-    			1 => 'Contact Oracle',
-    			2 => 'Prospect',
-    			3 => 'Member',
-    			4 => 'Admin',
-    			5 => 'Super Admin',
-    		];
-
-    	if (null !== $roleId)
-    		return $roles[$roleId];
-    	else
-    		return $roles;
-    }
-
     public static function getLangSwitcher($actionId) {
 
     	$langSwitchArr = [];
@@ -290,10 +274,10 @@ class MainHelper
     public static function sendMail($subject, $message, $from = false, $to = false) {
 
     	if (!$from)
-    		$from = ['resaweb@hotels-attitude.com' => 'Hôtels Attitude'];
+    		$from = ['delegation@clubsutulisateursoracle.org' => 'Clubs utilisateurs de produits Oracle'];
 
     	if (!$to) {
-    		$to = 'resaweb@hotels-attitude.com';
+    		$to = 'delegation@clubsutulisateursoracle.org';
     		# Tests
     		//$to = 'mthomas@nux-digital.com';
     	}

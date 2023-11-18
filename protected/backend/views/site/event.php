@@ -55,7 +55,7 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                                     <td data-sort="<?= $event->start_date ?>">
                                                         <?= 0 !== $event->end_date ? 'Du' : '' ?> <?= utf8_encode(strftime('%e %B %Y', $event->start_date)) ?>
                                                         <?= 0 !== $event->end_date ? '<br>au '.utf8_encode(strftime('%e %B %Y', $event->end_date)) : '' ?></td>
-                                                    <td><span class="label label-xl font-weight-bold label-light-<?= $event->status ? 'success' : 'danger' ?> label-inline"><?= $event->status ? 'Publié' : 'Dépublié' ?></span></td>
+                                                    <td><span class="label label-xl font-weight-bold label-light-<?= $event->status ? 'success' : 'gray' ?> label-inline"><?= $event->status ? 'Publié' : 'Dépublié' ?></span></td>
                                                     <td nowrap="nowrap" class="text-center">
                                                         <a href="<?= Url::to(['site/edit-event', 'id' => $event->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
                                                             <i class="la la-edit"></i>

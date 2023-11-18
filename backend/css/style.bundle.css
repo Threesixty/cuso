@@ -47846,8 +47846,8 @@ code {
     .label.label-outline-success.label-outline-2x {
       border: 2px solid #d01f25; }
   .label.label-light-success {
-    color: #d01f25;
-    background-color: #f1bbbd; }
+  	olor: #5cc22f;
+  	background-color: rgba(92, 194, 47, 0.3); }
   .label.label-info {
     color: #ffffff;
     background-color: #8950FC; }

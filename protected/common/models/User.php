@@ -25,7 +25,7 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
-    const STATUS_REFUSED = 2;
+    const STATUS_REFUSED = 1;
     const STATUS_EX_MEMBER = 2;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
@@ -247,5 +247,48 @@ class User extends ActiveRecord implements IdentityInterface
             ->where(['status' => self::STATUS_ACTIVE, 'is_speaker' => self::IS_SPEAKER])
             ->andWhere(['>=', 'role', 3])
             ->all();
+    }
+
+    //BO
+    public static function getRoles($roleId = null) {
+
+    	$roles = [
+    			1 => 'Contact Oracle',
+    			2 => 'Prospect',
+    			3 => 'Member',
+    			4 => 'Admin',
+    			5 => 'Super Admin',
+    		];
+
+    	if (null !== $roleId)
+    		return $roles[$roleId];
+    	else
+    		return $roles;
+    }
+
+    //BO 
+    public static function getUserStatusName($status) {
+    	$userStatus = [
+			    self::STATUS_DELETED => Yii::t('app', "Supprimé"),
+			    self::STATUS_REFUSED => Yii::t('app', "Refusé"),
+			    self::STATUS_EX_MEMBER => Yii::t('app', "Ex-membre"),
+			    self::STATUS_INACTIVE => Yii::t('app', "En attente"),
+			    self::STATUS_ACTIVE => Yii::t('app', "Actif")
+    		];
+
+    	return $userStatus[$status];
+    }
+
+    //BO 
+    public static function getUserStatusColor($status) {
+    	$userStatus = [
+			    self::STATUS_DELETED => 'danger',
+			    self::STATUS_REFUSED => 'gray',
+			    self::STATUS_EX_MEMBER => 'info',
+			    self::STATUS_INACTIVE => 'warning',
+			    self::STATUS_ACTIVE => 'success'
+    		];
+
+    	return $userStatus[$status];
     }
 }

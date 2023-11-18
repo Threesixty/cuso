@@ -5,6 +5,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Json;
+use common\models\User;
 use common\models\Option;
 use backend\widgets\PopinWidget;
 use common\components\MainHelper;
@@ -51,8 +52,8 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                                         <td><?= $user->id ?></td>
                                                         <td class="h6"><a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>"><strong><?= ucfirst($user->firstname) ?> <?= mb_strtoupper($user->lastname) ?></strong></a></td>
                                                         <td><?= $user->email ?></td>
-                                                        <td><span class="font-weight-bold text-uppercase"><?= MainHelper::getRoles($user->role) ?></span></td>
-                                                        <td><span class="label label-lg font-weight-bold label-light-<?= $user->status < 10 ? 'danger' : 'success' ?> label-inline"><?= $user->status < 10 ? 'Désactivé' : 'Actif' ?></span></td>
+                                                        <td><span class="font-weight-bold text-uppercase"><?= User::getRoles($user->role) ?></span></td>
+                                                        <td><span class="label label-lg font-weight-bold label-light-<?= User::getUserStatusColor($user->status) ?> label-inline"><?= User::getUserStatusName($user->status) ?></span></td>
                                                         <td nowrap="nowrap" class="text-center">
                                                             <a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
                                                                 <i class="la la-edit"></i>

@@ -55,7 +55,7 @@ $this->title = MainHelper::getPageTitle('Liste des contenus', '', true);
                                                     <td data-sort="<?= $cms->start_date ?>">
                                                         <?= 0 !== $cms->end_date ? 'Du' : '' ?> <?= utf8_encode(strftime('%e %B %Y', $cms->start_date)) ?>
                                                         <?= 0 !== $cms->end_date ? '<br>au '.utf8_encode(strftime('%e %B %Y', $cms->end_date)) : '' ?></td>
-                                                    <td><span class="label label-xl font-weight-bold label-light-<?= $cms->status ? 'success' : 'danger' ?> label-inline"><?= $cms->status ? 'Publié' : 'Dépublié' ?></span></td>
+                                                    <td><span class="label label-xl font-weight-bold label-light-<?= $cms->status ? 'success' : 'gray' ?> label-inline"><?= $cms->status ? 'Publié' : 'Dépublié' ?></span></td>
                                                     <td nowrap="nowrap" class="text-center">
                                                         <a href="<?= Url::to(['site/edit-cms', 'id' => $cms->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
                                                             <i class="la la-edit"></i>

@@ -53,7 +53,7 @@ $this->title = MainHelper::getPageTitle('Liste des actualités', '', true);
                                                     <td data-sort="<?= $news->start_date ?>">
                                                         <?= 0 !== $news->end_date ? 'Du' : '' ?> <?= utf8_encode(strftime('%e %B %Y', $news->start_date)) ?>
                                                         <?= 0 !== $news->end_date ? '<br>au '.utf8_encode(strftime('%e %B %Y', $news->end_date)) : '' ?></td>
-                                                    <td><span class="label label-xl font-weight-bold label-light-<?= $news->status ? 'success' : 'danger' ?> label-inline"><?= $news->status ? 'Publié' : 'Dépublié' ?></span></td>
+                                                    <td><span class="label label-xl font-weight-bold label-light-<?= $news->status ? 'success' : 'gray' ?> label-inline"><?= $news->status ? 'Publié' : 'Dépublié' ?></span></td>
                                                     <td nowrap="nowrap" class="text-center">
                                                         <a href="<?= Url::to(['site/edit-news', 'id' => $news->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
                                                             <i class="la la-edit"></i>
