@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use common\models\Cms;
+use common\models\News;
 use common\models\Media;
 use common\models\Update;
 use common\models\ModelRelations;
@@ -135,7 +136,6 @@ class NewsForm extends Model
                         }
                     }
 
-                    Update::add('news', $cms->id, $update);
                 } else {
                     $err = ['Cms', $model];
                 }

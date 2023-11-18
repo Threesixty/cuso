@@ -100,8 +100,8 @@ class CmsForm extends Model
 
             $cms->url = MainHelper::uniqueUrl($cms, Yii::$app->request->get('id'));
 
-            if ($cms->save() && null === $type)
-                Update::add('cms', $cms->id, $update);
+            if ($cms->save() && $type != 'event')
+                Update::add($type, $cms->id, $update);
 
             return $cms;
         }

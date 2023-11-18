@@ -284,7 +284,7 @@ class SiteController extends Controller
 
         if ($cmsForm->load(Yii::$app->request->post())) {
 
-            if ($cms = $cmsForm->save()) {
+            if ($cms = $cmsForm->save('cms')) {
                 Yii::$app->session->setFlash('success', 'Contenu sauvegardé avec succès');
 
                 $dest = MainHelper::getDestination('cms', $cms, Yii::$app->request->post('main-submit'));
@@ -335,18 +335,18 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $newsForm = new NewsForm();
-        $newsForm->photoId = '[]';
+        $model = new NewsForm();
+        $model->photoId = '[]';
 
-        if (!empty(Yii::$app->request->get('id')) && !$newsForm->find())
+        if (!empty(Yii::$app->request->get('id')) && !$model->find())
             return $this->redirect(Url::to(['site/edit-news']));
 
-        if ($newsForm->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())) {
 
-            if ($news = $newsForm->save()) {
+            if ($news = $model->save()) {
                 Yii::$app->session->setFlash('success', 'Actualité sauvegardé avec succès');
 
-                $dest = MainHelper::getDestination('news', $news, Yii::$app->request->post('main-submit'));
+                $dest = MainHelper::getDestination('news', $news['cms'], Yii::$app->request->post('main-submit'));
                 return $this->redirect(Url::to($dest));
 
             } else {
@@ -359,7 +359,7 @@ class SiteController extends Controller
         }
 
         return $this->render('edit/news', [
-            'model' => $newsForm,
+            'model' => $model,
         ]);
     }
 
