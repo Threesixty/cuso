@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : jeu. 16 nov. 2023 à 17:28
--- Version du serveur : 10.4.25-MariaDB
--- Version de PHP : 7.4.30
+-- Hôte : localhost
+-- Généré le : dim. 19 nov. 2023 à 17:27
+-- Version du serveur : 10.4.21-MariaDB
+-- Version de PHP : 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -76,8 +76,9 @@ CREATE TABLE `cms` (
 --
 
 INSERT INTO `cms` (`id`, `type`, `title`, `url`, `url_redirect`, `template`, `tags`, `photo_id`, `youtube_embed`, `youtube_on`, `meta_title`, `meta_description`, `summary`, `content`, `status`, `start_date`, `end_date`, `lang`, `lang_parent_id`, `author`, `created_at`) VALUES
-(1, 'cms', 'Accueil', 'accueil', '', 'index', '[\"contact-form\"]', '[4]', '', '0', 'Accueil', '', '', '[]', 1, 1697061600, 0, 'fr', NULL, 1, 1697106833),
-(23, 'event', 'Test', 'test', '', NULL, 'null', '[]', NULL, '0', 'Test', '', '', '[]', 1, 1700089200, 0, 'fr', NULL, 1, 1700134631);
+(1, 'cms', 'Accueil', 'accueil', '', 'index', 'null', '[]', '', '0', 'Accueil', '', '', '[]', 1, 1697061600, 0, 'fr', NULL, 1, 1697106833),
+(23, 'event', 'Event', 'event', '', NULL, 'null', '[]', NULL, '0', 'Test', '', '', '[]', 1, 1700089200, 0, 'fr', NULL, 1, 1700134631),
+(24, 'news', 'Actu', 'actu', '', NULL, 'null', '[]', NULL, '0', 'Titre', '', ' Description', '[{\"position\":1,\"block\":\"simple-title\",\"value\":{\"title\":\"Rencontrez les fabricants !\",\"subtitle\":\"\",\"color\":\"\",\"alignment\":\"\"}}]', 0, 1700262000, 0, 'fr', NULL, 1, 1700333636);
 
 -- --------------------------------------------------------
 
@@ -156,7 +157,7 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`id`, `cms_id`, `start_datetime`, `end_datetime`, `event_type`, `address`, `street_number`, `route`, `postal_code`, `locality`, `address_detail`, `program`, `synthesis`, `registerable`, `prospect`, `documents`) VALUES
-(1, 23, 1700134620, 1700153580, 'Groupe de travail', '170 rue Pierre Gilles de Gennes', NULL, NULL, NULL, NULL, '<p>Accès </p>', '<p>Programme<br></p>', '', 1, 1, '[]');
+(1, 23, 1700134620, 1700153580, 'Groupe de travail', '170 rue Pierre Gilles de Gennes', NULL, NULL, NULL, NULL, '<p>Accès </p>', '<p>Programme<br></p>', '', 1, 1, '[5]');
 
 -- --------------------------------------------------------
 
@@ -189,6 +190,13 @@ CREATE TABLE `media` (
   `author` int(11) NOT NULL,
   `created_at` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `media`
+--
+
+INSERT INTO `media` (`id`, `title`, `alt`, `legend`, `path`, `tags`, `link`, `lang`, `lang_parent_id`, `author`, `created_at`) VALUES
+(5, 'Évolution portail CUSO', NULL, NULL, '1700176423_evolution-portail-cuso.pdf', NULL, NULL, 'fr', NULL, 1, 1700176423);
 
 -- --------------------------------------------------------
 
@@ -243,14 +251,20 @@ CREATE TABLE `model_relations` (
 --
 
 INSERT INTO `model_relations` (`id`, `model`, `model_id`, `type`, `type_name`, `type_id`) VALUES
-(91, 'event', 23, 'option', 'interests', 'Achat / Supply Distribution '),
-(92, 'event', 23, 'option', 'interests', 'Techno : Développement et Optimisation Technique'),
-(93, 'event', 23, 'option', 'products', 'Base de Données, Middleware, Operating Systemes'),
-(94, 'event', 23, 'option', 'products', 'Business Intelligence – OBIEE – Endeca'),
-(95, 'event', 23, 'community', NULL, 'J.D.Edwards World'),
-(96, 'event', 23, 'community', NULL, 'Peoplesoft PeopleTools'),
-(97, 'event', 23, 'speakers', NULL, '1'),
-(98, 'event', 23, 'speakers', NULL, '18');
+(131, 'event', 23, 'option', 'interests', 'Achat / Supply Distribution '),
+(132, 'event', 23, 'option', 'interests', 'Techno : Développement et Optimisation Technique'),
+(133, 'event', 23, 'option', 'products', 'Base de Données, Middleware, Operating Systemes'),
+(134, 'event', 23, 'option', 'products', 'Business Intelligence – OBIEE – Endeca'),
+(135, 'event', 23, 'community', NULL, 'J.D.Edwards World'),
+(136, 'event', 23, 'community', NULL, 'Peoplesoft PeopleTools'),
+(137, 'event', 23, 'speakers', NULL, '1'),
+(138, 'event', 23, 'speakers', NULL, '18'),
+(145, 'news', 24, 'option', 'interests', 'Achat / Supply Distribution '),
+(146, 'news', 24, 'option', 'interests', 'Techno : Middleware / Base de Données'),
+(147, 'news', 24, 'option', 'products', 'Business Intelligence – OBIEE – Endeca'),
+(148, 'news', 24, 'option', 'products', 'Customer Experience (CXM) – Sales Cloud, Oracle CRM On Demand (OCOD)'),
+(149, 'news', 24, 'community', NULL, 'Peoplesoft PeopleTools'),
+(150, 'news', 24, 'community', NULL, 'Peoplesoft Portal');
 
 -- --------------------------------------------------------
 
@@ -321,7 +335,16 @@ INSERT INTO `update` (`id`, `model`, `model_id`, `action`, `date`, `author`) VAL
 (11, 'event', 23, 'update', 1700152041, 1),
 (12, 'user', 1, 'update', 1700152062, 1),
 (13, 'user', 18, 'update', 1700152078, 1),
-(14, 'user', 18, 'update', 1700152083, 1);
+(14, 'user', 18, 'update', 1700152083, 1),
+(15, 'cms', 1, 'update', 1700175524, 1),
+(16, 'media', 5, 'new', 1700176423, 1),
+(17, 'event', 23, 'update', 1700176950, 1),
+(18, 'news', 25, 'new', 1700333960, 1),
+(19, 'news', 26, 'new', 1700334120, 1),
+(20, 'news', 24, 'update', 1700334526, 1),
+(21, 'event', 23, 'update', 1700334539, 1),
+(22, 'news', 24, 'update', 1700334574, 1),
+(23, 'news', 24, 'update', 1700335459, 1);
 
 -- --------------------------------------------------------
 
@@ -336,7 +359,7 @@ CREATE TABLE `user` (
   `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `photo_id` int(11) DEFAULT NULL,
+  `photo_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `gender` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `firstname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `lastname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -359,8 +382,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `photo_id`, `gender`, `firstname`, `lastname`, `company_id`, `is_speaker`, `phone`, `mobile`, `department`, `function`, `decision_scope`, `role`, `status`, `created_at`, `updated_at`, `verification_token`) VALUES
-(1, 'michael.convergence@gmail.com', 'vfZYLvc7nnPWkoyWlzUGaF0bgTMZYIkl', '$2y$13$9SAXbuKxddZeIdFozolJIebsevqLpmxeVpWEXR7f..uicaEp6F6iO', 'UoB28i32eum5zOaWgxhGGUM3mJql1STx_1606321467', 'michael.convergence@gmail.com', NULL, 'Mr', 'Michael', 'THOMAS', 0, 1, NULL, NULL, NULL, NULL, NULL, 5, 10, 1605009349, 1700152062, 'mJd519zaQzC8rJpXyD_N2r01txIIKdAy_1605009349'),
-(18, 'nmorant@nux-digital.com', 'vRfHi61AkoXmmgnpo_hk2pudBF0IETZ1', '$2y$13$7FdJ/P4Pgkfe50lEtlzcfejuK8GtohvxObdPObP98V5/ZNYTA.BWy', NULL, 'nmorant@nux-digital.com', NULL, 'Mr', 'Nicoals', 'Morant', 0, 1, NULL, NULL, NULL, NULL, NULL, 5, 10, 1700046777, 1700152083, NULL);
+(1, 'michael.convergence@gmail.com', 'vfZYLvc7nnPWkoyWlzUGaF0bgTMZYIkl', '$2y$13$9SAXbuKxddZeIdFozolJIebsevqLpmxeVpWEXR7f..uicaEp6F6iO', 'UoB28i32eum5zOaWgxhGGUM3mJql1STx_1606321467', 'michael.convergence@gmail.com', '[]', 'Mr', 'Michael', 'THOMAS', 0, 1, NULL, NULL, NULL, NULL, NULL, 5, 10, 1605009349, 1700152062, 'mJd519zaQzC8rJpXyD_N2r01txIIKdAy_1605009349'),
+(18, 'nmorant@nux-digital.com', 'vRfHi61AkoXmmgnpo_hk2pudBF0IETZ1', '$2y$13$7FdJ/P4Pgkfe50lEtlzcfejuK8GtohvxObdPObP98V5/ZNYTA.BWy', NULL, 'nmorant@nux-digital.com', '[]', 'Mr', 'Nicoals', 'Morant', 0, 1, NULL, NULL, NULL, NULL, NULL, 5, 10, 1700046777, 1700152083, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -460,7 +483,7 @@ ALTER TABLE `chatbot`
 -- AUTO_INCREMENT pour la table `cms`
 --
 ALTER TABLE `cms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT pour la table `community`
@@ -490,13 +513,13 @@ ALTER TABLE `forum`
 -- AUTO_INCREMENT pour la table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `model_relations`
 --
 ALTER TABLE `model_relations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT pour la table `option`
@@ -508,7 +531,7 @@ ALTER TABLE `option`
 -- AUTO_INCREMENT pour la table `update`
 --
 ALTER TABLE `update`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT pour la table `user`
