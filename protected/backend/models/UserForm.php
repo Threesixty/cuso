@@ -54,9 +54,9 @@ class UserForm extends Model
     public function rules()
     {
         return [
-            [['gender', 'firstname', 'lastname', 'email', 'role'], 'required'],
+            [['gender', 'firstname', 'lastname', 'email', 'role', 'companyId'], 'required'],
             [['email'], 'trim'],
-            [['photoId', 'company_id', 'is_speaker', 'phone', 'mobile', 'department', 'function', 'decision_scope', 'status', 'interests', 'products', 'communities'], 'safe'],
+            [['photoId', 'isSpeaker', 'phone', 'mobile', 'department', 'function', 'decisionScope', 'status', 'interests', 'products', 'communities'], 'safe'],
             [['password'], 'createRequired', 'skipOnEmpty' => false],
         ];
     }
@@ -115,7 +115,7 @@ class UserForm extends Model
             $user->decision_scope = $this->decisionScope;
             $user->role = $this->role;
             $user->status = $this->status;
-            
+
             if ($user->save()) {
 
 	            // Delete model relations
@@ -217,6 +217,18 @@ class UserForm extends Model
             $this->decisionScope = $user->decision_scope;
             $this->role = $user->role;
             $this->status = $user->status;
+
+            if (isset($user['modelRelations'])) {
+
+                foreach ($user['modelRelations'] as $modelRelation) {
+                    if ($modelRelation->type == 'option' && $modelRelation->type_name == 'interests')
+                        $this->interests[] = $modelRelation->type_id;
+                    if ($modelRelation->type == 'option' && $modelRelation->type_name == 'products')
+                        $this->products[] = $modelRelation->type_id;
+                    if ($modelRelation->type == 'community')
+                        $this->communities[] = $modelRelation->type_id;
+                }
+            }
 
             return true;
         } else {

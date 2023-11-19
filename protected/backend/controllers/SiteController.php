@@ -224,7 +224,7 @@ class SiteController extends Controller
 
         $model = new UserForm();
         $model->photoId = '[]';
-        
+
         if (!empty(Yii::$app->request->get('id')) && (!$model->find() || Yii::$app->user->identity->role < $model->role))
             return $this->redirect(Url::to(['site/edit-user']));
 
@@ -234,7 +234,7 @@ class SiteController extends Controller
             if ($user = $model->save()) {
                 Yii::$app->session->setFlash('success', 'Utilisateur sauvegardé avec succès');
 
-                $dest = MainHelper::getDestination('user', $user, Yii::$app->request->post('main-submit'));
+                $dest = MainHelper::getDestination('user', $user['user'], Yii::$app->request->post('main-submit'));
                 return $this->redirect(Url::to($dest));
 
             } else {

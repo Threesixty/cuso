@@ -6,6 +6,8 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use common\models\ModelRelations;
+use common\components\MainHelper;
 
 /**
  * User model
@@ -58,7 +60,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_EX_MEMBER, self::STATUS_REFUSED, self::STATUS_DELETED]],
         ];
     }
 
@@ -218,6 +220,22 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     //BO
+    public static function getUser() {
+
+        $user = User::find()
+                    ->innerJoinWith('modelRelations')
+                    ->where([
+                        'user.id' => Yii::$app->request->get('id')
+                    ])->one();
+
+        // Empty modelReltions
+        if (null === $user) 
+            $user = User::findOne(Yii::$app->request->get('id'));
+
+        return $user;
+    }
+
+    //BO
     public static function deleteItem($itemId)
     {
         $delUser = User::findOne($itemId);
@@ -240,6 +258,13 @@ class User extends ActiveRecord implements IdentityInterface
         }
     }
 
+    // BO
+    public function getModelRelations() {
+        return $this->hasMany(ModelRelations::className(), [
+                'model_id' => 'id'
+            ]);
+    }
+
     //BO
     public static function getSpeakers()
     {
@@ -255,7 +280,7 @@ class User extends ActiveRecord implements IdentityInterface
     	$roles = [
     			1 => 'Contact Oracle',
     			2 => 'Prospect',
-    			3 => 'Member',
+    			3 => 'Membre',
     			4 => 'Admin',
     			5 => 'Super Admin',
     		];
@@ -276,7 +301,7 @@ class User extends ActiveRecord implements IdentityInterface
 			    self::STATUS_ACTIVE => Yii::t('app', "Actif")
     		];
 
-    	return $status == null ? $userStatus : $userStatus[$status];
+    	return $status === null ? $userStatus : $userStatus[$status];
     }
 
     //BO 
