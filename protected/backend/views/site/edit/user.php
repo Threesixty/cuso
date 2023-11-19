@@ -103,6 +103,21 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
+                                                <label>Société :</label>
+                                                <?php
+                                                $companies = array_replace([''=>''], User::getRoles()); ?>
+
+                                                <?= $form->field($model, 'companyId')
+                                                    ->dropDownList(
+                                                        $companies, 
+                                                        [
+                                                            'class' => 'form-control select2',
+                                                            'data-placeholder' => 'Sélectionnez une société',
+                                                        ]
+                                                    )
+                                                    ->label(false) ?>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>Civilité :</label>
                                                 <?php
                                                 $genders = [''=>'', 'Mr' => 'Mr', 'Mme' => 'Mme']; ?>
@@ -152,6 +167,24 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                                         'type' => 'password',
                                                         'class' => 'form-control', 
                                                         'placeholder' => "Mot de passe",
+                                                    ])
+                                                    ->label(false) ?>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Téléphone fixe :</label>
+                                                <?= $form->field($model, 'phone')
+                                                    ->textInput([
+                                                        'class' => 'form-control', 
+                                                        'placeholder' => "Téléphone",
+                                                    ])
+                                                    ->label(false) ?>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Téléphone mobile :</label>
+                                                <?= $form->field($model, 'mobile')
+                                                    ->textInput([
+                                                        'class' => 'form-control', 
+                                                        'placeholder' => "Mobile",
                                                     ])
                                                     ->label(false) ?>
                                             </div>
@@ -236,18 +269,42 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                                     ->label(false) ?>
                                             </div>
                                             <div class="form-group">
-                                                <label>Société :</label>
+                                                <label>Périmètre décisionnel :</label>
                                                 <?php
-                                                $companies = array_replace([''=>''], User::getRoles()); ?>
+                                                $decisionScopes = array_replace([''=>''], User::getRoles()); ?>
 
-                                                <?= $form->field($model, 'companyId')
+                                                <?= $form->field($model, 'decisionScope')
                                                     ->dropDownList(
-                                                        $companies, 
+                                                        $decisionScopes, 
                                                         [
                                                             'class' => 'form-control select2',
-                                                            'data-placeholder' => 'Sélectionnez une société',
+                                                            'data-placeholder' => 'Sélectionnez un périmètre',
                                                         ]
                                                     )
+                                                    ->label(false) ?>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Département / Service :</label>
+                                                <?php
+                                                $departments = array_replace([''=>''], User::getRoles()); ?>
+
+                                                <?= $form->field($model, 'department')
+                                                    ->dropDownList(
+                                                        $departments, 
+                                                        [
+                                                            'class' => 'form-control select2',
+                                                            'data-placeholder' => 'Sélectionnez une département',
+                                                        ]
+                                                    )
+                                                    ->label(false) ?>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Fonction :</label>
+                                                <?= $form->field($model, 'function')
+                                                    ->textInput([
+                                                        'class' => 'form-control', 
+                                                        'placeholder' => "Fonction",
+                                                    ])
                                                     ->label(false) ?>
                                             </div>
                                             <div class="form-group">

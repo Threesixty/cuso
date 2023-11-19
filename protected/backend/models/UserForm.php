@@ -80,7 +80,7 @@ class UserForm extends Model
         if ($this->validate()) {
 
             $user = new User();
-            
+
             $modelRelations = [];
             $err = null;
 
@@ -106,7 +106,7 @@ class UserForm extends Model
             $user->firstname = $this->firstname;
             $user->lastname = $this->lastname;
             $user->photo_id = $this->photoId;
-            $user->$company_id = $this->companyId;
+            $user->company_id = $this->companyId;
             $user->is_speaker = $this->isSpeaker;
             $user->phone = $this->phone;
             $user->mobile = $this->mobile;
