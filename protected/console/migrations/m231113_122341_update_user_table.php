@@ -12,7 +12,7 @@ class m231113_122341_update_user_table extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('user', 'photo_id', $this->integer()->after('email'));
+        $this->addColumn('user', 'photo_id', $this->string()->after('email'));
         $this->addColumn('user', 'company_id', $this->integer()->notNull()->after('lastname'));
         $this->addColumn('user', 'is_speaker', $this->integer()->defaultValue(0)->after('company_id'));
         $this->addColumn('user', 'phone', $this->string()->after('is_speaker'));

@@ -267,7 +267,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     //BO 
-    public static function getUserStatusName($status) {
+    public static function getUserStatusName($status = null) {
     	$userStatus = [
 			    self::STATUS_DELETED => Yii::t('app', "Supprimé"),
 			    self::STATUS_REFUSED => Yii::t('app', "Refusé"),
@@ -276,7 +276,7 @@ class User extends ActiveRecord implements IdentityInterface
 			    self::STATUS_ACTIVE => Yii::t('app', "Actif")
     		];
 
-    	return $userStatus[$status];
+    	return $status == null ? $userStatus : $userStatus[$status];
     }
 
     //BO 

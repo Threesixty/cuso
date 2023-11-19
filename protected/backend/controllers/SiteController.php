@@ -223,6 +223,8 @@ class SiteController extends Controller
         }
 
         $model = new UserForm();
+        $model->photoId = '[]';
+        
         if (!empty(Yii::$app->request->get('id')) && (!$model->find() || Yii::$app->user->identity->role < $model->role))
             return $this->redirect(Url::to(['site/edit-user']));
 
