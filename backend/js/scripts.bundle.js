@@ -1117,13 +1117,27 @@ var KTApp = function() {
             };
 
         if ($('#datatableUser').length) {
-            $('#datatableUser').DataTable({
+            var datatableUser = $('#datatableUser').DataTable({
                 responsive: true,
                 paging: true,
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [5] }],
-                language: datatableLanguage
+                language: datatableLanguage,
+                buttons: [
+                    {               
+                        text: 'Exporter',
+                        action: function ( e, dt, node, config ) {
+                            var data = dt.rows().data();
+                            datatableUser.$("tr", { 'search': 'applied' }).each(function() {
+                                // AJAX
+                                console.log($(this).find('td:first-child').text());
+                            });
+                        }
+                    }
+                ],
             });
+
+            datatableUser.buttons().container().appendTo( $('#datatableUser_length', datatableUser.table().container() ) );
         }
 
         if ($('#datatableEvent').length) {
@@ -1136,18 +1150,18 @@ var KTApp = function() {
                 language: datatableLanguage,
                 buttons: [
                     {               
-                        text: 'My button',
+                        text: 'Exporter',
                         action: function ( e, dt, node, config ) {
-                            console.log(dt.rows().data()[0]);
-                            console.log(node);
-
-                            for (const row in dt.rows().data()) {
-                                console.log(row);
-                            }
+                            var data = dt.rows().data();
+                            datatableEvent.$("tr", { 'search': 'applied' }).each(function() {
+                                // AJAX
+                                console.log($(this).find('td:first-child').text());
+                            });
                         }
                     }
                 ],
             });
+
             datatableEvent.buttons().container().appendTo( $('#datatableEvent_length', datatableEvent.table().container() ) );
         }
 
@@ -1169,21 +1183,8 @@ var KTApp = function() {
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[4, 'desc']],
-                language: datatableLanguage,
-                buttons: [
-                    {               
-                        text: 'Exporter',
-                        action: function ( e, dt, node, config ) {
-                            var data = dt.rows().data();
-                            datatableContent.$("tr", { 'search': 'applied' }).each(function() {
-                                console.log($(this).find('td:first-child').text());
-                            });
-                        }
-                    }
-                ],
+                language: datatableLanguage
             });
-
-            datatableContent.buttons().container().appendTo( $('#datatableContent_length', datatableContent.table().container() ) );
         }
 
         if ($('#datatableOption').length) {
