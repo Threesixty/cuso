@@ -1127,14 +1127,28 @@ var KTApp = function() {
         }
 
         if ($('#datatableEvent').length) {
-            $('#datatableEvent').DataTable({
+            var datatableEvent = $('#datatableEvent').DataTable({
                 responsive: true,
                 paging: true,
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[4, 'desc']],
-                language: datatableLanguage
+                language: datatableLanguage,
+                buttons: [
+                    {               
+                        text: 'My button',
+                        action: function ( e, dt, node, config ) {
+                            console.log(dt.rows().data()[0]);
+                            console.log(node);
+
+                            for (const row in dt.rows().data()) {
+                                console.log(row);
+                            }
+                        }
+                    }
+                ],
             });
+            datatableEvent.buttons().container().appendTo( $('#datatableEvent_length', datatableEvent.table().container() ) );
         }
 
         if ($('#datatableNews').length) {
@@ -1149,14 +1163,27 @@ var KTApp = function() {
         }
 
         if ($('#datatableContent').length) {
-            $('#datatableContent').DataTable({
+            var datatableContent = $('#datatableContent').DataTable({
                 responsive: true,
                 paging: true,
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[4, 'desc']],
-                language: datatableLanguage
+                language: datatableLanguage,
+                buttons: [
+                    {               
+                        text: 'Exporter',
+                        action: function ( e, dt, node, config ) {
+                            var data = dt.rows().data();
+                            datatableContent.$("tr", { 'search': 'applied' }).each(function() {
+                                console.log($(this).find('td:first-child').text());
+                            });
+                        }
+                    }
+                ],
             });
+
+            datatableContent.buttons().container().appendTo( $('#datatableContent_length', datatableContent.table().container() ) );
         }
 
         if ($('#datatableOption').length) {
