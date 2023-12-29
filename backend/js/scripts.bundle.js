@@ -1126,13 +1126,14 @@ var KTApp = function() {
                 buttons: [
                     {               
                         text: 'Exporter',
+                        className: 'ml-4 btn-info',
                         action: function ( e, dt, node, config ) {
                             var data = dt.rows().data();
                             datatableUser.$("tr", { 'search': 'applied' }).each(function() {
                                 // AJAX
                                 console.log($(this).find('td:first-child').text());
                             });
-                        }
+                        },
                     }
                 ],
             });
@@ -1151,6 +1152,7 @@ var KTApp = function() {
                 buttons: [
                     {               
                         text: 'Exporter',
+                        className: 'ml-4 btn-info',
                         action: function ( e, dt, node, config ) {
                             var data = dt.rows().data();
                             datatableEvent.$("tr", { 'search': 'applied' }).each(function() {

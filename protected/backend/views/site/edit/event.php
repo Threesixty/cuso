@@ -441,7 +441,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                     <div class="form-group">
                                                         <label>Communautés concernées :</label>
                                                         <?php 
-                                                        $tplCommunities = Option::getOption('name', 'products', 'select', true);
+                                                        $tplCommunities = Option::getOption('name', 'communities', 'select', true);
                                                         $communities = array_replace(array(''=>''), $tplCommunities); ?>
 
                                                         <?= $form->field($model, 'communities', ['options' => ['tag' => false]])

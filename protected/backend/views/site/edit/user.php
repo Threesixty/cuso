@@ -344,7 +344,7 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                             <div class="form-group">
                                                 <label>Communautés :</label>
                                                 <?php 
-                                                $tplCommunities = Option::getOption('name', 'products', 'select', true);
+                                                $tplCommunities = Option::getOption('name', 'communities', 'select', true);
                                                 $communities = array_replace(array(''=>''), $tplCommunities); ?>
 
                                                 <?= $form->field($model, 'communities', ['options' => ['tag' => false]])
