@@ -20,6 +20,18 @@ class m231113_122341_update_user_table extends Migration
         $this->addColumn('user', 'department', $this->string()->after('mobile'));
         $this->addColumn('user', 'function', $this->string()->after('department'));
         $this->addColumn('user', 'decision_scope', $this->string()->after('function'));
+
+        $this->createIndex(
+            'idx-user-photo_id',
+            'user',
+            'photo_id'
+        );
+
+        $this->createIndex(
+            'idx-user-company_id',
+            'user',
+            'company_id'
+        );
     }
 
     /**

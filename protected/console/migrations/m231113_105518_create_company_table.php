@@ -21,8 +21,8 @@ class m231113_105518_create_company_table extends Migration
         $this->createTable('{{%company}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
-            'phone' => $this->string()->notNull(),
-            
+            'photo_id' => $this->string(),
+
             'address_line1' => $this->string()->notNull(),
             'address_line2' => $this->string()->notNull(),
             'postal_code' => $this->string()->notNull(),
@@ -45,12 +45,19 @@ class m231113_105518_create_company_table extends Migration
             'billing_platform' => $this->string(),
 
             'status' => $this->integer()->notNull()->defaultValue(0),
+            'author' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
         ], $tableOptions);
 
         $this->createIndex(
-            'idx-company-photo',
-            'cms',
+            'idx-company-author',
+            'company',
+            'author'
+        );
+
+        $this->createIndex(
+            'idx-company-photo_id',
+            'company',
             'photo_id'
         );
     }

@@ -22,7 +22,16 @@ class m231113_115635_create_forum_table extends Migration
             'id' => $this->primaryKey(),
             'content' => $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext'),
             'parent_id' => $this->integer()->notNull(),
+
+            'author' => $this->integer()->notNull(),
+            'created_at' => $this->integer()->notNull(),
         ], $tableOptions);
+
+        $this->createIndex(
+            'idx-forum-author',
+            'forum',
+            'author'
+        );
     }
 
     /**

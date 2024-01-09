@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use common\models\User;
+use common\models\Company;
 use common\models\Cms;
 use common\models\News;
 use common\models\Event;
@@ -19,6 +20,7 @@ use backend\models\LoginForm;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\UserForm;
+use backend\models\CompanyForm;
 use backend\models\CmsForm;
 use backend\models\NewsForm;
 use backend\models\EventForm;
@@ -244,6 +246,65 @@ class SiteController extends Controller
 
         return $this->render('edit/user', [
             'model' => $model,
+        ]);
+    }
+
+    /**
+     * Company list.
+     *
+     * @return mixed
+     */
+    public function actionCompany()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        if (null !== $delId = Yii::$app->request->post('delete-item')) {
+            Company::deleteItem($delId);
+        }
+
+        return $this->render('company', [
+            'companyList' => Company::getCompanyList(),
+        ]);
+    }
+
+    /**
+     * Edit cms
+     *
+     * @return mixed
+     */
+    public function actionEditCompany()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $companyForm = new CompanyForm();
+        $companyForm->photoId = '[]';
+
+        if (!empty(Yii::$app->request->get('id')) && !$companyForm->find())
+            return $this->redirect(Url::to(['site/edit-cms']));
+
+        if ($companyForm->load(Yii::$app->request->post())) {
+
+            if ($company = $companyForm->save()) {
+                Yii::$app->session->setFlash('success', 'Société sauvegardée avec succès');
+
+                $dest = MainHelper::getDestination('company', $company, Yii::$app->request->post('main-submit'));
+                return $this->redirect(Url::to($dest));
+
+            } else {
+                Yii::$app->session->setFlash('warning', 'Impossible de sauvegarder la société.<br>Veuillez contacter l‘administrateur');
+            }
+        }
+
+        if (null !== $delId = Yii::$app->request->post('delete-item')) {
+            Media::deleteItem($delId);
+        }
+
+        return $this->render('edit/company', [
+            'model' => $companyForm,
         ]);
     }
 

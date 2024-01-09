@@ -14,15 +14,25 @@ use common\components\MainHelper;
  *
  * @property integer $id
  * @property string $username
+ * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $verification_token
  * @property string $email
- * @property string $auth_key
+ * @property string $photo_id 
+ * @property string $gender
+ * @property string $firstname
+ * @property string $lastname
+ * @property integer $company_id 
+ * @property integer $is_speaker
+ * @property string $phone
+ * @property string $mobile
+ * @property string $department
+ * @property string $decision_scope
+ * @property integer $role
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
- * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
 {

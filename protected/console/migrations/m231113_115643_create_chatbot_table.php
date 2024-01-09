@@ -32,6 +32,12 @@ class m231113_115643_create_chatbot_table extends Migration
             'author' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
         ], $tableOptions);
+
+        $this->createIndex(
+            'idx-chatbot-author',
+            'chatbot',
+            'author'
+        );
     }
 
     /**

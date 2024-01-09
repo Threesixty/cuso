@@ -32,6 +32,12 @@ class m201214_102628_create_update_table extends Migration
             'update',
             'model_id'
         );
+
+        $this->createIndex(
+            'idx-update-author',
+            'update',
+            'author'
+        );
     }
 
     /**
