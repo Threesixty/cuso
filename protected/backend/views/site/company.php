@@ -30,7 +30,7 @@ $this->title = MainHelper::getPageTitle('Liste des sociétés', '', true);
 
                             <div class="card-body">
                                 <!--begin: Datatable-->
-                                <table class="table table-separate table-head-custom table-checkable" id="datatableContent">
+                                <table class="table table-separate table-head-custom table-checkable" id="datatableCompany">
                                     <thead>
                                         <tr>
                                             <th>#ID</th>

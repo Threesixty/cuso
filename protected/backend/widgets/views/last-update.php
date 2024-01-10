@@ -26,6 +26,9 @@ use common\components\MainHelper;
 										 	case 'user':
 										 		$type = "l'utilisateur";
 										 		break;
+										 	case 'company':
+										 		$type = "la société";
+										 		break;
 										 	case 'event':
 										 		$type = "l'événement";
 										 		break;

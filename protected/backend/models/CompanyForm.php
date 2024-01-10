@@ -4,7 +4,7 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Json;
-use common\models\Option;
+use common\models\Company;
 use common\models\Update;
 use common\components\MainHelper;
 
@@ -40,15 +40,25 @@ class CompanyForm extends Model
     public function attributeLabels()
     {
         return [
-            'name' => 'Nom',
+            'name' => "Nom",
+            'addressLine1' => "Ligne 1",
+            'postalCode' => "Code postal",
+            'city' => "Ville",
+            'activityArea' => "Secteur d'activités",
+            'size' => "Taille",
+            'licensesCount' => "Nombre de licences",
+            'membershipEnd' => "Date de fin d'adhésion",
+            'mainContactName' => "Nom du contact principal",
+            'mainContactEmail' => "Email du contact principal",
+            'mainContactPhone' => "Téléphone du contact principal",
         ];
     }
 
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['photoId ', 'addressLine1', 'addressLine2', 'postalCode', 'city', 'country', 'activityArea', 'public', 'size', 'licensesCount', 'membershipEnd', 'isSponsor', 'mainContactName', 'mainContactEmail', 'mainContactPhone', 'billingContactName', 'billingContactEmail', 'billingContactPhone', 'billingPlatform', 'status', 'author', 'created_at'], 'safe'],
+            [['name', 'addressLine1', 'postalCode', 'city', 'country', 'activityArea', 'public', 'size', 'licensesCount', 'membershipEnd', 'isSponsor', 'mainContactName', 'mainContactEmail', 'mainContactPhone'], 'required'],
+            [['photoId', 'addressLine2', 'billingContactName', 'billingContactEmail', 'billingContactPhone', 'billingPlatform'], 'safe'],
         ];
     }
 
@@ -74,12 +84,12 @@ class CompanyForm extends Model
             $company->address_line2 = $this->addressLine2;
             $company->postal_code = $this->postalCode;
             $company->city = $this->city;
-            $company->country = $this->country;
+            $company->country = 'FR';
             $company->activity_area = $this->activityArea;
             $company->public = $this->public;
             $company->size = $this->size;
             $company->licenses_count = $this->licensesCount;
-            $company->membership_end = $this->membershipEnd;
+            $company->membership_end = strtotime(str_replace('/', '-', $this->membershipEnd));
             $company->is_sponsor = $this->isSponsor;
             $company->main_contact_name = $this->mainContactName;
             $company->main_contact_email = $this->mainContactEmail;
@@ -115,7 +125,7 @@ class CompanyForm extends Model
             $this->public = $company->public;
             $this->size = $company->size;
             $this->licensesCount = $company->licenses_count;
-            $this->membershipEnd = $company->membership_end;
+            $this->membershipEnd = date('d/m/Y', $company->membership_end);
             $this->isSponsor = $company->is_sponsor;
             $this->mainContactName = $company->main_contact_name;
             $this->mainContactEmail = $company->main_contact_email;

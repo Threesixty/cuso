@@ -104,7 +104,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter une option', tru
                             <div class="card card-custom gutter-b example example-compact">
                                 <div class="card-header pl-5">
                                     <h3 class="card-title text-uppercase">Informations générales</h3>
-                                    <div class="card-toolbar">
+                                    <!--div class="card-toolbar">
                                         <div class="btn-group" role="group">
                                             <a href="<?= Url::to(['site/edit-option', 'id' => Yii::$app->request->get('id')]) ?>" class="btn btn-success <?= !Yii::$app->request->get('lang') ? 'active' : '' ?>">Français</a>
                                             <?php
@@ -112,7 +112,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter une option', tru
                                                 <a href="<?= Url::to(['site/edit-option', 'id' => Yii::$app->request->get('id'), 'lang' => 'en']) ?>" class="btn btn-success <?= Yii::$app->request->get('lang') == 'en' ? 'active' : '' ?>">Anglais</a>
                                             <?php } ?>
                                         </div>
-                                    </div>
+                                    </div-->
                                 </div>
                                 <div class="card-body">
                                     <div class="row">

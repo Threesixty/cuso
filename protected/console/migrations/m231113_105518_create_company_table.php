@@ -24,14 +24,14 @@ class m231113_105518_create_company_table extends Migration
             'photo_id' => $this->string(),
 
             'address_line1' => $this->string()->notNull(),
-            'address_line2' => $this->string()->notNull(),
+            'address_line2' => $this->string(),
             'postal_code' => $this->string()->notNull(),
             'city' => $this->string()->notNull(),
             'country' => $this->string()->notNull(),
 
             'activity_area' => $this->string()->notNull(),
             'public' => $this->integer()->defaultValue(0),
-            'size' => $this->integer()->notNull(),
+            'size' => $this->string()->notNull(),
             'licenses_count' => $this->integer()->notNull(),
             'membership_end' => $this->integer()->notNull(),
             'is_sponsor' => $this->integer()->defaultValue(0),

@@ -284,7 +284,7 @@ class SiteController extends Controller
         $companyForm->photoId = '[]';
 
         if (!empty(Yii::$app->request->get('id')) && !$companyForm->find())
-            return $this->redirect(Url::to(['site/edit-cms']));
+            return $this->redirect(Url::to(['site/edit-company']));
 
         if ($companyForm->load(Yii::$app->request->post())) {
 

@@ -1141,6 +1141,32 @@ var KTApp = function() {
             datatableUser.buttons().container().appendTo( $('#datatableUser_length', datatableUser.table().container() ) );
         }
 
+        if ($('#datatableCompany').length) {
+            var datatableCompany = $('#datatableCompany').DataTable({
+                responsive: true,
+                paging: true,
+                pageLength: 25,
+                columnDefs: [{ "orderable": false, "targets": [7] }],
+                order: [[1, 'desc']],
+                language: datatableLanguage,
+                buttons: [
+                    {               
+                        text: 'Exporter',
+                        className: 'ml-4 btn-info',
+                        action: function ( e, dt, node, config ) {
+                            var data = dt.rows().data();
+                            datatableCompany.$("tr", { 'search': 'applied' }).each(function() {
+                                // AJAX
+                                console.log($(this).find('td:first-child').text());
+                            });
+                        },
+                    }
+                ],
+            });
+
+            datatableCompany.buttons().container().appendTo( $('#datatableCompany_length', datatableCompany.table().container() ) );
+        }
+
         if ($('#datatableEvent').length) {
             var datatableEvent = $('#datatableEvent').DataTable({
                 responsive: true,
