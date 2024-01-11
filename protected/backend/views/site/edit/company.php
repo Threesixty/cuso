@@ -14,7 +14,7 @@ use common\components\MainHelper;
 
 $this->title = MainHelper::getPageTitle($model->name, 'Ajouter une société', true);
 
-#MainHelper::pp($cms);
+#MainHelper::pp($model);
 ?>
 
     <!--begin::Content-->

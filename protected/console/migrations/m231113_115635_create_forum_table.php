@@ -20,9 +20,11 @@ class m231113_115635_create_forum_table extends Migration
         
         $this->createTable('{{%forum}}', [
             'id' => $this->primaryKey(),
+            'title' => $this->string()->notNull(),
             'content' => $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext'),
             'parent_id' => $this->integer()->notNull(),
 
+            'status' => $this->integer()->notNull()->defaultValue(0),
             'author' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
         ], $tableOptions);

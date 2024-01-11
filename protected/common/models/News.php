@@ -38,6 +38,7 @@ class News extends ActiveRecord
     public static function getNewsList() {
 
         return Cms::find()
+            ->innerJoinWith('modelRelations')
             ->where([
                 'Cms.type' => 'news',
             ])

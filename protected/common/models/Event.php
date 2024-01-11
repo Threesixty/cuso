@@ -39,6 +39,7 @@ class Event extends ActiveRecord
 
         return Cms::find()
             ->innerJoinWith('event')
+            ->innerJoinWith('modelRelations')
             ->where([
                 'Cms.type' => 'event',
             ])

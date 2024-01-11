@@ -1146,7 +1146,7 @@ var KTApp = function() {
                 responsive: true,
                 paging: true,
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [7] }],
+                columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[1, 'desc']],
                 language: datatableLanguage,
                 buttons: [
@@ -1200,6 +1200,17 @@ var KTApp = function() {
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [5] }],
                 order: [[3, 'desc']],
+                language: datatableLanguage
+            });
+        }
+
+        if ($('#datatableForum').length) {
+            $('#datatableForum').DataTable({
+                responsive: true,
+                paging: true,
+                pageLength: 25,
+                columnDefs: [{ "orderable": false, "targets": [5] }],
+                order: [[0, 'desc']],
                 language: datatableLanguage
             });
         }

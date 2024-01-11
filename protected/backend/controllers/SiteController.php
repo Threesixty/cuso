@@ -13,6 +13,7 @@ use common\models\Company;
 use common\models\Cms;
 use common\models\News;
 use common\models\Event;
+use common\models\Forum;
 use common\models\Media;
 use common\models\Option;
 use common\models\Update;
@@ -214,7 +215,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Edit cms
+     * Edit user
      *
      * @return mixed
      */
@@ -270,7 +271,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Edit cms
+     * Edit company
      *
      * @return mixed
      */
@@ -388,7 +389,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Edit cms
+     * Edit news
      *
      * @return mixed
      */
@@ -448,7 +449,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Edit cms
+     * Edit event
      *
      * @return mixed
      */
@@ -484,6 +485,64 @@ class SiteController extends Controller
 
         return $this->render('edit/event', [
             'model' => $model,
+        ]);
+    }
+
+    /**
+     * Forum list.
+     *
+     * @return mixed
+     */
+    public function actionForum()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        if (null !== $delId = Yii::$app->request->post('delete-item')) {
+            Forum::deleteItem($delId);
+        }
+
+        return $this->render('forum', [
+            'forumList' => Forum::getForumList(),
+        ]);
+    }
+
+    /**
+     * Edit forum
+     *
+     * @return mixed
+     */
+    public function actionEditForum()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $forumForm = new ForumForm();
+
+        if (!empty(Yii::$app->request->get('id')) && !$forumForm->find())
+            return $this->redirect(Url::to(['site/edit-forum']));
+
+        if ($forumForm->load(Yii::$app->request->post())) {
+
+            if ($forum = $forumForm->save()) {
+                Yii::$app->session->setFlash('success', 'Discussion sauvegardée avec succès');
+
+                $dest = MainHelper::getDestination('forum', $forum, Yii::$app->request->post('main-submit'));
+                return $this->redirect(Url::to($dest));
+
+            } else {
+                Yii::$app->session->setFlash('warning', 'Impossible de sauvegarder la discussion.<br>Veuillez contacter l‘administrateur');
+            }
+        }
+
+        if (null !== $delId = Yii::$app->request->post('delete-item')) {
+            Media::deleteItem($delId);
+        }
+
+        return $this->render('edit/forum', [
+            'model' => $forumForm,
         ]);
     }
 

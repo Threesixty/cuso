@@ -35,7 +35,6 @@ $this->title = MainHelper::getPageTitle('Liste des sociétés', '', true);
                                         <tr>
                                             <th>#ID</th>
                                             <th>Nom</th>
-                                            <th>Secteur</th>
                                             <th>Contact principal</th>
                                             <th>Nombre de licences</th>
                                             <th>Fin d'adhésion</th>
@@ -51,7 +50,6 @@ $this->title = MainHelper::getPageTitle('Liste des sociétés', '', true);
                                                 <tr>
                                                     <td><?= $company->id ?></td>
                                                     <td class="h6"><a href="<?= Url::to(['site/edit-company', 'id' => $company->id]) ?>"><strong><?= $company->name ?></strong></a></td>
-                                                    <td><?= $company->activity_area ?></td>
                                                     <td><?= $company->main_contact_name ?></td>
                                                     <td><?= $company->licenses_count ?></td>
                                                     <td data-sort="<?= $company->membership_end ?>"><?= utf8_encode(strftime('%e %B %Y', $company->membership_end)) ?></td>
