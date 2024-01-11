@@ -6,6 +6,8 @@
 use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\Json;
+use common\models\Media;
 use common\widgets\Alert;
 use backend\widgets\SidebarWidget;
 use backend\widgets\PopinWidget;
@@ -84,9 +86,19 @@ $actionId = Yii::$app->controller->action->id;
                     <!--begin::Brand-->
                     <div class="aside-brand d-flex flex-column align-items-center flex-column-auto py-9">
                         <!--begin::Logo-->
+                        <?php
+                        $avatar = Yii::$app->request->BaseUrl.'/media/boy.svg';
+                        $userAvatarArr = JSON::decode(Yii::$app->user->identity->photo_id);
+                        if (null !== $userAvatarArr) {
+                            foreach ($userAvatarArr as $userPhotoId) {
+                                $photo = Media::findOne($userPhotoId);
+                                if (null !== $photo)
+                                    $avatar = Yii::getAlias('@uploadWeb').'/'.$photo->path;
+                            }
+                        } ?>
                         <a href="<?= Url::to(['site/edit-user', 'id' => Yii::$app->user->identity->id]) ?>" class="btn p-0 symbol symbol-40 symbol-success">
                             <div class="symbol-label">
-                                <img alt="Logo" src="<?= Yii::$app->request->BaseUrl ?>/media/boy.svg" class="h-75 align-self-end" />
+                                <img alt="Avatar" src="<?= $avatar ?>" class="h-100 align-self-end" />
                             </div>
                         </a>
                         <!--end::Logo-->
