@@ -61,9 +61,6 @@ $this->title = MainHelper::getPageTitle('Liste des discussions', '', true);
                                                                 <i class="la la-trash"></i>
                                                             </a>
                                                         </span>
-                                                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon <?= $forum->status ? 'add-to-menu' : '' ?>" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="<?= $forum->status ? 'Ajouter au menu' : 'Pour ajouter ce contenu aux menus, ce dernier doit être publié' ?>" <?= $forum->status ? '' : ' data-theme="dark"' ?>>
-                                                            <i class="la la-plus"></i>
-                                                        </a>
                                                     </td>
                                                 </tr>
 

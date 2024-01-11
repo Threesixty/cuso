@@ -57,8 +57,8 @@ class CompanyForm extends Model
     public function rules()
     {
         return [
-            [['name', 'addressLine1', 'postalCode', 'city', 'country', 'activityArea', 'public', 'size', 'licensesCount', 'membershipEnd', 'isSponsor', 'mainContactName', 'mainContactEmail', 'mainContactPhone'], 'required'],
-            [['photoId', 'addressLine2', 'billingContactName', 'billingContactEmail', 'billingContactPhone', 'billingPlatform'], 'safe'],
+            [['name', 'addressLine1', 'postalCode', 'city', 'activityArea', 'public', 'size', 'licensesCount', 'membershipEnd', 'isSponsor', 'mainContactName', 'mainContactEmail', 'mainContactPhone'], 'required'],
+            [['photoId', 'addressLine2', 'country', 'billingContactName', 'billingContactEmail', 'billingContactPhone', 'billingPlatform', 'status'], 'safe'],
         ];
     }
 
