@@ -42,12 +42,12 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                         </a>
                         <div class="btn-group">
                             <?= Html::submitButton('Enregistrer', [
-                                        'class' => 'btn btn-light-primary border-light-primary font-weight-bolder', 
+                                        'class' => 'btn btn-success border-success font-weight-bolder', 
                                         'name' => 'main-submit',
                                         'value' => 'stay',
                                     ]) ?>
 
-                            <button type="button" class="btn btn-light-primary border-light-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <button type="button" class="btn btn-success border-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                             <div class="dropdown-menu dropdown-menu-md dropdown-menu-right" style="">
                                 <ul class="nav nav-hover flex-column">
                                     <li class="nav-item">
@@ -392,7 +392,7 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                     <div></div>
                     <div class="card-toolbar">
                         <a href="<?= Url::to([('site/user')]) ?>" class="btn btn-secondary">Annuler</a>
-                        <?= Html::submitButton('Enregistrer l‘utilisateur', [
+                        <?= Html::submitButton("Enregistrer l'utilisateur", [
                                     'class' => 'btn btn-success ml-3', 
                                     'name' => 'main-submit',
                                     'value' => 'stay',

@@ -49,12 +49,12 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter une option', tru
                         </a>
                         <div class="btn-group">
                             <?= Html::submitButton('Enregistrer', [
-                                        'class' => 'btn btn-light-primary border-light-primary font-weight-bolder', 
+                                        'class' => 'btn btn-success border-success font-weight-bolder', 
                                         'name' => 'main-submit',
                                         'value' => 'stay',
                                     ]) ?>
 
-                            <button type="button" class="btn btn-light-primary border-light-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <button type="button" class="btn btn-success border-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                             <div class="dropdown-menu dropdown-menu-md dropdown-menu-right" style="">
                                 <ul class="nav nav-hover flex-column">
                                     <li class="nav-item">
@@ -254,7 +254,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter une option', tru
                     <div></div>
                     <div class="card-toolbar">
                         <a href="<?= Url::to([('site/option')]) ?>" class="btn btn-secondary">Annuler</a>
-                        <?= Html::submitButton('Enregistrer l‘option', [
+                        <?= Html::submitButton("Enregistrer l'option", [
                                     'class' => 'btn btn-success ml-3', 
                                     'name' => 'main-submit',
                                     'value' => 'stay',

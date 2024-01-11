@@ -42,12 +42,12 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter une discussion',
                         </a>
                         <div class="btn-group">
                             <?= Html::submitButton('Enregistrer', [
-                                        'class' => 'btn btn-light-primary border-light-primary font-weight-bolder update-composer', 
+                                        'class' => 'btn btn-success border-success font-weight-bolder update-composer', 
                                         'name' => 'main-submit',
                                         'value' => 'stay',
                                     ]) ?>
 
-                            <button type="button" class="btn btn-light-primary border-light-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <button type="button" class="btn btn-success border-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                             <div class="dropdown-menu dropdown-menu-md dropdown-menu-right" style="">
                                 <ul class="nav nav-hover flex-column">
                                     <li class="nav-item">
@@ -257,7 +257,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter une discussion',
                     <div></div>
                     <div class="card-toolbar">
                         <a href="<?= Url::to([('site/cms')]) ?>" class="btn btn-secondary">Annuler</a>
-                        <?= Html::submitButton('Enregistrer le contenu', [
+                        <?= Html::submitButton("Enregistrer la discussion", [
                                     'class' => 'btn btn-success ml-3 update-composer', 
                                     'name' => 'main-submit',
                                     'value' => 'stay',

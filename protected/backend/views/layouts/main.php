@@ -349,23 +349,6 @@ $actionId = Yii::$app->controller->action->id;
                                                 </li>
                                                 <li class="navi-separator mb-3 opacity-70"></li>
                                                 <li class="navi-item">
-                                                    <a href="<?= Url::to(['site/media']) ?>" class="navi-link">
-                                                        <span class="navi-icon">
-                                                            <i class="flaticon2-photo-camera"></i>
-                                                        </span>
-                                                        <span class="navi-text">Média</span>
-                                                    </a>
-                                                </li>
-                                                <li class="navi-separator mb-3 opacity-70"></li>
-                                                <li class="navi-item">
-                                                    <a href="<?= Url::to(['site/edit-community']) ?>" class="navi-link">
-                                                        <span class="navi-icon">
-                                                            <i class="flaticon2-group"></i>
-                                                        </span>
-                                                        <span class="navi-text">Communauté</span>
-                                                    </a>
-                                                </li>
-                                                <li class="navi-item">
                                                     <a href="<?= Url::to(['site/edit-user']) ?>" class="navi-link">
                                                         <span class="navi-icon">
                                                             <i class="flaticon2-user"></i>
@@ -379,6 +362,15 @@ $actionId = Yii::$app->controller->action->id;
                                                             <i class="flaticon2-soft-icons-1"></i>
                                                         </span>
                                                         <span class="navi-text">Société</span>
+                                                    </a>
+                                                </li>
+                                                <li class="navi-separator mb-3 opacity-70"></li>
+                                                <li class="navi-item">
+                                                    <a href="<?= Url::to(['site/media']) ?>" class="navi-link">
+                                                        <span class="navi-icon">
+                                                            <i class="flaticon2-photo-camera"></i>
+                                                        </span>
+                                                        <span class="navi-text">Média</span>
                                                     </a>
                                                 </li>
                                                 <?php
