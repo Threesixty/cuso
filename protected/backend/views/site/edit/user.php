@@ -310,10 +310,9 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                             <div class="form-group">
                                                 <label>Centres d'intérêts :</label>
                                                 <?php 
-                                                $tplInterests = Option::getOption('name', 'interests', 'select');
-                                                $interests = array_replace(array(''=>''), $tplInterests); ?>
+                                                $interests = Option::getOption('name', 'interests', 'select'); ?>
 
-                                                <?= $form->field($model, 'interests', ['options' => ['tag' => false]])
+                                                <?= $form->field($model, 'interests')
                                                     ->dropDownList(
                                                         $interests, 
                                                         [
@@ -327,10 +326,9 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                             <div class="form-group">
                                                 <label>Produits utilisés :</label>
                                                 <?php 
-                                                $tplProducts = Option::getOption('name', 'products', 'select', true);
-                                                $products = array_replace(array(''=>''), $tplProducts); ?>
+                                                $products = Option::getOption('name', 'products', 'select', true); ?>
 
-                                                <?= $form->field($model, 'products', ['options' => ['tag' => false]])
+                                                <?= $form->field($model, 'products')
                                                     ->dropDownList(
                                                         $products, 
                                                         [
@@ -344,10 +342,9 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                             <div class="form-group">
                                                 <label>Communautés :</label>
                                                 <?php 
-                                                $tplCommunities = Option::getOption('name', 'communities', 'select', true);
-                                                $communities = array_replace(array(''=>''), $tplCommunities); ?>
+                                                $communities = Option::getOption('name', 'communities', 'select', true); ?>
 
-                                                <?= $form->field($model, 'communities', ['options' => ['tag' => false]])
+                                                <?= $form->field($model, 'communities')
                                                     ->dropDownList(
                                                         $communities, 
                                                         [

@@ -192,8 +192,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter une discussion',
                                             <div class="form-group">
                                                 <label>Sujets abordés :</label>
                                                 <?php 
-                                                $tplInterests = Option::getOption('name', 'interests', 'select');
-                                                $interests = array_replace(array(''=>''), $tplInterests); ?>
+                                                $interests = Option::getOption('name', 'interests', 'select'); ?>
 
                                                 <?= $form->field($model, 'interests')
                                                     ->dropDownList(
@@ -201,16 +200,14 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter une discussion',
                                                         [
                                                             'class' => 'form-control select2-tags',
                                                             'data-placeholder' => 'Sélectionnez des sujets',
-                                                            'multiple' => true,
-                                                        ]
+                                                            'multiple' => true,                                                        ]
                                                     )
                                                     ->label(false) ?>
                                             </div>
                                             <div class="form-group">
                                                 <label>Produits concernés :</label>
                                                 <?php 
-                                                $tplProducts = Option::getOption('name', 'products', 'select', true);
-                                                $products = array_replace(array(''=>''), $tplProducts); ?>
+                                                $products = Option::getOption('name', 'products', 'select', true); ?>
 
                                                 <?= $form->field($model, 'products')
                                                     ->dropDownList(
@@ -226,8 +223,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter une discussion',
                                             <div class="form-group">
                                                 <label>Communautés concernées :</label>
                                                 <?php 
-                                                $tplCommunities = Option::getOption('name', 'communities', 'select', true);
-                                                $communities = array_replace(array(''=>''), $tplCommunities); ?>
+                                                $communities = Option::getOption('name', 'communities', 'select', true); ?>
 
                                                 <?= $form->field($model, 'communities')
                                                     ->dropDownList(

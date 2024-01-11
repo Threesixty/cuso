@@ -65,15 +65,19 @@ class EventForm extends Model
         return [
             'title' => 'Titre',
             'url' => 'Url',
+            'interests' => "Sujets abordés",
+            'products' => "Produits concernés",
+            'communities' => "Communautés concernées",
+            'speakers' => "Intervenants",
         ];
     }
 
     public function rules()
     {
         return [
-            [['type', 'title', 'metaTitle'], 'required'],
+            [['type', 'title', 'metaTitle', 'interests', 'products', 'communities', 'speakers'], 'required'],
             [['tags'], 'default', 'value' => null],
-            [['url', 'urlRedirect', 'status', 'photoId', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'startDatetime', 'endDatetime', 'eventType', 'address', 'streetNumber', 'route', 'postalCode', 'locality', 'addressDetail', 'program', 'synthesis', 'prospect', 'registerable', 'documents', 'interests', 'products', 'communities', 'speakers'], 'safe'],
+            [['url', 'urlRedirect', 'status', 'photoId', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'startDatetime', 'endDatetime', 'eventType', 'address', 'streetNumber', 'route', 'postalCode', 'locality', 'addressDetail', 'program', 'synthesis', 'prospect', 'registerable', 'documents'], 'safe'],
         ];
     }
 

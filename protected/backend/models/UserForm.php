@@ -48,15 +48,18 @@ class UserForm extends Model
             'lastname' => 'Nom',
             'firstname' => 'Prénom',
             'role' => 'Rôle',
+            'interests' => "Sujets abordés",
+            'products' => "Produits utilisés",
+            'communities' => "Communautés concernées",
         ];
     }
 
     public function rules()
     {
         return [
-            [['gender', 'firstname', 'lastname', 'email', 'role', 'companyId'], 'required'],
+            [['gender', 'firstname', 'lastname', 'email', 'role', 'companyId', 'interests', 'products', 'communities'], 'required'],
             [['email'], 'trim'],
-            [['photoId', 'isSpeaker', 'phone', 'mobile', 'department', 'function', 'decisionScope', 'status', 'interests', 'products', 'communities'], 'safe'],
+            [['photoId', 'isSpeaker', 'phone', 'mobile', 'department', 'function', 'decisionScope', 'status'], 'safe'],
             [['password'], 'createRequired', 'skipOnEmpty' => false],
         ];
     }

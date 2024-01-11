@@ -1246,7 +1246,8 @@ var KTApp = function() {
         });
         $('.select2-tags').select2({
             placeholder: 'Selectionner un élément',
-            tags: true
+            tags: true,
+            allowClear: true
         });
 
         $('.select2-tags').on('select2:open', function(e) {

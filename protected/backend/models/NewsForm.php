@@ -46,14 +46,17 @@ class NewsForm extends Model
         return [
             'title' => 'Titre',
             'url' => 'Url',
+            'interests' => "Sujets abordés",
+            'products' => "Produits concernés",
+            'communities' => "Communautés concernées",
         ];
     }
 
     public function rules()
     {
         return [
-            [['type', 'title', 'metaTitle'], 'required'],
-            [['url', 'urlRedirect', 'status', 'photoId', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'interests', 'products', 'communities'], 'safe'],
+            [['type', 'title', 'metaTitle', 'interests', 'products', 'communities'], 'required'],
+            [['url', 'urlRedirect', 'status', 'photoId', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang'], 'safe'],
         ];
     }
 
