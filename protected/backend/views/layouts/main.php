@@ -336,7 +336,7 @@ $actionId = Yii::$app->controller->action->id;
                                                         <span class="navi-icon">
                                                             <i class="flaticon2-chat-1"></i>
                                                         </span>
-                                                        <span class="navi-text">Sujet au Forum</span>
+                                                        <span class="navi-text">Discussion</span>
                                                     </a>
                                                 </li>
                                                 <li class="navi-item">

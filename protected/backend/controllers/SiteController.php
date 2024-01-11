@@ -25,6 +25,7 @@ use backend\models\CompanyForm;
 use backend\models\CmsForm;
 use backend\models\NewsForm;
 use backend\models\EventForm;
+use backend\models\ForumForm;
 use backend\models\OptionForm;
 use common\components\MainHelper;
 
@@ -529,7 +530,7 @@ class SiteController extends Controller
             if ($forum = $forumForm->save()) {
                 Yii::$app->session->setFlash('success', 'Discussion sauvegardée avec succès');
 
-                $dest = MainHelper::getDestination('forum', $forum, Yii::$app->request->post('main-submit'));
+                $dest = MainHelper::getDestination('forum', $forum['forum'], Yii::$app->request->post('main-submit'));
                 return $this->redirect(Url::to($dest));
 
             } else {

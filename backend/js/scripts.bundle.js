@@ -1249,6 +1249,31 @@ var KTApp = function() {
             tags: true
         });
 
+        $('.select2-tags').on('select2:open', function(e) {
+
+            var currentSelect = $(this);
+
+            $(document).on('click', '.select2-results__option', function(event) {
+                event.stopPropagation();
+                var clickedElem = $(event.target).html().toString().trim();
+                currentSelect.find('optgroup').each(function() {
+                    if (this.localName == 'optgroup' && this.label == clickedElem) {
+                        var currentSelectValues = currentSelect.val();
+                        $(this.children).each(function() {
+                            if ($.inArray($(this).val(), currentSelectValues) == -1) {
+                                currentSelectValues.push($(this).val());
+                            }
+                        });
+
+                        currentSelect.val(currentSelectValues);
+                        currentSelect.trigger('change');
+                        currentSelect.select2('close'); 
+                    }
+                });
+
+            });
+        });
+
         var colorsHtml = [];
         $('.select2-color option').each(function() {
             var html = $(this).val() == '' ? '<span class="select2-selection__placeholder">Selectionner un élément</span>' : '<div class="d-flex flex-center w-90px h-50px mr-5" style="background-color: ' + $(this).val() + '"></div>';
