@@ -1125,7 +1125,7 @@ var KTApp = function() {
                 language: datatableLanguage,
                 buttons: [
                     {               
-                        text: 'Exporter',
+                        text: 'Export rapide',
                         className: 'ml-4 btn-info',
                         action: function ( e, dt, node, config ) {
                             var data = dt.rows().data();
@@ -1151,7 +1151,7 @@ var KTApp = function() {
                 language: datatableLanguage,
                 buttons: [
                     {               
-                        text: 'Exporter',
+                        text: 'Export rapide',
                         className: 'ml-4 btn-info',
                         action: function ( e, dt, node, config ) {
                             var data = dt.rows().data();
@@ -1177,7 +1177,7 @@ var KTApp = function() {
                 language: datatableLanguage,
                 buttons: [
                     {               
-                        text: 'Exporter',
+                        text: 'Export rapide',
                         className: 'ml-4 btn-info',
                         action: function ( e, dt, node, config ) {
                             var data = dt.rows().data();
@@ -1232,7 +1232,7 @@ var KTApp = function() {
                 paging: true,
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [5] }],
-                order: [[4, 'desc']],
+                order: [[0, 'desc']],
                 language: datatableLanguage
             });
         }

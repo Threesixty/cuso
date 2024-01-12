@@ -44,10 +44,14 @@ class UserForm extends Model
     public function attributeLabels()
     {
         return [
+            'companyId' => 'Société',
             'gender' => 'Civilité',
             'lastname' => 'Nom',
             'firstname' => 'Prénom',
             'role' => 'Rôle',
+            'department' => 'Département / Service',
+            'function' => 'Fonction',
+            'decisionScope' => 'Périmètre décisionnel',
             'interests' => "Sujets abordés",
             'products' => "Produits utilisés",
             'communities' => "Communautés concernées",
@@ -57,10 +61,33 @@ class UserForm extends Model
     public function rules()
     {
         return [
-            [['gender', 'firstname', 'lastname', 'email', 'role', 'companyId', 'interests', 'products', 'communities'], 'required'],
+            [['gender', 'firstname', 'lastname', 'email', 'role', 'companyId', 'department', 'function', 'decisionScope', 'interests', 'products', 'communities'], 'required'],
             [['email'], 'trim'],
-            [['photoId', 'isSpeaker', 'phone', 'mobile', 'department', 'function', 'decisionScope', 'status'], 'safe'],
+            [['photoId', 'isSpeaker', 'phone', 'mobile', 'status'], 'safe'],
             [['password'], 'createRequired', 'skipOnEmpty' => false],
+            [
+                ['phone'],
+                'required',
+                'when' => function ($model) {
+                    return ($model->mobile == '');
+                },
+                'whenClient' => 'function(attribute,value){
+                    return ($("#userform-mobile").val()=="");
+                }',
+                'message' => 'Au moins un numéro de téléphone fixe ou mobile doit être saisi',
+            ],
+            [
+                ['mobile'],
+                'required',
+                'when' => function ($model) {
+                    return ($model->phone == '');
+                },
+                'whenClient' => 'function(attribute,value){
+                    return ($("#testform-phone").val()=="");
+                }',
+                'message' => 'Au moins un numéro de téléphone fixe ou mobile doit être saisi',
+            ],
+            [['phone', 'mobile'], 'match', 'pattern' => '/^\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{4}$/', 'message' => "Ce n'est pas un numéro de téléphone valide"]
         ];
     }
 

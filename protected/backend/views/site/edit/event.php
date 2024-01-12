@@ -9,6 +9,7 @@ use yii\helpers\Json;
 use common\models\Media;
 use common\models\Option;
 use common\models\User;
+use common\models\Company;
 use backend\widgets\BlockWidget;
 use common\components\MainHelper;
 
@@ -457,7 +458,9 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                         <?php 
                                                         $userSpeakers = User::getSpeakers();
                                                         foreach ($userSpeakers as $speaker) {
-                                                            $speakers[$speaker->id] = $speaker->firstname.' '.$speaker->lastname.' (COMPANY)';
+                                                            $userCompany = Company::findOne($speaker->id);
+                                                            $userCompanyText = null !== $userCompany ? strtoupper($userCompany->name) : '';
+                                                            $speakers[$speaker->id] = $speaker->firstname.' '.$speaker->lastname.' | '.$userCompanyText;
                                                         } ?>
 
                                                         <?= $form->field($model, 'speakers')

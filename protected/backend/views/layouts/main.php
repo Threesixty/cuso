@@ -96,7 +96,7 @@ $actionId = Yii::$app->controller->action->id;
                                     $avatar = Yii::getAlias('@uploadWeb').'/'.$photo->path;
                             }
                         } ?>
-                        <a href="<?= Url::to(['site/edit-user', 'id' => Yii::$app->user->identity->id]) ?>" class="btn p-0 symbol symbol-40 symbol-success">
+                        <a href="<?= Url::to(['site/edit-user', 'id' => Yii::$app->user->identity->id]) ?>" class="btn p-0 symbol symbol-55 symbol-success">
                             <div class="symbol-label">
                                 <img alt="Avatar" src="<?= $avatar ?>" class="h-100 align-self-end" />
                             </div>

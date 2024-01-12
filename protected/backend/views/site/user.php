@@ -6,6 +6,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use common\models\User;
+use common\models\Company;
 use common\models\Option;
 use backend\widgets\PopinWidget;
 use common\components\MainHelper;
@@ -36,7 +37,7 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                         <tr>
                                             <th width="50">#ID</th>
                                             <th>Nom</th>
-                                            <th>Email</th>
+                                            <th>Société</th>
                                             <th>Role</th>
                                             <th>Status</th>
                                             <th class="text-center">Actions</th>
@@ -46,12 +47,18 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                         <?php
                                         if (!empty($userList)) {
                                             foreach ($userList as $user) {
-                                                if (Yii::$app->user->identity->role >= $user->role) { ?>
+                                                if (Yii::$app->user->identity->role >= $user->role) {
+                                                    $userCompany = Company::findOne($user->id); ?>
 
                                                     <tr>
                                                         <td><?= $user->id ?></td>
                                                         <td class="h6"><a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>"><strong><?= ucfirst($user->firstname) ?> <?= mb_strtoupper($user->lastname) ?></strong></a></td>
-                                                        <td><?= $user->email ?></td>
+                                                        <td>
+                                                            <?php 
+                                                            if (null !== $userCompany) { ?>
+                                                                <a class="btn-link" href="<?= Url::to(['site/edit-company', 'id' => $userCompany->id]) ?>"><?= strtoupper($userCompany->name) ?></a>
+                                                            <?php } ?>
+                                                        </td>
                                                         <td><span class="font-weight-bold text-uppercase"><?= User::getRoles($user->role) ?></span></td>
                                                         <td><span class="label label-lg font-weight-bold label-light-<?= User::getUserStatusColor($user->status) ?> label-inline"><?= User::getUserStatusName($user->status) ?></span></td>
                                                         <td nowrap="nowrap" class="text-center">

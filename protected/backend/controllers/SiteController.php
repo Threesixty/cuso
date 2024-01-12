@@ -307,6 +307,10 @@ class SiteController extends Controller
 
         return $this->render('edit/company', [
             'model' => $companyForm,
+            'userCompanyList' => User::find()
+                ->where(['!=', 'role', 0])
+                ->andWhere(['company_id' => Yii::$app->request->get('id')])
+                ->all(),
         ]);
     }
 

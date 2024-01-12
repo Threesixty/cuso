@@ -23,6 +23,7 @@ class SidebarWidget extends Widget
         switch ($this->action) {
             case 'index':
             case 'cms':
+            case 'news':
             case 'event':
             case 'user':
             case 'company':

@@ -6,6 +6,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Json;
+use common\models\Company;
 use common\models\Media;
 use common\models\Option;
 use common\models\User;
@@ -104,8 +105,11 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Société :</label>
-                                                <?php
-                                                $companies = array_replace([''=>''], User::getRoles()); ?>
+                                                <?php 
+                                                $companyList = Company::getCompanyList();
+                                                foreach ($companyList as $company) {
+                                                    $companies[$company->id] = $company->name;
+                                                } ?>
 
                                                 <?= $form->field($model, 'companyId')
                                                     ->dropDownList(
@@ -271,7 +275,8 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                             <div class="form-group">
                                                 <label>Périmètre décisionnel :</label>
                                                 <?php
-                                                $decisionScopes = array_replace([''=>''], User::getRoles()); ?>
+                                                $decisionScopesList = Option::getOption('name', 'user-decision-scope', 'select');
+                                                $decisionScopes = array_replace([''=>''], $decisionScopesList); ?>
 
                                                 <?= $form->field($model, 'decisionScope')
                                                     ->dropDownList(
@@ -286,7 +291,8 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                             <div class="form-group">
                                                 <label>Département / Service :</label>
                                                 <?php
-                                                $departments = array_replace([''=>''], User::getRoles()); ?>
+                                                $departmentsList = Option::getOption('name', 'user-departments', 'select');
+                                                $departments = array_replace([''=>''], $departmentsList); ?>
 
                                                 <?= $form->field($model, 'department')
                                                     ->dropDownList(

@@ -2966,9 +2966,9 @@ fieldset:disabled a.btn {
   text-decoration: none; }
   .btn-link:hover {
     color: #33192c;
-    text-decoration: underline; }
+    text-decoration: underline !important; }
   .btn-link:focus, .btn-link.focus {
-    text-decoration: underline; }
+    text-decoration: underline !important; }
   .btn-link:disabled, .btn-link.disabled {
     color: #7E8299;
     pointer-events: none; }
@@ -48347,6 +48347,41 @@ code {
     width: 67.5px; }
   .symbol.symbol-45.symbol-2by3 > img {
     height: 45px;
+    width: 67.5px;
+    max-width: auto; }
+  .symbol.symbol-55 > img {
+    width: 100%;
+    max-width: 55px;
+    height: 55px; }
+  .symbol.symbol-55 .symbol-label {
+    width: 55px;
+    height: 55px; }
+  .symbol.symbol-55 .symbol-badge {
+    width: 12px;
+    height: 12px;
+    top: -6px;
+    right: -6px; }
+    .symbol.symbol-55 .symbol-badge.symbol-badge-bottom {
+      top: auto;
+      bottom: -6px; }
+  .symbol.symbol-55.symbol-circle .symbol-badge {
+    top: -2.775px;
+    right: -2.775px; }
+    .symbol.symbol-55.symbol-circle .symbol-badge.symbol-badge-bottom {
+      top: auto;
+      bottom: -2.775px; }
+  .symbol.symbol-55.symbol-fixed .symbol-label {
+    width: 55px;
+    height: 55px; }
+  .symbol.symbol-55.symbol-fixed > img {
+    width: 55px;
+    height: 55px;
+    max-width: auto; }
+  .symbol.symbol-55.symbol-2by3 .symbol-label {
+    height: 55px;
+    width: 67.5px; }
+  .symbol.symbol-55.symbol-2by3 > img {
+    height: 55px;
     width: 67.5px;
     max-width: auto; }
   .symbol > img {
