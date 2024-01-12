@@ -285,6 +285,14 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     //BO
+    public static function getActiveUsers()
+    {
+        return static::find()
+            ->where(['status' => self::STATUS_ACTIVE])
+            ->all();
+    }
+
+    //BO
     public static function getRoles($roleId = null) {
 
     	$roles = [

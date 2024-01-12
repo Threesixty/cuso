@@ -663,12 +663,12 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
 					                                                                    case 'png':
 					                                                                    case 'gif':
 					                                                                    case 'svg': ?>
-					                                                                        <img src="<?= Yii::getAlias('@uploadWeb').'/'.$photo->path ?>">
+					                                                                        <img src="<?= Yii::getAlias('@uploadWeb').'/'.$doc->path ?>">
 					                                                                        <?php break;
 
 					                                                                    case 'mp4': ?>
 					                                                                        <video class="rounded" controls="">
-					                                                                            <source src="<?= Yii::getAlias('@uploadWeb').'/'.$photo->path ?>">
+					                                                                            <source src="<?= Yii::getAlias('@uploadWeb').'/'.$doc->path ?>">
 					                                                                        </video>
 					                                                                        <?php break;
 					                                                                    
@@ -767,6 +767,112 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                 </div>
                                 <!--end::Card-->
                             </div>
+
+                            <div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle" id="accordionEventParticipants">
+                                <!--begin::Card-->
+                                <div class="card card-custom gutter-b example example-compact">
+                                    <div class="card-header" id="headingEventParticipants">
+                                        <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseEventParticipants">
+                                            <span class="svg-icon svg-icon-primary">
+                                                <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <polygon points="0 0 24 0 24 24 0 24" />
+                                                        <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero" />
+                                                        <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)" />
+                                                    </g>
+                                                </svg>
+                                                <!--end::Svg Icon-->
+                                            </span>
+                                            <div class="card-label text-uppercase pl-4">Participants</div>
+                                        </div>
+                                    </div>
+                                    <div id="collapseEventParticipants" class="collapse" data-parent="#accordionEventParticipants">
+                                        <div class="card-body">
+                                            <div class="row">
+
+                                                <div class="col-lg-12">
+                                                    <label>Ajouter des participants :</label>
+                                                </div>   
+                                                <div class="col-lg-6">                                                    
+                                                    <div class="form-group">
+                                                        <?php 
+                                                        $userList = User::getActiveUsers();
+                                                        foreach ($userList as $user) {
+                                                            $userCompany = Company::findOne($user->id);
+                                                            $userCompanyText = null !== $userCompany ? strtoupper($userCompany->name) : '';
+                                                            $users[$user->id] = $user->firstname.' '.$user->lastname.' | '.$userCompanyText;
+                                                        } ?>
+
+                                                        <?= Html::dropDownlist('addParticipants', null, $users, [
+                                                                    'class' => 'form-control select2-tags',
+                                                                    'data-placeholder' => 'Sélectionnez des participants',
+                                                                    'multiple' => true,
+                                                                ]); ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <?= Html::submitButton("Ajouter", [
+                                                                'class' => 'btn btn-success', 
+                                                                'name' => 'participants-submit',
+                                                                'value' => 'participants',
+                                                            ]) ?>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <hr>
+                                                </div>   
+
+                                                <div class="card-body">
+                                                    <!--begin: Datatable-->
+                                                    <table class="table table-separate table-head-custom table-checkable" id="datatableUser">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="50">#ID</th>
+                                                                <th>Nom</th>
+                                                                <th>Société</th>
+                                                                <th>Role</th>
+                                                                <th>Status</th>
+                                                                <th class="text-center">Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            if (!empty($eventParticipantList)) {
+                                                                foreach ($eventParticipantList as $user) {
+                                                                    if (Yii::$app->user->identity->role >= $user->role) { ?>
+
+                                                                        <tr>
+                                                                            <td><?= $user->id ?></td>
+                                                                            <td class="h6"><a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>"><strong><?= ucfirst($user->firstname) ?> <?= mb_strtoupper($user->lastname) ?></strong></a></td>
+                                                                            <td>
+                                                                                <?php 
+                                                                                if (null !== $userCompany) { ?>
+                                                                                    <a class="btn-link" href="<?= Url::to(['site/edit-company', 'id' => $userCompany->id]) ?>"><?= strtoupper($userCompany->name) ?></a>
+                                                                                <?php } ?>
+                                                                            </td>
+                                                                            <td><span class="font-weight-bold text-uppercase"><?= User::getRoles($user->role) ?></span></td>
+                                                                            <td><span class="label label-lg font-weight-bold label-light-<?= User::getUserStatusColor($user->status) ?> label-inline"><?= User::getUserStatusName($user->status) ?></span></td>
+                                                                            <td nowrap="nowrap" class="text-center">
+                                                                                <a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
+                                                                                    <i class="la la-edit"></i>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    <?php }
+                                                                }
+                                                            } ?>
+                                                        </tbody>
+                                                    </table>
+                                                    <!--end: Datatable-->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
