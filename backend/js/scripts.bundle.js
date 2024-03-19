@@ -1242,10 +1242,16 @@ var KTApp = function() {
         // basic
         $('.select2').select2({
             placeholder: 'Selectionner un élément',
+            escapeMarkup: function(markup) {
+                return markup;
+            },
             allowClear: true
         });
         $('.select2-tags').select2({
             placeholder: 'Selectionner un élément',
+            escapeMarkup: function(markup) {
+                return markup;
+            },
             tags: true,
             allowClear: true
         });
