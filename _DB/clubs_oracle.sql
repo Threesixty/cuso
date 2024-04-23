@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 12 jan. 2024 à 14:10
--- Version du serveur : 10.4.25-MariaDB
--- Version de PHP : 7.4.30
+-- Généré le : mar. 23 avr. 2024 à 16:14
+-- Version du serveur : 10.4.32-MariaDB
+-- Version de PHP : 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `cuso`
+-- Base de données : `clubs_oracle`
 --
 
 -- --------------------------------------------------------
@@ -29,12 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `chatbot` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `content` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `button_text` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `button_link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` longtext DEFAULT NULL,
+  `button_text` varchar(255) DEFAULT NULL,
+  `button_link` varchar(255) DEFAULT NULL,
   `user_role` int(11) DEFAULT 0,
-  `reccurence` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `reccurence` varchar(255) DEFAULT NULL,
   `end_date` int(11) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `author` int(11) NOT NULL,
@@ -49,23 +49,23 @@ CREATE TABLE `chatbot` (
 
 CREATE TABLE `cms` (
   `id` int(11) NOT NULL,
-  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `url` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `url_redirect` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `template` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tags` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `photo_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `youtube_embed` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `youtube_on` varchar(255) COLLATE utf8_unicode_ci DEFAULT '0',
-  `meta_title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `meta_description` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `summary` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `content` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `type` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `url_redirect` varchar(255) DEFAULT NULL,
+  `template` varchar(255) DEFAULT NULL,
+  `tags` varchar(255) DEFAULT NULL,
+  `photo_id` varchar(255) DEFAULT NULL,
+  `youtube_embed` varchar(255) DEFAULT NULL,
+  `youtube_on` varchar(255) DEFAULT '0',
+  `meta_title` varchar(255) NOT NULL,
+  `meta_description` longtext DEFAULT NULL,
+  `summary` longtext DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `start_date` int(11) NOT NULL,
   `end_date` int(11) DEFAULT NULL,
-  `lang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `lang` varchar(255) NOT NULL,
   `lang_parent_id` int(11) DEFAULT NULL,
   `author` int(11) NOT NULL,
   `created_at` int(11) NOT NULL
@@ -88,26 +88,26 @@ INSERT INTO `cms` (`id`, `type`, `title`, `url`, `url_redirect`, `template`, `ta
 
 CREATE TABLE `company` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `photo_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `address_line1` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `address_line2` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `postal_code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `city` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `activity_area` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `photo_id` varchar(255) DEFAULT NULL,
+  `address_line1` varchar(255) NOT NULL,
+  `address_line2` varchar(255) DEFAULT NULL,
+  `postal_code` varchar(255) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `activity_area` varchar(255) NOT NULL,
   `public` int(11) DEFAULT 0,
-  `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `size` varchar(255) NOT NULL,
   `licenses_count` int(11) NOT NULL,
   `membership_end` int(11) NOT NULL,
   `is_sponsor` int(11) DEFAULT 0,
-  `main_contact_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `main_contact_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `main_contact_phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `billing_contact_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `billing_contact_email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `billing_contact_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `billing_platform` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `main_contact_name` varchar(255) NOT NULL,
+  `main_contact_email` varchar(255) NOT NULL,
+  `main_contact_phone` varchar(255) NOT NULL,
+  `billing_contact_name` varchar(255) DEFAULT NULL,
+  `billing_contact_email` varchar(255) DEFAULT NULL,
+  `billing_contact_phone` varchar(255) DEFAULT NULL,
+  `billing_platform` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `author` int(11) NOT NULL,
   `created_at` int(11) NOT NULL
@@ -131,18 +131,18 @@ CREATE TABLE `event` (
   `cms_id` int(11) NOT NULL,
   `start_datetime` int(11) DEFAULT NULL,
   `end_datetime` int(11) DEFAULT NULL,
-  `event_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `street_number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `route` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `postal_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `locality` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `address_detail` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `program` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `synthesis` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `event_type` varchar(255) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `street_number` varchar(255) DEFAULT NULL,
+  `route` varchar(255) DEFAULT NULL,
+  `postal_code` varchar(255) DEFAULT NULL,
+  `locality` varchar(255) DEFAULT NULL,
+  `address_detail` varchar(255) DEFAULT NULL,
+  `program` longtext DEFAULT NULL,
+  `synthesis` longtext DEFAULT NULL,
   `registerable` int(11) NOT NULL DEFAULT 1,
   `prospect` int(11) NOT NULL DEFAULT 0,
-  `documents` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+  `documents` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -160,8 +160,8 @@ INSERT INTO `event` (`id`, `cms_id`, `start_datetime`, `end_datetime`, `event_ty
 
 CREATE TABLE `forum` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `content` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` longtext DEFAULT NULL,
   `parent_id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `author` int(11) NOT NULL,
@@ -183,13 +183,13 @@ INSERT INTO `forum` (`id`, `title`, `content`, `parent_id`, `status`, `author`, 
 
 CREATE TABLE `media` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `alt` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `legend` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `path` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `tags` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `lang` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'fr',
+  `title` varchar(255) NOT NULL,
+  `alt` varchar(255) DEFAULT NULL,
+  `legend` longtext DEFAULT NULL,
+  `path` varchar(255) NOT NULL,
+  `tags` varchar(255) DEFAULT NULL,
+  `link` varchar(255) DEFAULT NULL,
+  `lang` varchar(255) NOT NULL DEFAULT 'fr',
   `lang_parent_id` int(11) DEFAULT NULL,
   `author` int(11) NOT NULL,
   `created_at` int(11) NOT NULL
@@ -212,7 +212,7 @@ INSERT INTO `media` (`id`, `title`, `alt`, `legend`, `path`, `tags`, `link`, `la
 CREATE TABLE `migration` (
   `version` varchar(180) NOT NULL,
   `apply_time` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Déchargement des données de la table `migration`
@@ -243,11 +243,11 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 
 CREATE TABLE `model_relations` (
   `id` int(11) NOT NULL,
-  `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `model` varchar(255) NOT NULL,
   `model_id` int(11) NOT NULL,
-  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `type_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `type_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `type` varchar(255) NOT NULL,
+  `type_name` varchar(255) DEFAULT NULL,
+  `type_id` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -286,12 +286,12 @@ INSERT INTO `model_relations` (`id`, `model`, `model_id`, `type`, `type_name`, `
 
 CREATE TABLE `option` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `options` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `options_contents` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
-  `lang` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` longtext DEFAULT NULL,
+  `options` longtext DEFAULT NULL,
+  `options_contents` longtext DEFAULT NULL,
+  `lang` varchar(255) NOT NULL,
   `lang_parent_id` int(11) DEFAULT NULL,
   `author` int(11) NOT NULL,
   `created_at` int(11) NOT NULL
@@ -325,9 +325,9 @@ INSERT INTO `option` (`id`, `title`, `name`, `description`, `options`, `options_
 
 CREATE TABLE `update` (
   `id` int(11) NOT NULL,
-  `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `model` varchar(255) NOT NULL,
   `model_id` int(11) NOT NULL,
-  `action` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `action` varchar(255) NOT NULL,
   `date` int(11) NOT NULL,
   `author` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -426,27 +426,27 @@ INSERT INTO `update` (`id`, `model`, `model_id`, `action`, `date`, `author`) VAL
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
-  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `photo_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `gender` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `firstname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `lastname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `auth_key` varchar(32) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `password_reset_token` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `photo_id` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
   `company_id` int(11) NOT NULL,
   `is_speaker` int(11) DEFAULT 0,
-  `phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `department` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `function` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `decision_scope` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `mobile` varchar(255) DEFAULT NULL,
+  `department` varchar(255) DEFAULT NULL,
+  `function` varchar(255) DEFAULT NULL,
+  `decision_scope` varchar(255) DEFAULT NULL,
   `role` int(11) DEFAULT 0,
   `status` smallint(6) NOT NULL DEFAULT 10,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
-  `verification_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+  `verification_token` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
