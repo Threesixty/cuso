@@ -1324,6 +1324,10 @@ pre {
   border-radius: 20px;
 }
 
+.br-a-25 {
+  border-radius: 25px;
+}
+
 .br-a-30 {
   border-radius: 30px;
 }
@@ -3189,7 +3193,7 @@ pre {
   background-color: transparent;
 }
 .button.navy {
-  background-color: #021a3f;
+  background-color: #273240;
   color: #fff;
 }
 .button.navy.border {
@@ -10727,6 +10731,16 @@ pre {
   }
   .newsletter-image {
     min-height: 285px;
+    display: flex;
+  }
+  .newsletter-image img {
+    display: none;
+  }
+  .newsletter-image--title {
+    margin: auto;
+    align-items: center;
+    color: #fff;
+    font-size: 35px;
   }
   .newsletter-filter {
     display: -webkit-box;
