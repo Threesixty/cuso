@@ -7532,7 +7532,7 @@ pre {
   pointer-events: none;
   content: "";
   background-color: #021a3f;
-  opacity: 0.2;
+  opacity: 0;
 }
 .block-article.i3 .block-body {
   min-height: 210px;
