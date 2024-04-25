@@ -91,9 +91,10 @@
         });
       }
 
-      var listContainer = $('.header-link'), listColumn = 2, listItem = 'li', listClass = 'header-list';
+      var listContainer = $('.header-link'), listItem = 'li', listClass = 'header-list';
       if (listContainer.length) {
         listContainer.each(function() {
+          var listColumn = $(this).data('column') !== undefined ? $(this).data('column') : 2;
           var container = $(this), items = container.find(listItem), itemsPerColumn = new Array([]),
               minItemsPerColumn = Math.floor(items.length / listColumn),
               difference = items.length - (minItemsPerColumn * listColumn);
