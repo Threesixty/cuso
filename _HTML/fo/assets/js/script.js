@@ -91,6 +91,15 @@
         });
       }
 
+      var loginToggle = $('.login-toggle'), loginMask = $('.login-mask'), loginWrapper = $('.login-wrapper');
+      if (loginToggle.length) {
+        loginToggle.click(function(e) {
+          loginMask.toggleClass('active');
+          loginWrapper.toggleClass('active');
+          e.preventDefault();
+        });
+      }
+
       var listContainer = $('.header-link'), listItem = 'li', listClass = 'header-list';
       if (listContainer.length) {
         listContainer.each(function() {
