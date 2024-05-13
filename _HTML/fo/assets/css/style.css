@@ -1802,6 +1802,16 @@ pre {
 .header-link a.special:hover {
   color: #d01f25;
 }
+.header-list ul {
+  margin-left: 25px;
+  padding: 5px;
+}
+.header-list ul li {
+  list-style: disc;
+}
+.header-link .header-list li + li {
+  margin-top: 15px;
+}
 
 /* xs - sm - md */
 @media (max-width: 1279px) {
@@ -2077,7 +2087,7 @@ pre {
     -ms-flex-align: start;
     align-items: flex-start;
     min-height: 275px;
-    padding: 95px 40px 35px 40px;
+    padding: 95px 30px 35px 30px;
     line-height: 1.5625;
   }
   .header-link ul + ul {
