@@ -50,6 +50,8 @@ class EventForm extends Model
     public $addressDetail;
     public $program;
     public $synthesis;
+    public $presential;
+    public $distance;
     public $prospect;
     public $registerable;
     public $documents;
@@ -77,7 +79,7 @@ class EventForm extends Model
         return [
             [['type', 'title', 'metaTitle', 'interests', 'products', 'communities', 'speakers'], 'required'],
             [['tags'], 'default', 'value' => null],
-            [['url', 'urlRedirect', 'status', 'photoId', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'startDatetime', 'endDatetime', 'eventType', 'address', 'streetNumber', 'route', 'postalCode', 'locality', 'addressDetail', 'program', 'synthesis', 'prospect', 'registerable', 'documents'], 'safe'],
+            [['url', 'urlRedirect', 'status', 'photoId', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'startDatetime', 'endDatetime', 'eventType', 'address', 'streetNumber', 'route', 'postalCode', 'locality', 'addressDetail', 'program', 'synthesis', 'presential', 'distance', 'prospect', 'registerable', 'documents'], 'safe'],
         ];
     }
 
@@ -117,6 +119,8 @@ class EventForm extends Model
                     $event->address_detail = $this->addressDetail;
                     $event->program = $this->program;
                     $event->synthesis = $this->synthesis;
+                    $event->presential = $this->presential;
+                    $event->distance = $this->distance;
                     $event->prospect = $this->prospect;
                     $event->registerable = $this->registerable;
                     $event->documents = $this->documents;
@@ -263,6 +267,8 @@ class EventForm extends Model
                 $this->addressDetail = $event->address_detail;
                 $this->program = $event->program;
                 $this->synthesis = $event->synthesis;
+                $this->presential = $event->presential;
+                $this->distance = $event->distance;
                 $this->prospect = $event->prospect;
                 $this->registerable = $event->registerable;
                 $this->documents = $event->documents;

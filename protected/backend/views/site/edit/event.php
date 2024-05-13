@@ -476,6 +476,42 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-lg-6">
+                                                            <label>En présentiel ?</label>
+                                                            <span class="switch switch-outline switch-icon switch-success">
+                                                                <label>
+
+                                                                    <?= $form->field($model, 'presential', [
+                                                                            'options' => ['tag' => false], 
+                                                                            'errorOptions' => ['tag' => null],
+                                                                        ])
+                                                                        ->checkbox([
+                                                                                'template' => '{input}<span></span>',
+                                                                                'checked' => $model->presential == 1 ? true : false,
+                                                                        ])
+                                                                        ->label(false) ?>
+                                                                </label>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>En distanciel ?</label>
+                                                            <span class="switch switch-outline switch-icon switch-success">
+                                                                <label>
+
+                                                                    <?= $form->field($model, 'distance', [
+                                                                            'options' => ['tag' => false], 
+                                                                            'errorOptions' => ['tag' => null],
+                                                                        ])
+                                                                        ->checkbox([
+                                                                                'template' => '{input}<span></span>',
+                                                                                'checked' => $model->distance == 1 ? true : false,
+                                                                        ])
+                                                                        ->label(false) ?>
+                                                                </label>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-6">
                                                             <label>Ouvert aux prospects ?</label>
                                                             <span class="switch switch-outline switch-icon switch-success">
                                                                 <label>

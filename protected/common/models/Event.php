@@ -12,7 +12,6 @@ use common\components\MainHelper;
  * Event model
  *
  * @property integer $id
- * @property string $lang
  */
 class Event extends ActiveRecord
 {
