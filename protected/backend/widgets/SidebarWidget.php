@@ -25,10 +25,11 @@ class SidebarWidget extends Widget
             case 'cms':
             case 'news':
             case 'event':
-            case 'user':
-            case 'company':
             case 'forum':
             case 'chatbot':
+            case 'user':
+            case 'company':
+            case 'option':
             	$sidebarMenu = MainHelper::getSidebarMenu();
                 return $this->render('sidebar/menus', [
                         'menus' => null !== $sidebarMenu['menus'] ? $sidebarMenu['menusOptChildren'] : $sidebarMenu['menusList'],
