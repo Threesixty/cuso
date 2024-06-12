@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 23 avr. 2024 à 16:14
+-- Généré le : mer. 12 juin 2024 à 13:15
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -140,6 +140,8 @@ CREATE TABLE `event` (
   `address_detail` varchar(255) DEFAULT NULL,
   `program` longtext DEFAULT NULL,
   `synthesis` longtext DEFAULT NULL,
+  `presential` int(11) NOT NULL DEFAULT 0,
+  `distance` int(11) NOT NULL DEFAULT 1,
   `registerable` int(11) NOT NULL DEFAULT 1,
   `prospect` int(11) NOT NULL DEFAULT 0,
   `documents` varchar(255) DEFAULT NULL
@@ -149,8 +151,8 @@ CREATE TABLE `event` (
 -- Déchargement des données de la table `event`
 --
 
-INSERT INTO `event` (`id`, `cms_id`, `start_datetime`, `end_datetime`, `event_type`, `address`, `street_number`, `route`, `postal_code`, `locality`, `address_detail`, `program`, `synthesis`, `registerable`, `prospect`, `documents`) VALUES
-(1, 23, 1700134620, 1700153580, 'Groupe de travail', '170 rue Pierre Gilles de Gennes', NULL, NULL, NULL, NULL, '<p>Accès </p>', '<p>Programme<br></p>', '', 1, 1, '[5]');
+INSERT INTO `event` (`id`, `cms_id`, `start_datetime`, `end_datetime`, `event_type`, `address`, `street_number`, `route`, `postal_code`, `locality`, `address_detail`, `program`, `synthesis`, `presential`, `distance`, `registerable`, `prospect`, `documents`) VALUES
+(1, 23, 1700134620, 1700153580, 'Groupe de travail', '170 rue Pierre Gilles de Gennes', NULL, NULL, NULL, NULL, '<p>Accès </p>', '<p>Programme<br></p>', '', 0, 1, 1, 1, '[5]');
 
 -- --------------------------------------------------------
 
@@ -233,7 +235,8 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m231113_115419_create_model_relations_table', 1699877440),
 ('m231113_115635_create_forum_table', 1704973991),
 ('m231113_115643_create_chatbot_table', 1699877440),
-('m231113_122341_update_user_table', 1699878683);
+('m231113_122341_update_user_table', 1699878683),
+('m240513_080631_update_event_table', 1718190323);
 
 -- --------------------------------------------------------
 
