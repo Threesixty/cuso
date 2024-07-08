@@ -306,6 +306,8 @@ class User extends ActiveRecord implements IdentityInterface
     	if (null !== $roleId)
     		return $roles[$roleId];
     	else
+            if (Yii::$app->user->identity->role < 5)
+                unset($roles[5]);
     		return $roles;
     }
 
