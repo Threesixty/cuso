@@ -235,7 +235,9 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            if ($user = $model->save()) {
+            if (null !== User::findOne(['username' => $model->email])) {
+                Yii::$app->session->setFlash('warning', "L'utilisateur avec l'email ".$model->email." existe déjà.");
+            } elseif ($user = $model->save()) {
                 Yii::$app->session->setFlash('success', 'Utilisateur sauvegardé avec succès');
 
                 $dest = MainHelper::getDestination('user', $user['user'], Yii::$app->request->post('main-submit'));
