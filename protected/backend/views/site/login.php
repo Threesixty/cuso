@@ -32,7 +32,7 @@ $this->title = MainHelper::getPageTitle('Connexion', '', true);
 
                                 <!--begin::Aside header-->
                                 <a href="#" class="login-logo text-center pt-lg-25">
-                                    <img src="<?= Yii::$app->request->BaseUrl ?>/media/logo-white.png">
+                                    <img src="<?= Yii::$app->request->BaseUrl ?>/media/logo-white.png" width="400">
                                 </a>
                                 <!--end::Aside header-->
                                 <!--begin::Title-->
