@@ -11,6 +11,7 @@ use common\models\Option;
 use common\models\User;
 use common\models\Company;
 use backend\widgets\BlockWidget;
+use backend\widgets\ComposerWidget;
 use common\components\MainHelper;
 
 $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement', true);
@@ -963,14 +964,5 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
         <!--end::Form-->
     </div>
 
-	<nav class="block-menu">
-		<div class="font-size-h1 text-primary font-weight-bold text-uppercase">Blocs</div>
-		<div class="separator separator-dashed border-dark my-4"></div>
-	    <?php
-	    if (!empty(Yii::$app->request->get('id'))) {
-	        foreach ($blocks as $key => $block) { ?>
-		    	<a href="#" class="font-weight-bolder text-seconday" data-scroll="<?= $block['block'] ?>" data-scroll-idx="<?= $key+1 ?>"><?= str_replace('-', ' ', ucfirst($block['block'])) ?></a>
-	        <?php }
-		} ?>
-	</nav>
+    <?= ComposerWidget::widget(['blocks' => $blocks]) ?>
     <!--end::Content-->

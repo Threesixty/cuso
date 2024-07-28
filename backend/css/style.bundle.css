@@ -18411,7 +18411,7 @@ a.text-secondary:hover, a.text-secondary:focus {
   color: #d53929 !important; }
 
 a.text-success:hover, a.text-success:focus {
-  color: #12827c !important; }
+  color: #273240 !important; }
 
 .text-info {
   color: #8950FC !important; }
@@ -62536,7 +62536,7 @@ fieldset.field-group {
 
 
 nav.block-menu.d-block {
-	right: 30px;
+	right: 0;
     z-index: 100;
 
 	-webkit-transition: all 0.5s ease;
@@ -62549,9 +62549,9 @@ nav.block-menu {
     padding: 0;
     text-align: right;
     z-index: 0;
-    padding: 10px 10px 10px 50px;
-    border-radius: 10px;
-    background: rgba(228,228,228, .9);
+    padding: 10px 40px 10px 50px;
+    border-radius: 10px 0 0 10px;
+    background: rgba(39, 50, 64, .9);
 
 	-webkit-transition: all 0.5s ease;
 	transition: all 0.5s ease;

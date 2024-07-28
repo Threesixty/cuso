@@ -1846,7 +1846,7 @@ var KTApp = function() {
            		idx++;
            		$(this).attr('data-idx', idx);
 
-           		$('.block-menu').append('<a href="#" class="font-weight-bolder text-success" data-scroll="' + $(this).attr('data-block') + '" data-scroll-idx="' + idx + '">' + $(this).attr('data-block').replaceAll('-', ' ') + '</a>');
+           		$('.block-menu').append('<a href="#" class="font-weight-bolder text-white" data-scroll="' + $(this).attr('data-block') + '" data-scroll-idx="' + idx + '">' + $(this).attr('data-block').replaceAll('-', ' ') + '</a>');
            	});
 
            	
@@ -3286,7 +3286,7 @@ var KTApp = function() {
 		if ($('.composer').length) {
 			$(window).scroll(function() {
 		    	var windscroll = $(window).scrollTop();
-			    if (windscroll >= $('.composer').offset().top) {
+			    if (windscroll >= ($('.composer').offset().top - 200) && !$('#headingComposer .card-title').hasClass('collapsed')) {
 			        $('nav.block-menu').addClass('d-block');
 
 			        $('.composer div.block').each(function(i) {
