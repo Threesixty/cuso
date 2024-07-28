@@ -40,6 +40,8 @@ class Company extends ActiveRecord
     const STATUS_DRAFT = 0;
     const STATUS_PUBLISHED = 1;
 
+    const IS_SPONSOR = 1;
+
 
     /**
      * {@inheritdoc}
@@ -66,6 +68,18 @@ class Company extends ActiveRecord
         return static::find()
             ->orderBy(['created_at' => SORT_DESC])
             ->all();
+    }
+
+    // BO
+    public static function getSponsorsNames()
+    {
+        $sponsors = static::find()
+            ->where(['status' => self::STATUS_PUBLISHED, 'is_sponsor' => self::IS_SPONSOR])
+            ->all();
+
+        $sponsorList = array_column($sponsors, 'name', 'id');
+
+        return $sponsorList;
     }
 
     //BO

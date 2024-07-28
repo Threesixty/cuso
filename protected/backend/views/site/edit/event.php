@@ -453,27 +453,6 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                             )
                                                             ->label(false) ?>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Intervenants :</label>
-                                                        <?php 
-                                                        $userSpeakers = User::getSpeakers();
-                                                        foreach ($userSpeakers as $speaker) {
-                                                            $userCompany = Company::findOne($speaker->id);
-                                                            $userCompanyText = null !== $userCompany ? strtoupper($userCompany->name) : '';
-                                                            $speakers[$speaker->id] = $speaker->firstname.' '.$speaker->lastname.' | '.$userCompanyText;
-                                                        } ?>
-
-                                                        <?= $form->field($model, 'speakers')
-                                                            ->dropDownList(
-                                                                $speakers, 
-                                                                [
-                                                                    'class' => 'form-control select2-tags',
-                                                                    'data-placeholder' => 'Sélectionnez des intervenants',
-                                                                    'multiple' => true,
-                                                                ]
-                                                            )
-                                                            ->label(false) ?>
-                                                    </div>
                                                     <div class="form-group row">
                                                         <div class="col-lg-6">
                                                             <label>En présentiel ?</label>
@@ -610,6 +589,65 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                             ->label(false) ?>
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group init-summernote">
+                                                        <label>Présentation :</label>
+                                                        <?= $form->field($model, 'presentation')
+                                                            ->textarea([
+                                                                'class' => 'summernote',
+                                                            ])
+                                                            ->label(false) ?>
+                                                    </div>
+                                                    <div class="form-group init-summernote">
+                                                        <label>Programme :</label>
+                                                        <?= $form->field($model, 'program')
+                                                            ->textarea([
+                                                                'class' => 'summernote',
+                                                            ])
+                                                            ->label(false) ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>Intervenants :</label>
+                                                        <?php 
+                                                        $userSpeakers = User::getSpeakers();
+                                                        foreach ($userSpeakers as $speaker) {
+                                                            $userCompany = Company::findOne($speaker->company_id);
+                                                            $userCompanyText = null !== $userCompany ? strtoupper($userCompany->name) : '';
+                                                            $speakers[$speaker->id] = $speaker->firstname.' '.$speaker->lastname.' | '.$userCompanyText;
+                                                        } ?>
+
+                                                        <?= $form->field($model, 'speakers')
+                                                            ->dropDownList(
+                                                                $speakers, 
+                                                                [
+                                                                    'class' => 'form-control select2-tags',
+                                                                    'data-placeholder' => 'Sélectionnez des intervenants',
+                                                                    'multiple' => true,
+                                                                ]
+                                                            )
+                                                            ->label(false) ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>Sociétés sponsor :</label>
+                                                        <?php 
+                                                        $sponsors = Company::getSponsorsNames(); ?>
+
+                                                        <?= $form->field($model, 'sponsors')
+                                                            ->dropDownList(
+                                                                $sponsors, 
+                                                                [
+                                                                    'class' => 'form-control select2-tags',
+                                                                    'data-placeholder' => 'Sélectionnez des sponsors',
+                                                                    'multiple' => true,
+                                                                ]
+                                                            )
+                                                            ->label(false) ?>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -632,21 +670,13 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                 </svg>
                                                 <!--end::Svg Icon-->
                                             </span>
-                                            <div class="card-label text-uppercase pl-4">Programme, synthèse & documents</div>
+                                            <div class="card-label text-uppercase pl-4">Synthèse & documents</div>
                                         </div>
                                     </div>
                                     <div id="collapseEventProgam" class="collapse" data-parent="#accordionEventProgam">
                                         <div class="card-body mt-10">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <div class="form-group init-summernote">
-                                                        <label>Programme :</label>
-                                                        <?= $form->field($model, 'program')
-                                                            ->textarea([
-                                                                'class' => 'summernote',
-                                                            ])
-                                                            ->label(false) ?>
-                                                    </div>
                                                     <div class="form-group init-summernote">
                                                         <label>Synthèse :</label>
                                                         <?= $form->field($model, 'synthesis')
@@ -693,25 +723,24 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                                     </a>
                                                                                 </div>
                                                                                 <div class="overflow-image rounded draggable-handle">
-					                                                                <?php
-					                                                                switch ($pathInfo['extension']) {
-					                                                                    case 'jpg':
-					                                                                    case 'png':
-					                                                                    case 'gif':
-					                                                                    case 'svg': ?>
-					                                                                        <img src="<?= Yii::getAlias('@uploadWeb').'/'.$doc->path ?>">
-					                                                                        <?php break;
+                                                                                    <?php
+                                                                                    $mimeType = mime_content_type(Yii::getAlias('@uploadFolder').'/'.$doc->path);
+                                                                                    $type = explode('/', $mimeType);
+                                                                                    switch ($type[0]) {
+                                                                                        case 'image': ?>
+                                                                                            <img src="<?= Yii::getAlias('@uploadWeb').'/'.$doc->path ?>">
+                                                                                            <?php break;
 
-					                                                                    case 'mp4': ?>
-					                                                                        <video class="rounded" controls="">
-					                                                                            <source src="<?= Yii::getAlias('@uploadWeb').'/'.$doc->path ?>">
-					                                                                        </video>
-					                                                                        <?php break;
-					                                                                    
-					                                                                    default: ?>
-                                                                                    		<img src="<?= Yii::$app->request->BaseUrl ?>/media/document.png">
-					                                                                        <?php break;
-					                                                                } ?>
+                                                                                        case 'video': ?>
+                                                                                            <video class="rounded" muted autoplay>
+                                                                                                <source src="<?= Yii::getAlias('@uploadWeb').'/'.$doc->path ?>">
+                                                                                            </video>
+                                                                                            <?php break;
+                                                                                        
+                                                                                        default: ?>
+                                                                                            <img src="<?= Yii::$app->request->BaseUrl ?>/media/document.png">
+                                                                                            <?php break;
+                                                                                    } ?>
                                                                                 </div>
                                                                             </div>
 

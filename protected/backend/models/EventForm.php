@@ -48,6 +48,7 @@ class EventForm extends Model
     public $postalCode;
     public $locality;
     public $addressDetail;
+    public $presentation;
     public $program;
     public $synthesis;
     public $presential;
@@ -61,6 +62,7 @@ class EventForm extends Model
     public $products;
     public $communities;
     public $speakers;
+    public $sponsors;
 
     public function attributeLabels()
     {
@@ -71,15 +73,16 @@ class EventForm extends Model
             'products' => "Produits concernés",
             'communities' => "Communautés concernées",
             'speakers' => "Intervenants",
+            'sponsors' => "Sponsors",
         ];
     }
 
     public function rules()
     {
         return [
-            [['type', 'title', 'metaTitle', 'interests', 'products', 'communities', 'speakers'], 'required'],
+            [['type', 'title', 'metaTitle', 'interests', 'products', 'communities'], 'required'],
             [['tags'], 'default', 'value' => null],
-            [['url', 'urlRedirect', 'status', 'photoId', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'startDatetime', 'endDatetime', 'eventType', 'address', 'streetNumber', 'route', 'postalCode', 'locality', 'addressDetail', 'program', 'synthesis', 'presential', 'distance', 'prospect', 'registerable', 'documents'], 'safe'],
+            [['url', 'urlRedirect', 'status', 'photoId', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'startDatetime', 'endDatetime', 'eventType', 'address', 'streetNumber', 'route', 'postalCode', 'locality', 'addressDetail', 'presentation', 'program', 'synthesis', 'presential', 'distance', 'prospect', 'registerable', 'documents', 'speakers', 'sponsors'], 'safe'],
         ];
     }
 
@@ -117,6 +120,7 @@ class EventForm extends Model
                     $event->postal_code = $this->postalCode;
                     $event->locality = $this->locality;
                     $event->address_detail = $this->addressDetail;
+                    $event->presentation = $this->presentation;
                     $event->program = $this->program;
                     $event->synthesis = $this->synthesis;
                     $event->presential = $this->presential;
@@ -211,6 +215,26 @@ class EventForm extends Model
                             }
                         }
 
+                        if (is_array($this->sponsors)) {
+                            foreach ($this->sponsors as $value) {
+                                $modelRelations['sponsors'][] = [
+                                        'typeName' => null,
+                                        'typeId' => $value
+                                    ];
+                                $args = [
+                                        'model' => 'event',
+                                        'modelId' => $cms->id,
+                                        'type' => 'sponsors',
+                                        'typeName' => null,
+                                        'typeId' => $value
+                                    ];
+
+                                if (!ModelRelations::add($args)) {
+                                    $err = ['ModelRelations', $args];
+                                }
+                            }
+                        }
+
                         Update::add('event', $cms->id, $update);
                     } else {
                         $err = ['Event', $model];
@@ -265,6 +289,7 @@ class EventForm extends Model
                 $this->postalCode = $event->postal_code;
                 $this->locality = $event->locality;
                 $this->addressDetail = $event->address_detail;
+                $this->presentation = $event->presentation;
                 $this->program = $event->program;
                 $this->synthesis = $event->synthesis;
                 $this->presential = $event->presential;
@@ -285,6 +310,8 @@ class EventForm extends Model
                         $this->communities[] = $modelRelation->type_id;
                     if ($modelRelation->type == 'speakers')
                         $this->speakers[] = $modelRelation->type_id;
+                    if ($modelRelation->type == 'sponsors')
+                        $this->sponsors[] = $modelRelation->type_id;
                 }
             }
 

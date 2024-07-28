@@ -84,25 +84,24 @@ $this->title = MainHelper::getPageTitle('Liste des médias', '', true);
 	                                            </a>
 	                                        </div>
 	                                        <div class="overflow-image rounded draggable-handle text-center">
-	                                        	<?php
-	                                        	switch ($pathInfo['extension']) {
-	                                        		case 'jpg':
-	                                        		case 'png':
-	                                        		case 'gif':
-	                                        		case 'svg': ?>
-	                                        			<img src="<?= Yii::getAlias('@uploadWeb').'/'.$media->path ?>">
-	                                        			<?php break;
-
-	                                        		case 'mp4': ?>
-			                                        	<video class="rounded" controls muted>
-			                                        		<source src="<?= Yii::getAlias('@uploadWeb').'/'.$media->path ?>">
-			                                        	</video>
-	                                        			<?php break;
-					                                        		
-                                                    default: ?>
-                                                		<img src="<?= Yii::$app->request->BaseUrl ?>/media/document.png">
+                                                <?php
+                                                $mimeType = mime_content_type(Yii::getAlias('@uploadFolder').'/'.$media->path);
+                                                $type = explode('/', $mimeType);
+                                                switch ($type[0]) {
+                                                    case 'image': ?>
+                                                        <img src="<?= Yii::getAlias('@uploadWeb').'/'.$media->path ?>">
                                                         <?php break;
-	                                        	} ?>
+
+                                                    case 'video': ?>
+                                                        <video class="rounded" muted autoplay>
+                                                            <source src="<?= Yii::getAlias('@uploadWeb').'/'.$media->path ?>">
+                                                        </video>
+                                                        <?php break;
+                                                    
+                                                    default: ?>
+                                                        <img src="<?= Yii::$app->request->BaseUrl ?>/media/document.png">
+                                                        <?php break;
+                                                } ?>
 	                                        </div>
 	                                    </div>
 	                                <?php } 
