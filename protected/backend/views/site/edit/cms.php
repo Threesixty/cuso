@@ -158,7 +158,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un contenu', tru
                                                 </div>
                                             <?php } ?>
                                             <div class="form-group">
-                                                <label>Url de redirection :</label>
+                                                <label>Url de redirection : <a href="javascript:void(0)" class="btn btn-sm btn-icon btn-success btn-circle" data-toggle="popover" data-trigger="click" title="Redirection du contenu" data-content="Utilisé uniquement lors de la dépublication d'un contenu dans le but de conserver le référencement."><i class="flaticon-warning"></i></a></label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><?= str_replace('backend', '', Url::base(true)) ?><?= !empty(Yii::$app->request->get('id')) ? $model->lang : 'fr' ?>/</span>
