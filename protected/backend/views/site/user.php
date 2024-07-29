@@ -48,7 +48,7 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                         if (!empty($userList)) {
                                             foreach ($userList as $user) {
                                                 if (Yii::$app->user->identity->role >= $user->role) {
-                                                    $userCompany = Company::findOne($user->id); ?>
+                                                    $userCompany = Company::findOne($user->company_id); ?>
 
                                                     <tr>
                                                         <td><?= $user->id ?></td>
