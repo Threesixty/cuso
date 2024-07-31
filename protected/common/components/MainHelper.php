@@ -53,7 +53,7 @@ class MainHelper
 
     public static function getPageTitle($title, $alt = '', $page = false, $after = false) {
     	$sep = $page ? ' | ' : '';
-    	$site = $page ? 'Clubs utilisateurs de solutions Oracle' : '';
+    	$site = $page ? Yii::$app->name : '';
     	$title = $title != '' ? $title : $alt;
 
     	if ($after)

@@ -865,7 +865,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                         <?php 
                                                         $userList = User::getActiveUsers();
                                                         foreach ($userList as $user) {
-                                                            $userCompany = Company::findOne($user->id);
+                                                            $userCompany = Company::findOne($user->company_id);
                                                             $userCompanyText = null !== $userCompany ? strtoupper($userCompany->name) : '';
                                                             $users[$user->id] = $user->firstname.' '.$user->lastname.' | '.$userCompanyText;
                                                         } ?>

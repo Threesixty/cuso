@@ -100,7 +100,8 @@ class Cms extends ActiveRecord
     }
     public function getModelRelations() {
         return $this->hasMany(ModelRelations::className(), [
-                'model_id' => 'id'
+                'model_id' => 'id',
+                'model' => 'type'
             ]);
     }
 

@@ -58,8 +58,8 @@ class Event extends ActiveRecord
                         ->innerJoinWith('event')
                         ->innerJoinWith('modelRelations')
                         ->where([
-                            'lang_parent_id' => Yii::$app->request->get('id'), 
-                            'lang' => Yii::$app->request->get('lang')
+                            'cms.lang_parent_id' => Yii::$app->request->get('id'), 
+                            'cms.lang' => Yii::$app->request->get('lang')
                         ])
                         ->one();
 

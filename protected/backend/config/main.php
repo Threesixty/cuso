@@ -8,7 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'cuso-backend',
-    'name' => 'Clubs Utilisateurs Oracle',
+    'name' => 'Portail du Club utilisateurs de solutions Oracle',
     'basePath' => dirname(__DIR__),
     'language' => 'fr',
     'controllerNamespace' => 'backend\controllers',
