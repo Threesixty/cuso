@@ -104,6 +104,11 @@ class Cms extends ActiveRecord
                 'model' => 'type'
             ]);
     }
+    public function getParticipant() {
+        return $this->hasMany(Participant::className(), [
+                'event_id' => 'id',
+            ]);
+    }
 
     // FO
     public static function getContent($url = null) {

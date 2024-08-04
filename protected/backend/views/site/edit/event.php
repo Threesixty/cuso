@@ -10,6 +10,7 @@ use common\models\Media;
 use common\models\Option;
 use common\models\User;
 use common\models\Company;
+use common\models\Participant;
 use backend\widgets\BlockWidget;
 use backend\widgets\ComposerWidget;
 use common\components\MainHelper;
@@ -454,6 +455,52 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                             )
                                                             ->label(false) ?>
                                                     </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>Dates de l'événement :</label>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <div class="input-group date dt-event-start" id="pickerEventStart" data-target-input="nearest">
+                                                                    <?= $form->field($model, 'startDatetime', [
+                                                                            'options' => ['tag' => false],
+                                                                        ])
+                                                                        ->textInput([
+                                                                            'id' => 'pickerEventStart',
+                                                                            'class' => 'form-control datetimepicker-input', 
+                                                                            'placeholder' => "Date de début",
+                                                                            'data-target' => '#pickerEventStart',
+                                                                        ])
+                                                                        ->label(false) ?>
+                                                                    <div class="input-group-append" data-target="#pickerEventStart" data-toggle="datetimepicker">
+                                                                        <span class="input-group-text">
+                                                                            <i class="ki ki-calendar"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="input-group date dt-event-end" id="pickerEventEnd" data-target-input="nearest">
+                                                                    <?= $form->field($model, 'endDatetime', [
+                                                                            'options' => ['tag' => false],
+                                                                        ])
+                                                                        ->textInput([
+                                                                            'id' => 'pickerEventEnd',
+                                                                            'class' => 'form-control datetimepicker-input', 
+                                                                            'placeholder' => "Date de fin",
+                                                                            'data-target' => '#pickerEventEnd',
+                                                                        ])
+                                                                        ->label(false) ?>
+                                                                    <div class="input-group-append" data-target="#pickerEventEnd" data-toggle="datetimepicker">
+                                                                        <span class="input-group-text">
+                                                                            <i class="ki ki-calendar"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="form-group row">
                                                         <div class="col-lg-6">
                                                             <label>En présentiel ?</label>
@@ -527,65 +574,24 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Dates de l'événement :</label>
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <div class="input-group date dt-event-start" id="pickerEventStart" data-target-input="nearest">
-                                                                    <?= $form->field($model, 'startDatetime', [
-                                                                            'options' => ['tag' => false],
-                                                                        ])
-                                                                        ->textInput([
-                                                                            'id' => 'pickerEventStart',
-                                                                            'class' => 'form-control datetimepicker-input', 
-                                                                            'placeholder' => "Date de début",
-                                                                            'data-target' => '#pickerEventStart',
-                                                                        ])
-                                                                        ->label(false) ?>
-                                                                    <div class="input-group-append" data-target="#pickerEventStart" data-toggle="datetimepicker">
-                                                                        <span class="input-group-text">
-                                                                            <i class="ki ki-calendar"></i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col">
-                                                                <div class="input-group date dt-event-end" id="pickerEventEnd" data-target-input="nearest">
-                                                                    <?= $form->field($model, 'endDatetime', [
-                                                                            'options' => ['tag' => false],
-                                                                        ])
-                                                                        ->textInput([
-                                                                            'id' => 'pickerEventEnd',
-                                                                            'class' => 'form-control datetimepicker-input', 
-                                                                            'placeholder' => "Date de fin",
-                                                                            'data-target' => '#pickerEventEnd',
-                                                                        ])
-                                                                        ->label(false) ?>
-                                                                    <div class="input-group-append" data-target="#pickerEventEnd" data-toggle="datetimepicker">
-                                                                        <span class="input-group-text">
-                                                                            <i class="ki ki-calendar"></i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group init-summernote">
                                                         <label>Adresse :</label>
                                                         <?= $form->field($model, 'address')
-                                                            ->textInput([
-                                                                'class' => 'form-control', 
-                                                                'placeholder' => "Adresse de l'événement",
+                                                            ->textarea([
+                                                                'class' => 'summernote',
+                                                                'data-height' => 150
                                                             ])
                                                             ->label(false) ?>
                                                     </div>
+                                                </div>
+                                                <div class="col-lg-6">
                                                     <div class="form-group init-summernote">
                                                         <label>Accès :</label>
                                                         <?= $form->field($model, 'addressDetail')
                                                             ->textarea([
                                                                 'class' => 'summernote',
+                                                                'data-height' => 150
                                                             ])
                                                             ->label(false) ?>
                                                     </div>
@@ -596,6 +602,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                         <?= $form->field($model, 'presentation')
                                                             ->textarea([
                                                                 'class' => 'summernote',
+                                                                'data-height' => 200
                                                             ])
                                                             ->label(false) ?>
                                                     </div>
@@ -612,11 +619,12 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                     <div class="form-group">
                                                         <label>Intervenants :</label>
                                                         <?php 
-                                                        $userSpeakers = User::getSpeakers();
-                                                        foreach ($userSpeakers as $speaker) {
-                                                            $userCompany = Company::findOne($speaker->company_id);
-                                                            $userCompanyText = null !== $userCompany ? strtoupper($userCompany->name) : '';
-                                                            $speakers[$speaker->id] = $speaker->firstname.' '.$speaker->lastname.' | '.$userCompanyText;
+                                                        $speakerList = User::getSpeakers();
+                                                        $speakers = [];
+                                                        foreach ($speakerList as $speaker) {
+                                                            $speakerCompany = Company::findOne($speaker->company_id);
+                                                            $speakerCompanyName = null !== $speakerCompany ? strtoupper($speakerCompany->name) : '';
+                                                            $speakers[$speaker->id] = $speaker->firstname.' '.$speaker->lastname.' | '.$speakerCompanyName;
                                                         } ?>
 
                                                         <?= $form->field($model, 'speakers')
@@ -853,7 +861,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                             <div class="card-label text-uppercase pl-4">Participants</div>
                                         </div>
                                     </div>
-                                    <div id="collapseEventParticipants" class="collapse" data-parent="#accordionEventParticipants">
+                                    <div id="collapseEventParticipants" class="collapse" data-parent="#accordionEventParticipants" data-event="<?= Yii::$app->request->get('id') ?>">
                                         <div class="card-body">
                                             <div class="row">
 
@@ -878,10 +886,10 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <?= Html::submitButton("Ajouter", [
-                                                                'class' => 'btn btn-success', 
+                                                    <?= Html::button("Ajouter", [
+                                                                'class' => 'btn btn-success add-participants', 
                                                                 'name' => 'participants-submit',
-                                                                'value' => 'participants',
+                                                                'data-url' => Yii::$app->getUrlManager()->createUrl(['site/participants'])
                                                             ]) ?>
                                                 </div>
                                                 <div class="col-lg-12">
@@ -890,43 +898,59 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
 
                                                 <div class="card-body">
                                                     <!--begin: Datatable-->
-                                                    <table class="table table-separate table-head-custom table-checkable" id="datatableUser">
+                                                    <table class="table table-separate table-head-custom table-checkable" id="datatableParticipant" data-url="<?= Yii::$app->getUrlManager()->createUrl(['site/participant-action']) ?>">
                                                         <thead>
                                                             <tr>
                                                                 <th width="50">#ID</th>
                                                                 <th>Nom</th>
                                                                 <th>Société</th>
-                                                                <th>Role</th>
-                                                                <th>Status</th>
+                                                                <th>Statut</th>
+                                                                <th>Date</th>
+                                                                <th>Participation</th>
                                                                 <th class="text-center">Actions</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <?php
-                                                            if (!empty($eventParticipantList)) {
-                                                                foreach ($eventParticipantList as $user) {
-                                                                    if (Yii::$app->user->identity->role >= $user->role) { ?>
+                                                            if (!empty($model->participantList)) {
+                                                                foreach ($model->participantList as $participant) {
+                                                                    $userParticipant = User::findOne($participant->user_id);
+                                                                    $participantCompany = Company::findOne($userParticipant->company_id);
+                                                                    $registrationDate = null !== $participant->updated_at && $participant->updated_at > $participant->created_at ? $participant->updated_at : $participant->created_at ?>
 
-                                                                        <tr>
-                                                                            <td><?= $user->id ?></td>
-                                                                            <td class="h6"><a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>"><strong><?= ucfirst($user->firstname) ?> <?= mb_strtoupper($user->lastname) ?></strong></a></td>
-                                                                            <td>
-                                                                                <?php 
-                                                                                if (null !== $userCompany) { ?>
-                                                                                    <a class="btn-link" href="<?= Url::to(['site/edit-company', 'id' => $userCompany->id]) ?>"><?= strtoupper($userCompany->name) ?></a>
-                                                                                <?php } ?>
-                                                                            </td>
-                                                                            <td><span class="font-weight-bold text-uppercase"><?= User::getRoles($user->role) ?></span></td>
-                                                                            <td><span class="label label-lg font-weight-bold label-light-<?= User::getUserStatusColor($user->status) ?> label-inline"><?= User::getUserStatusName($user->status) ?></span></td>
-                                                                            <td nowrap="nowrap" class="text-center">
-                                                                                <a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
-                                                                                    <i class="la la-edit"></i>
+                                                                    <tr>
+                                                                        <td><?= $participant->id ?></td>
+                                                                        <td class="h6"><a href="<?= Url::to(['site/edit-user', 'id' => $userParticipant->id]) ?>"><strong class="text-nowrap"><?= ucfirst($userParticipant->firstname) ?> <?= mb_strtoupper($userParticipant->lastname) ?></strong></a></td>
+                                                                        <td>
+                                                                            <?php 
+                                                                            if (null !== $participantCompany) { ?>
+                                                                                <a class="btn-link" href="<?= Url::to(['site/edit-company', 'id' => $participantCompany->id]) ?>"><?= strtoupper($participantCompany->name) ?></a>
+                                                                            <?php } ?>
+                                                                        </td>
+                                                                        <td><span class="label label-lg font-weight-bold label-light-<?= Participant::getRegisterStatusColor($participant->registered) ?> label-inline"><?= Participant::getRegisterStatusName($participant->registered) ?></span></td>
+                                                                        <td data-sort="<?= $registrationDate ?>"><strong><?= date('d/m/Y', $registrationDate) ?></strong><br><?= date('H:i', $registrationDate) ?></td>
+                                                                        <td>
+                                                                            <span class="label label-lg font-weight-bold label-light-<?= Participant::getCameStatusColor($participant->came) ?> label-inline"><?= Participant::getCameStatusName($participant->came) ?></span>
+                                                                        </td>
+                                                                        <td nowrap="nowrap" class="text-center">
+                                                                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="<?= $participant->registered ? Yii::t('app', "Désinscrire") : Yii::t('app', "Inscrire") ?>" data-action="register">
+                                                                                <i class="la la-<?= $participant->registered ? 'minus-circle' : 'plus-circle' ?>"></i>
+                                                                            </a>
+                                                                            <?php
+                                                                            if (null === $participant->came || !$participant->came) { ?>
+                                                                                <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action" data-toggle="tooltip" data-placement="bottom" data-container="body" data-boundary="window" title="<?= Yii::t('app', "A participé") ?>" data-action="came">
+                                                                                    <i class="la la-user-check"></i>
                                                                                 </a>
-                                                                            </td>
-                                                                        </tr>
+                                                                            <?php }
+                                                                            if (null === $participant->came || $participant->came) { ?>
+                                                                                <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="<?= Yii::t('app', "Absent") ?>" data-action="notcame">
+                                                                                    <i class="la la-user-alt-slash"></i>
+                                                                                </a>
+                                                                            <?php } ?>
+                                                                        </td>
+                                                                    </tr>
 
-                                                                    <?php }
-                                                                }
+                                                                <?php }
                                                             } ?>
                                                         </tbody>
                                                     </table>

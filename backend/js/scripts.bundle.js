@@ -1193,6 +1193,32 @@ var KTApp = function() {
             datatableEvent.buttons().container().appendTo( $('#datatableEvent_length', datatableEvent.table().container() ) );
         }
 
+        if ($('#datatableParticipant').length) {
+            var datatableParticipant = $('#datatableParticipant').DataTable({
+                responsive: true,
+                paging: true,
+                pageLength: 25,
+                columnDefs: [{ "orderable": false, "targets": [6] }],
+                order: [[4, 'desc']],
+                language: datatableLanguage,
+                buttons: [
+                    {               
+                        text: 'Export rapide',
+                        className: 'ml-4 btn-info',
+                        action: function ( e, dt, node, config ) {
+                            var data = dt.rows().data();
+                            datatableParticipant.$("tr", { 'search': 'applied' }).each(function() {
+                                // AJAX
+                                console.log($(this).find('td:first-child').text());
+                            });
+                        }
+                    }
+                ],
+            });
+
+            datatableParticipant.buttons().container().appendTo( $('#datatableParticipant_length', datatableParticipant.table().container() ) );
+        }
+
         if ($('#datatableNews').length) {
             $('#datatableNews').DataTable({
                 responsive: true,
@@ -1564,7 +1590,8 @@ var KTApp = function() {
 
         let isLoadingData = false;
         $('.scroll').on('ps-y-reach-end', function() {
-        	loadMedias($(this).closest('#mediaContent'));
+            if ($(this).closest('#mediaContent').length)
+        	   loadMedias($(this).closest('#mediaContent'));
         });
 
         $(document).on('click', '.more-medias', function() {
@@ -1679,8 +1706,43 @@ var KTApp = function() {
             }
 		});
 
+
         if ($('.init-summernote').length) {
-            Summernote.init($('.init-summernote').find('.summernote'));
+            $.ajax({
+                url: 'https://api.github.com/emojis',
+                async: false 
+            }).then(function(data) {
+                window.emojis = Object.keys(data);
+                window.emojiUrls = data; 
+            });
+
+            $('.init-summernote').find('.summernote').each(function() {
+                let summernoteConfig = {
+                        colors: [['#24294c', '#c84b4f', '#f2f3f7']],
+                        colorsName: [['Bleu foncé', 'Rouge', 'Gris clair']],
+                        height: $(this).attr('data-height') ? $(this).attr('data-height') : 300,
+                        hint: {
+                            match: /:([\-+\w]+)$/,
+                            search: function (keyword, callback) {
+                                callback($.grep(emojis, function (item) {
+                                    return item.indexOf(keyword)  === 0;
+                                }));
+                            },
+                            template: function (item) {
+                                var content = emojiUrls[item];
+                                return '<img src="' + content + '" width="20" /> :' + item + ':';
+                            },
+                            content: function (item) {
+                                var url = emojiUrls[item];
+                                if (url) {
+                                    return $('<img />').attr('src', url).css('width', 20)[0];
+                                }
+                                return '';
+                            }
+                        }
+                    };
+                $(this).summernote(summernoteConfig);
+            });
         }
         $(document).find('select').each(function() {
         	if ($(this).closest('.block').length && !$(this).closest('.block').hasClass('block-widget')) {
@@ -1776,8 +1838,46 @@ var KTApp = function() {
                 if (blockWidget.attr('data-init') != undefined) {
                     var dataInit = blockWidget.attr('data-init').split(',');
                     for (var i = 0; i < dataInit.length; i++) {
-                        if (dataInit[i] == 'summernote')
-                            Summernote.init(blockWidget.find('.summernote'));
+                        if (dataInit[i] == 'summernote') {
+                            //Summernote.init(blockWidget.find('.summernote'));
+
+                            $.ajax({
+                                url: 'https://api.github.com/emojis',
+                                async: false 
+                            }).then(function(data) {
+                                window.emojis = Object.keys(data);
+                                window.emojiUrls = data; 
+                            });
+
+                            blockWidget.find('.summernote').each(function() {
+                                let summernoteConfig = {
+                                        colors: [['#24294c', '#c84b4f', '#f2f3f7']],
+                                        colorsName: [['Bleu foncé', 'Rouge', 'Gris clair']],
+                                        height: $(this).attr('data-height') ? $(this).attr('data-height') : 300,
+                                        hint: {
+                                            match: /:([\-+\w]+)$/,
+                                            search: function (keyword, callback) {
+                                                callback($.grep(emojis, function (item) {
+                                                    return item.indexOf(keyword)  === 0;
+                                                }));
+                                            },
+                                            template: function (item) {
+                                                var content = emojiUrls[item];
+                                                return '<img src="' + content + '" width="20" /> :' + item + ':';
+                                            },
+                                            content: function (item) {
+                                                var url = emojiUrls[item];
+                                                if (url) {
+                                                    return $('<img />').attr('src', url).css('width', 20)[0];
+                                                }
+                                                return '';
+                                            }
+                                        }
+                                    };
+                                $(this).summernote(summernoteConfig);
+                            });
+
+                        }
                         if (dataInit[i] == 'select2') {
                             blockWidget.find('select').each(function() {
                             	$(this).addClass('select2');
@@ -1906,16 +2006,18 @@ var KTApp = function() {
                 var blockData;
                 switch ($(this).attr('data-block')) {
 
-                    case '3-content-boxes':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 3; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['subtitle'+i] = $(this).find('input[name="subtitle'+i+'"]').val();
-                    		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-                    	}
+                    case '3-blocks-cta':
+                        var values = {};
+                        values['title'] = $(this).find('input[name="title"]').val();
+                        values['content'] = $(this).find('.summernote').summernote('code');
+                        values['link'] = $(this).find('input[name="link"]').val().trim();
+                        values['button'] = $(this).find('input[name="button"]').val();
+                        values['color'] = $(this).find('input[name="color"]').val();
+                        for (var i = 1; i <= 5; i++) {
+                            values['icon'+i] = $(this).find('input[name="icon'+i+'"]').val();
+                            values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
+                            values['content'+i] = $(this).find('.summernote-box'+i).summernote('code');
+                        }
                         blockData = {
                                 'position': idx+1,
                                 'block' : $(this).attr('data-block'),
@@ -1923,68 +2025,7 @@ var KTApp = function() {
                             };
                         break;
 
-                    case '3-large-pictures':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'photos': $(this).find('input[name="photos"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'activities-3-blocks':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 3; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['content'+i] = $(this).find('.summernote-box'+i).summernote('code');
-	                		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-	                		values['button'+i] = $(this).find('input[name="button'+i+'"]').val();
-	                    	values['popin_photo'+i] = $(this).find('input[name="popin_photo'+i+'"]').val();
-	                		values['popin_content'+i] = $(this).find('.summernote-popin'+i).summernote('code');
-	                    	values['popin_list_title'+i] = $(this).find('input[name="popin_list_title'+i+'"]').val();
-	                		values['popin_leftCol'+i] = $(this).find('.summernote-popin-column-left'+i).summernote('code');
-	                		values['popin_rightCol'+i] = $(this).find('.summernote-popin-column-right'+i).summernote('code');
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'anchor':
-                    	var values = {};
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 7; i++) {
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                            values['anchor'+i] = $(this).find('select[name="anchor'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'big-features':
-                    	var values = {};
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-				                    	'title': $(this).find('input[name="title"]').val(),
-				                    	'color': $(this).find('input[name="color"]').val(),
-				                    	'features': $(this).find('select[name="features[]"]').val(),
-                                	},
-                            };
-                        break;
-
-                    case 'booking-bar':
+                    case 'all-events':
                         blockData = {
                                 'position': idx+1,
                                 'block' : $(this).attr('data-block'),
@@ -1992,1101 +2033,93 @@ var KTApp = function() {
                             };
                         break;
 
-                    case 'breadcrumb':
-                    	var values = {};
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 3; i++) {
-	                		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-	                		values['button'+i] = $(this).find('input[name="button'+i+'"]').val();
-                    	}
+                    case 'all-news':
                         blockData = {
                                 'position': idx+1,
                                 'block' : $(this).attr('data-block'),
-                                'value' : values,
+                                'value' : {},
                             };
                         break;
 
-                    case 'category-launcher':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 2; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['subtitle'+i] = $(this).find('input[name="subtitle'+i+'"]').val();
-                    		values['content'+i] = $(this).find('.summernote-box'+i).summernote('code');
-	                		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-	                		values['button'+i] = $(this).find('input[name="button'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'category-launcher-large':
+                    case 'big-title':
                         blockData = {
                                 'position': idx+1,
                                 'block' : $(this).attr('data-block'),
                                 'value' : {
                                         'photo': $(this).find('input[name="photo"]').val(),
                                         'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-				                		'link': $(this).find('input[name="link"]').val().trim(),
-				                		'button': $(this).find('input[name="button"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
                                     },
                             };
                         break;
-
-                    case 'category-offer':
+                        
+                    case 'next-events':
                         blockData = {
                                 'position': idx+1,
                                 'block' : $(this).attr('data-block'),
                                 'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-				                		'link': $(this).find('input[name="link"]').val().trim(),
-				                		'button': $(this).find('input[name="button"]').val(),
-                                        'photos': $(this).find('input[name="photos"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'alignment': $(this).find('select[name="alignment"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'commitment':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                		values['content'] = $(this).find('.summernote').summernote('code');
-                		values['link'] = $(this).find('input[name="link"]').val().trim();
-                		values['button'] = $(this).find('input[name="button"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 5; i++) {
-                    		values['icon'+i] = $(this).find('input[name="icon'+i+'"]').val();
-                    		values['icon_title'+i] = $(this).find('input[name="icon_title'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'contact-information':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-				                    	'title': $(this).find('input[name="title"]').val(),
-				                    	'hotel': $(this).find('select[name="hotel"]').val(),
-				                    	'interior_color': $(this).find('input[name="interior_color"]').val(),
-				                    	'color': $(this).find('input[name="color"]').val(),
-                                	},
-                            };
-                        break;
-
-                    case 'contact-us':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-	                                	'title': $(this).find('input[name="title"]').val(),
-				                		'content': $(this).find('.summernote-content').summernote('code'),
-				                		'color': $(this).find('input[name="color"]').val(),
-				                		'phone_icon': $(this).find('input[name="phone_icon"]').val(),
-				                		'phone': $(this).find('input[name="phone"]').val(),
-				                		'phone_button': $(this).find('input[name="phone_button"]').val(),
-				                		'email_icon': $(this).find('input[name="email_icon"]').val(),
-				                		'email': $(this).find('input[name="email"]').val(),
-				                		'email_button': $(this).find('input[name="email_button"]').val(),
-				                		'form_quote_icon': $(this).find('input[name="form_quote_icon"]').val(),
-				                		'form_quote': $(this).find('select[name="form_quote"]').val(),
-				                		'form_quote_button': $(this).find('input[name="form_quote_button"]').val(),
-				                		'popin_content': $(this).find('.summernote-popin-content').summernote('code'),
-                                	},
-                            };
-                        break;
-
-                    case 'cross-activities-2-main-boxes':
-                    case 'cross-activities-4-main-boxes':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-
-                    	for (var i = 1; i <= 8; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-	                		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-	                		values['button'+i] = $(this).find('input[name="button'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'cross-categories':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-				                    	'title': $(this).find('input[name="title"]').val(),
-				                    	'color': $(this).find('input[name="color"]').val(),
-				                    	'roomCategories': $(this).find('select[name="roomCategories[]"]').val(),
-                                	},
-                            };
-                        break;
-
-                    case 'cross-hotels':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-
-                    	for (var i = 1; i <= 8; i++) {
-                            values['hotel'+i] = $(this).find('select[name="hotel'+i+'"]').val();
-                    		values['hotel_link'+i] = $(this).find('input[name="hotel_link'+i+'"]').val().trim();
-                    		values['hotel_button'+i] = $(this).find('input[name="hotel_button'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'explore-hotels':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                		values['link'] = $(this).find('input[name="link"]').val().trim();
-                		values['button'] = $(this).find('input[name="button"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-
-                    	var keys = JSON.parse($(this).find('.accordion').attr('data-keys'));
-                    	for (var i = 0; i < keys.length; i++) {
-                    		values['title_'+keys[i]] = $(this).find('input[name="title_'+keys[i]+'"]').val();
-                            values['hotels_'+keys[i]] = $(this).find('select[name="hotels_'+keys[i]+'[]"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'family-member':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'manager_name': $(this).find('input[name="manager_name"]').val(),
-                                        'manager_level': $(this).find('input[name="manager_level"]').val(),
-                                        'content': $(this).find('.summernote-content').summernote('code'),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'faq':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'hotel': $(this).find('select[name="hotel"]').val(),
-                                        'category': $(this).find('select[name="category"]').val(),
-                                        'questions': $(this).find('input[name="questions"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'gallery':
-                    	var values = {};
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-				                    	'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-                                        'no_filters': $(this).find('input[name="no_filters"]').prop('checked'),
-				                    	'tags': $(this).find('select[name="tags[]"]').val(),
-                                        'photos': $(this).find('input[name="photos"]').val(),
-				                    	'color': $(this).find('input[name="color"]').val(),
-                                	},
-                            };
-                        break;
-
-                    case 'grid-4-pictures':
-                    case 'grid-5-pictures':
-                    case 'grid-11-pictures':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['link'] = $(this).find('input[name="link"]').val().trim();
-                    	values['button'] = $(this).find('input[name="button"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-
-                    	var count = parseInt($(this).attr('data-block').split('-')[1]);
-                    	for (var i = 1; i <= count; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'grid-6-pictures':
-                    	var values = {};
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-				                    	'title': $(this).find('input[name="title"]').val(),
-                                        'photos': $(this).find('input[name="photos"]').val(),
-				                    	'color': $(this).find('input[name="color"]').val(),
-                                        'alignment': $(this).find('select[name="alignment"]').val(),
-                                	},
-                            };
-                        break;
-
-                    case 'hero-pic':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'media_thumb': $(this).find('input[name="media_thumb"]').val(),
-                                        'media': $(this).find('input[name="media"]').val(),
                                         'link': $(this).find('input[name="link"]').val().trim(),
+                                        'button': $(this).find('input[name="button"]').val(),
                                     },
                             };
                         break;
-
-                    case 'hero-pic-desktop-mobile':
+                        
+                    case 'next-news':
                         blockData = {
                                 'position': idx+1,
                                 'block' : $(this).attr('data-block'),
                                 'value' : {
                                         'title': $(this).find('input[name="title"]').val(),
-                                        'media_thumb': $(this).find('input[name="media_thumb"]').val(),
-                                        'media': $(this).find('input[name="media"]').val(),
-                                        'media_mobile_thumb': $(this).find('input[name="media_mobile_thumb"]').val(),
-                                        'media_mobile': $(this).find('input[name="media_mobile"]').val(),
+                                        'subtitle': $(this).find('.summernote').summernote('code'),
                                         'link': $(this).find('input[name="link"]').val().trim(),
+                                        'button': $(this).find('input[name="button"]').val(),
                                     },
                             };
                         break;
 
-                    case 'home-8-boxes':
-                    case 'hotel-8-boxes':
-                    	var values = {};
-                    	if ($(this).attr('data-block') == 'hotel-8-boxes')
-                    		values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 8; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['content'+i] = $(this).find('.summernote-box'+i).summernote('code');
-                    		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-                    		values['color'+i] = $(this).find('input[name="color'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'hotel-category':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                		values['content'] = $(this).find('.summernote').summernote('code');
-                		values['link'] = $(this).find('input[name="link"]').val().trim();
-                		values['button'] = $(this).find('input[name="button"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 4; i++) {
-                            values['hotel'+i] = $(this).find('select[name="hotel'+i+'"]').val();
-                    		values['hotel_link'+i] = $(this).find('input[name="hotel_link'+i+'"]').val().trim();
-                    		values['hotel_button'+i] = $(this).find('input[name="hotel_button'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'hotel-facilities-and-services':
+                    case 'partners':
                         blockData = {
                                 'position': idx+1,
                                 'block' : $(this).attr('data-block'),
                                 'value' : {
                                         'title': $(this).find('input[name="title"]').val(),
-                                        'leftCol': $(this).find('.summernote-column-left').summernote('code'),
-                                        'rightCol': $(this).find('.summernote-column-right').summernote('code'),
-                                        'color': $(this).find('input[name="color"]').val(),
+                                        'subtitle': $(this).find('.summernote').summernote('code'),
+                                        'logos': $(this).find('input[name="logos"]').val(),
+                                        'link': $(this).find('input[name="link"]').val().trim(),
+                                        'button': $(this).find('input[name="button"]').val(),
                                     },
                             };
                         break;
 
-                    case 'hotel-features':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                		values['content'] = $(this).find('.summernote').summernote('code');
-                        values['photo_left'] = $(this).find('input[name="photo_left"]').val();
-                        values['photo_center'] = $(this).find('input[name="photo_center"]').val();
-                        values['photo_right_top'] = $(this).find('input[name="photo_right_top"]').val();
-                        values['photo_right_bottom'] = $(this).find('input[name="photo_right_bottom"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 4; i++) {
-                    		values['icon'+i] = $(this).find('input[name="icon'+i+'"]').val();
-                    		values['icon_title'+i] = $(this).find('input[name="icon_title'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'hotel-map':
+                    case 'photos':
                         blockData = {
                                 'position': idx+1,
                                 'block' : $(this).attr('data-block'),
                                 'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote-content').summernote('code'),
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
+                                        'photos': $(this).find('input[name="photos"]').val()
                                     },
                             };
                         break;
 
-                    case 'item-bar':
-                    	var values = {};
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 3; i++) {
-	                		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-	                		values['button'+i] = $(this).find('input[name="button'+i+'"]').val();
-	                		values['active'+i] = $(this).find('input[name="active'+i+'"]').is(":checked") ? true : false;
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'kids-club':
+                    case 'simple-text':
                         blockData = {
                                 'position': idx+1,
                                 'block' : $(this).attr('data-block'),
                                 'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote-content').summernote('code'),
-                                        'list_title': $(this).find('input[name="list_title"]').val(),
-                                        'leftCol': $(this).find('.summernote-column-left').summernote('code'),
-                                        'rightCol': $(this).find('.summernote-column-right').summernote('code'),
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'stamp': $(this).find('input[name="stamp"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'kids-services-facilities':
-                    	var values = {};
-                    	values['icon'] = $(this).find('input[name="icon"]').val();
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['photo'] = $(this).find('input[name="photo"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	values['services_color'] = $(this).find('input[name="services_color"]').val();
-                    	values['included_title'] = $(this).find('input[name="included_title"]').val();
-                    	values['ondemand_title'] = $(this).find('input[name="ondemand_title"]').val();
-                    	for (var i = 1; i <= 3; i++) {
-                    		values['included_group_title'+i] = $(this).find('input[name="included_group_title'+i+'"]').val();
-                            values['included_features'+i] = $(this).find('select[name="included_features'+i+'[]"]').val();
-                    		values['ondemand_group_title'+i] = $(this).find('input[name="ondemand_group_title'+i+'"]').val();
-                            values['ondemand_features'+i] = $(this).find('select[name="ondemand_features'+i+'[]"]').val();
-                    	}
-                    	
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'large-banner':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'photoDesktop_thumb': $(this).find('input[name="photoDesktop_thumb"]').val(),
-                                        'photoDesktop': $(this).find('input[name="photoDesktop"]').val(),
-                                        'photoMobile_thumb': $(this).find('input[name="photoMobile_thumb"]').val(),
-                                        'photoMobile': $(this).find('input[name="photoMobile"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'large-text':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'mainPhoto': $(this).find('input[name="mainPhoto"]').val(),
-                                        'title': $(this).find('input[name="title"]').val(),
                                         'content': $(this).find('.summernote').summernote('code'),
-                                        'optionalPhoto': $(this).find('input[name="optionalPhoto"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
                                     },
                             };
                         break;
 
-                    case 'mega-slideshow':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'photos': $(this).find('input[name="photos"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'maps':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'news':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 6; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['content'+i] = $(this).find('.summernote-box'+i).summernote('code');
-                    		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-                    		values['button'+i] = $(this).find('input[name="button'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'offer-category-launcher':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 4; i++) {
-                    		values['icon'+i] = $(this).find('input[name="icon'+i+'"]').val();
-                    		values['icon_title'+i] = $(this).find('input[name="icon_title'+i+'"]').val();
-                    	}
-                    	for (var i = 1; i <= 2; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['content'+i] = $(this).find('.summernote-box'+i).summernote('code');
-	                		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-	                		values['button'+i] = $(this).find('input[name="button'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'otentik-category':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-				                		'link': $(this).find('input[name="link"]').val().trim(),
-				                		'button': $(this).find('input[name="button"]').val(),
-                                        'icon': $(this).find('input[name="icon"]').val(),
-                                        'photo_thumb': $(this).find('input[name="photo_thumb"]').val(),
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'photo2_thumb': $(this).find('input[name="photo2_thumb"]').val(),
-                                        'photo2': $(this).find('input[name="photo2"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'photo_alignment': $(this).find('select[name="photo_alignment"]').val(),
-                                        'alignment': $(this).find('select[name="alignment"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'otentik-description':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-                                        'photos': $(this).find('input[name="photos"]').val(),
-                                        'illustration': $(this).find('input[name="illustration"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'otentik-detailed-description':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'subtitle': $(this).find('input[name="subtitle"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-				                		'link': $(this).find('input[name="link"]').val().trim(),
-				                		'button': $(this).find('input[name="button"]').val(),
-                                        'photo_big': $(this).find('input[name="photo_big"]').val(),
-                                        'photo_small': $(this).find('input[name="photo_small"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'alignment': $(this).find('select[name="alignment"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'package-description':
+                    case 'title-subtitle-cta':
                         blockData = {
                                 'position': idx+1,
                                 'block' : $(this).attr('data-block'),
                                 'value' : {
                                         'photo': $(this).find('input[name="photo"]').val(),
                                         'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote-content').summernote('code'),
-                                        'leftCol': $(this).find('.summernote-column-left').summernote('code'),
-                                        'rightCol': $(this).find('.summernote-column-right').summernote('code'),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'package-includes':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 5; i++) {
-                    		values['tabTitle'+i] = $(this).find('input[name="tabTitle'+i+'"]').val();
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['content'+i] = $(this).find('.summernote-box'+i).summernote('code');
-                    		values['conditionTitle'+i] = $(this).find('input[name="conditionTitle'+i+'"]').val();
-                    		values['conditionContent'+i] = $(this).find('.summernote-condition'+i).summernote('code');
-                    		values['conditionIllustration'+i] = $(this).find('input[name="conditionIllustration'+i+'"]').val();
-                    		values['conditionColor'+i] = $(this).find('input[name="conditionColor'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'positive-3-goals':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 3; i++) {
-                        	values['checkbox'+i] = $(this).find('select[name="checkbox'+i+'"]').val();
-                    		values['status'+i] = $(this).find('input[name="status'+i+'"]').val();
-                    		values['icon'+i] = $(this).find('input[name="icon'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-                    		values['button'+i] = $(this).find('input[name="button'+i+'"]').val();
-                    		values['text_color'+i] = $(this).find('input[name="text_color'+i+'"]').val();
-                    		values['color'+i] = $(this).find('input[name="color'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'positive-12-boxes':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 12; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['content'+i] = $(this).find('.summernote-box'+i).summernote('code');
-                    		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-                    		values['color'+i] = $(this).find('input[name="color'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'positive-act':
-                    	var values = {};
-                        values['number'] = $(this).find('input[name="number"]').val();
-                        values['number_color'] = $(this).find('input[name="number_color"]').val();
-                        values['title'] = $(this).find('input[name="title"]').val();
-                        values['content'] = $(this).find('.summernote-content').summernote('code');
-                		values['link'] = $(this).find('input[name="link"]').val().trim();
-                		values['button'] = $(this).find('input[name="button"]').val();
-                        values['photo_left_thumb'] = $(this).find('input[name="photo_left_thumb"]').val();
-                        values['photo_left'] = $(this).find('input[name="photo_left"]').val();
-                        values['photo_right_thumb'] = $(this).find('input[name="photo_right_thumb"]').val();
-                        values['photo_right'] = $(this).find('input[name="photo_right"]').val();
-                        values['icon'] = $(this).find('input[name="icon"]').val();
-                        values['card_icon'] = $(this).find('input[name="card_icon"]').val();
-                        values['card_title'] = $(this).find('input[name="card_title"]').val();
-                        values['card_link'] = $(this).find('input[name="card_link"]').val().trim();
-                        values['color'] = $(this).find('input[name="color"]').val();
-                        values['alignment'] = $(this).find('select[name="alignment"]').val();
-                    	for (var i = 1; i <= 3; i++) {
-                    		values['colored_title'+i] = $(this).find('input[name="colored_title'+i+'"]').val();
-                    		values['colored_color'+i] = $(this).find('input[name="colored_color'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'positive-actions':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 9; i++) {
-                    		values['icon'+i] = $(this).find('input[name="icon'+i+'"]').val();
-                    		values['icon_title'+i] = $(this).find('input[name="icon_title'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'positive-approach-3-blocks':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['subtitle'] = $(this).find('input[name="subtitle"]').val();
-                    	values['icon'] = $(this).find('input[name="icon"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 3; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-                    		values['button'+i] = $(this).find('input[name="button'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'positive-banner':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-                                        'photo_desktop': $(this).find('input[name="photo_desktop"]').val(),
-                                        'photo_mobile': $(this).find('input[name="photo_mobile"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'positive-behavior':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' :  {
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'alignment': $(this).find('select[name="alignment"]').val(),
-                                        'card_icon': $(this).find('input[name="card_icon"]').val(),
-                                        'card_title': $(this).find('input[name="card_title"]').val(),
-                                        'card_content': $(this).find('.summernote-content').summernote('code'),
-				                		'card_link': $(this).find('input[name="card_link"]').val().trim(),
-				                		'card_button': $(this).find('input[name="card_button"]').val(),
-                                        'card_color': $(this).find('input[name="card_color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'positive-commitment-detail-1-image':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' :  {
-                                        'photo_thumb': $(this).find('input[name="photo_thumb"]').val(),
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote-content').summernote('code'),
-				                		'link': $(this).find('input[name="link"]').val().trim(),
-				                		'button': $(this).find('input[name="button"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'card_title': $(this).find('input[name="card_title"]').val(),
-                                        'card_icon': $(this).find('input[name="card_icon"]').val(),
-                                        'card_color': $(this).find('input[name="card_color"]').val(),
-                                        'alignment': $(this).find('select[name="alignment"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'positive-commitment-detail-2-images':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' :  {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote-content').summernote('code'),
-				                		'link': $(this).find('input[name="link"]').val().trim(),
-				                		'button': $(this).find('input[name="button"]').val(),
-                                        'photo_left': $(this).find('input[name="photo_left"]').val(),
-                                        'photo_right': $(this).find('input[name="photo_right"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'card_title': $(this).find('input[name="card_title"]').val(),
-                                        'card_icon': $(this).find('input[name="card_icon"]').val(),
-                                        'card_color': $(this).find('input[name="card_color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'positive-company-life':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' :  {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote-content').summernote('code'),
-				                		'link': $(this).find('input[name="link"]').val().trim(),
-				                		'button': $(this).find('input[name="button"]').val(),
-                                        'photo_left': $(this).find('input[name="photo_left"]').val(),
-                                        'photo_right': $(this).find('input[name="photo_right"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'card_title': $(this).find('input[name="card_title"]').val(),
-                                        'card_icon': $(this).find('input[name="card_icon"]').val(),
-                                        'card_color': $(this).find('input[name="card_color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'positive-cross-commitment':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 2; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['link'+i] = $(this).find('input[name="link'+i+'"]').val().trim();
-                    		values['button'+i] = $(this).find('input[name="button'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'positive-hero-pic':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'leftCol': $(this).find('.summernote-column-left').summernote('code'),
-                                        'rightCol': $(this).find('.summernote-column-right').summernote('code'),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'positive-image-and-text':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'alignment': $(this).find('select[name="alignment"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'positive-toggle':
-                    	var values = {};
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 4; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['thumb'+i] = $(this).find('input[name="thumb'+i+'"]').val();
-                    		values['title'+i] = $(this).find('input[name="title'+i+'"]').val();
-                    		values['content'+i] = $(this).find('.summernote-box'+i).summernote('code');
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'positive-zoom':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' :  {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'icon': $(this).find('input[name="icon"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'card_content': $(this).find('.summernote-content').summernote('code'),
-                                        'card_color': $(this).find('input[name="card_color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'restaurant-category':
-                    	var values = {};
-                        values['photos_thumb'] = $(this).find('input[name="photos_thumb"]').val();
-                    	values['photos'] = $(this).find('input[name="photos"]').val();
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['subtitle'] = $(this).find('input[name="subtitle"]').val();
-                		values['content'] = $(this).find('.summernote').summernote('code');
-                		values['link'] = $(this).find('input[name="link"]').val().trim();
-                		values['button'] = $(this).find('input[name="button"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	values['alignment'] = $(this).find('select[name="alignment"]').val();
-                    	for (var i = 1; i <= 4; i++) {
-                    		values['criteria'+i] = $(this).find('input[name="criteria'+i+'"]').val();
-                    	}
-                    	values['popin_title'] = $(this).find('input[name="popin_title"]').val();
-                		values['popin_content'] = $(this).find('.summernote-popin').summernote('code');
-                    	values['popin_photo'] = $(this).find('input[name="popin_photo"]').val();
-                    	
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'room-category':
-                    	var values = {};
-                    	values['photos'] = $(this).find('input[name="photos"]').val();
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                		values['content'] = $(this).find('.summernote').summernote('code');
-                		values['link'] = $(this).find('input[name="link"]').val().trim();
-                		values['button'] = $(this).find('input[name="button"]').val();
-                		values['popin_button'] = $(this).find('input[name="popin_button"]').val();
-                    	values['popin_title'] = $(this).find('input[name="popin_title"]').val();
-                    	values['popin_photo'] = $(this).find('input[name="popin_photo"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	values['alignment'] = $(this).find('select[name="alignment"]').val();
-                    	for (var i = 1; i <= 3; i++) {
-                    		values['icon'+i] = $(this).find('input[name="icon'+i+'"]').val();
-                    		values['icon_title'+i] = $(this).find('input[name="icon_title'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'short-hero-pic':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'media': $(this).find('input[name="media"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'short-image-and-text':
-                    	var values = {};
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 2; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    		values['content'+i] = $(this).find('.summernote-box'+i).summernote('code');
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'simple-title':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'subtitle': $(this).find('input[name="subtitle"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'alignment': $(this).find('select[name="alignment"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'small-features':
-                    	var values = {};
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-				                    	'color': $(this).find('input[name="color"]').val(),
-				                    	'features': $(this).find('select[name="features[]"]').val(),
-                                	},
-                            };
-                        break;
-
-                    case 'spa-features':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'leftCol': $(this).find('.summernote-column-left').summernote('code'),
-                                        'rightCol': $(this).find('.summernote-column-right').summernote('code'),
-				                		'link': $(this).find('input[name="link"]').val().trim(),
-				                		'button': $(this).find('input[name="button"]').val(),
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'spa-product':
-                    	var values = {};
-                    	values['photo'] = $(this).find('input[name="photo"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 4; i++) {
-                    		values['icon'+i] = $(this).find('input[name="icon'+i+'"]').val();
-                    		values['icon_title'+i] = $(this).find('input[name="icon_title'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'spacing':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'space': $(this).find('select[name="space"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'text-and-image':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'title_photo': $(this).find('input[name="title_photo"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-                                        'photo_thumb': $(this).find('input[name="photo_thumb"]').val(),
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'illustration': $(this).find('input[name="illustration"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                        'alignment': $(this).find('select[name="alignment"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'title-content':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'title-section':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'logo': $(this).find('input[name="logo"]').val(),
-                                        'content': $(this).find('.summernote').summernote('code'),
-				                		'link': $(this).find('input[name="link"]').val().trim(),
-                                        'target': $(this).find('input[name="target"]').prop('checked'),
-				                		'button': $(this).find('input[name="button"]').val(),
-                                        'photo_left': $(this).find('input[name="photo_left"]').val(),
-                                        'photo_left_alignment': $(this).find('select[name="photo_left_alignment"]').val(),
-                                        'photo_left_vertical_alignment': $(this).find('select[name="photo_left_vertical_alignment"]').val(),
-                                        'photo_right': $(this).find('input[name="photo_right"]').val(),
-                                        'photo_right_alignment': $(this).find('select[name="photo_right_alignment"]').val(),
-                                        'photo_right_vertical_alignment': $(this).find('select[name="photo_right_vertical_alignment"]').val(),
-                                        'color': $(this).find('input[name="color"]').val(),
-                                    },
-                            };
-                        break;
-
-                    case 'tripadvisor':
-                    	var values = {};
-                    	values['title'] = $(this).find('input[name="title"]').val();
-                    	values['color'] = $(this).find('input[name="color"]').val();
-                    	for (var i = 1; i <= 3; i++) {
-                    		values['photo'+i] = $(this).find('input[name="photo'+i+'"]').val();
-                    	}
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : values,
-                            };
-                        break;
-
-                    case 'zoom-activities':
-                        blockData = {
-                                'position': idx+1,
-                                'block' : $(this).attr('data-block'),
-                                'value' : {
-                                        'title': $(this).find('input[name="title"]').val(),
-                                        'content': $(this).find('.summernote-content').summernote('code'),
-                                        'photo_thumb': $(this).find('input[name="photo_thumb"]').val(),
-                                        'photo': $(this).find('input[name="photo"]').val(),
-                                        'photo_description': $(this).find('.summernote-photo-description').summernote('code'),
-                                        'color': $(this).find('input[name="color"]').val(),
+                                        'subtitle': $(this).find('.summernote').summernote('code'),
+                                        'link': $(this).find('input[name="link"]').val().trim(),
+                                        'button': $(this).find('input[name="button"]').val(),
                                     },
                             };
                         break;
@@ -3372,6 +2405,42 @@ var KTApp = function() {
         })
     };
 
+    var initEnventSubscription = function() {
+
+        $('.add-participants').on('click', function() {
+            var eventId = $('#collapseEventParticipants').data('event'),
+                select2Input = $(this).closest('.row').find('.select2-tags').select2(),
+                selected = $(this).closest('.row').find('.select2-tags').select2('data');
+
+            $.ajax({
+                type: "POST",
+                url: $(this).data('url'),
+                data: {
+                    eventId: eventId,
+                    participants: JSON.stringify(selected)
+                },
+                success: function (data) {
+
+                    var newParticipants = JSON.parse(data);
+
+                    newParticipants = newParticipants.replace(/^\s*|\s*$/g, '');
+                    newParticipants = newParticipants.replace(/\\r\\n/gm, '');
+                    var expr = "</tr>\\s*<tr";
+                    var regEx = new RegExp(expr, "gm");
+                    var newRows = newParticipants.replace(regEx, "</tr><tr");                        
+                    $('#datatableParticipant').DataTable().rows.add($(newRows)).draw();
+
+                    select2Input.val(null).trigger('change');
+                    $('[data-toggle="tooltip"]').tooltip();
+                },
+                error: function (exception) {
+
+                    alert('Error: please contact support');
+                }
+            });
+        })
+    };
+
     var initDebug = function() {
         $(document).on('click', '.debug a', function() {
             $(this).parent().toggleClass('hide');
@@ -3415,6 +2484,8 @@ var KTApp = function() {
             initBlockMenu();
             initUpdates();
             initTagify();
+
+            initEnventSubscription();
             initDebug();
         },
 

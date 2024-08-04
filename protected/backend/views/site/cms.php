@@ -38,7 +38,7 @@ $this->title = MainHelper::getPageTitle('Liste des contenus', '', true);
                                             <th>Modèle de page</th>
                                             <th>Étiquettes</th>
                                             <th>Dates de publication</th>
-                                            <th>Status</th>
+                                            <th>Statut</th>
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>

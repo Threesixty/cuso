@@ -40,7 +40,19 @@ $actionId = Yii::$app->controller->action->id;
         <div id="kt_header_mobile" class="header-mobile header-mobile-fixed">
             <!--begin::Logo-->
             <a href="<?= Yii::$app->homeUrl ?>">
-                <img alt="Logo" src="<?= Yii::$app->request->BaseUrl ?>/media/logo.png" class="logo-default max-h-30px" />
+                <!--begin::Logo-->
+                <?php
+                $avatar = Yii::$app->request->BaseUrl.'/media/boy.svg';
+                $userAvatarArr = JSON::decode(Yii::$app->user->identity->photo_id);
+                if (null !== $userAvatarArr) {
+                    foreach ($userAvatarArr as $userPhotoId) {
+                        $photo = Media::findOne($userPhotoId);
+                        if (null !== $photo)
+                            $avatar = Yii::getAlias('@uploadWeb').'/'.$photo->path;
+                    }
+                } ?>
+                <img alt="Avatar" src="<?= $avatar ?>" class="logo-default max-h-30px rounded" />
+                <!--end::Logo-->
             </a>
             <!--end::Logo-->
             <!--begin::Toolbar-->
@@ -283,11 +295,11 @@ $actionId = Yii::$app->controller->action->id;
                                                     <span class="menu-text">Forum</span>
                                                 </a>
                                             </li>
-                                            <li class="menu-item <?= strpos($actionId, 'chatbot') !== false ? 'menu-item-here' : '' ?>">
+                                            <!--li class="menu-item <?= strpos($actionId, 'chatbot') !== false ? 'menu-item-here' : '' ?>">
                                                 <a href="<?= Url::to(['site/chatbot']) ?>" class="menu-link">
                                                     <span class="menu-text">Chatbot</span>
                                                 </a>
-                                            </li>
+                                            </li-->
                                         </ul>
                                         <!--end::Nav-->
                                     </div>
@@ -295,7 +307,7 @@ $actionId = Yii::$app->controller->action->id;
                                 </div>
                                 <!--end::Menu Wrapper-->
                                 <!--begin::Toolbar-->
-                                <div class="d-flex align-items-center py-3 py-lg-2">
+                                <div class="d-flex align-items-center py-3 py-lg-2 add-wrapper">
                                     <!--begin::Dropdown-->
                                     <div class="dropdown dropdown-inline" data-toggle="tooltip" title="Actions rapide" data-placement="left">
                                         <a href="#" class="h-40px w-40px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -37,8 +37,8 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                             <th>Titre</th>
                                             <th>Date de l'événement</th>
                                             <th>Nombre d'inscrits</th>
-                                            <th>Dates de publication</th>
-                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Statut</th>
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
@@ -52,9 +52,10 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                                     <td class="h6"><a href="<?= Url::to(['site/edit-event', 'id' => $event->id]) ?>"><strong><?= $event->title ?></strong></a></td>
                                                     <td>Date</td>
                                                     <td>Nombre d'inscrits</td>
-                                                    <td data-sort="<?= $event->start_date ?>">
-                                                        <?= 0 !== $event->end_date ? 'Du' : '' ?> <?= utf8_encode(strftime('%e %B %Y', $event->start_date)) ?>
-                                                        <?= 0 !== $event->end_date ? '<br>au '.utf8_encode(strftime('%e %B %Y', $event->end_date)) : '' ?></td>
+                                                    <td data-sort="<?= $event['event']->start_datetime ?>">
+                                                        <strong class="d-block text-nowrap"><?= MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'date') ?></strong>
+                                                        <span class="text-nowrap"><?= MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'time') ?></span>
+                                                    </td>
                                                     <td><span class="label label-xl font-weight-bold label-light-<?= $event->status ? 'success' : 'gray' ?> label-inline"><?= $event->status ? 'Publié' : 'Dépublié' ?></span></td>
                                                     <td nowrap="nowrap" class="text-center">
                                                         <a href="<?= Url::to(['site/edit-event', 'id' => $event->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">

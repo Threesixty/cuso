@@ -64,6 +64,9 @@ class EventForm extends Model
     public $speakers;
     public $sponsors;
 
+    // Participant
+    public $participantList;
+
     public function attributeLabels()
     {
         return [
@@ -82,7 +85,7 @@ class EventForm extends Model
         return [
             [['type', 'title', 'metaTitle', 'interests', 'products', 'communities'], 'required'],
             [['tags'], 'default', 'value' => null],
-            [['url', 'urlRedirect', 'status', 'photoId', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'startDatetime', 'endDatetime', 'eventType', 'address', 'streetNumber', 'route', 'postalCode', 'locality', 'addressDetail', 'presentation', 'program', 'synthesis', 'presential', 'distance', 'prospect', 'registerable', 'documents', 'speakers', 'sponsors'], 'safe'],
+            [['url', 'urlRedirect', 'status', 'photoId', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'startDatetime', 'endDatetime', 'eventType', 'address', 'streetNumber', 'route', 'postalCode', 'locality', 'addressDetail', 'presentation', 'program', 'synthesis', 'presential', 'distance', 'prospect', 'registerable', 'documents', 'speakers', 'sponsors', 'participantList'], 'safe'],
         ];
     }
 
@@ -273,7 +276,7 @@ class EventForm extends Model
             $this->content = $cms->content;
             $this->status = $cms->status;
             $this->startDate = date('d/m/Y', $cms->start_date);
-            $this->endDate = $cms->end_date ? date('d/m/Y)', $cms->end_date) : '';
+            $this->endDate = $cms->end_date ? date('d/m/Y', $cms->end_date) : '';
             $this->lang = $cms->lang;
             $this->langParentId = $cms->lang_parent_id;
 
@@ -313,6 +316,10 @@ class EventForm extends Model
                     if ($modelRelation->type == 'sponsors')
                         $this->sponsors[] = $modelRelation->type_id;
                 }
+            }
+
+            if (isset($cms['participant'])) {
+                $this->participantList = $cms['participant'];
             }
 
             return true;
