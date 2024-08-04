@@ -927,7 +927,9 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                                 <a class="btn-link" href="<?= Url::to(['site/edit-company', 'id' => $participantCompany->id]) ?>"><?= strtoupper($participantCompany->name) ?></a>
                                                                             <?php } ?>
                                                                         </td>
-                                                                        <td><span class="label label-lg font-weight-bold label-light-<?= Participant::getRegisterStatusColor($participant->registered) ?> label-inline"><?= Participant::getRegisterStatusName($participant->registered) ?></span></td>
+                                                                        <td>
+                                                                            <span class="label label-lg font-weight-bold label-light-<?= Participant::getRegisterStatusColor($participant->registered) ?> label-inline"><?= Participant::getRegisterStatusName($participant->registered) ?></span>
+                                                                        </td>
                                                                         <td data-sort="<?= $registrationDate ?>"><strong><?= date('d/m/Y', $registrationDate) ?></strong><br><?= date('H:i', $registrationDate) ?></td>
                                                                         <td>
                                                                             <span class="label label-lg font-weight-bold label-light-<?= Participant::getCameStatusColor($participant->came) ?> label-inline"><?= Participant::getCameStatusName($participant->came) ?></span>
