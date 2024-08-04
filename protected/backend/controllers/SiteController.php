@@ -495,8 +495,9 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
     /**
-     * Retrieve health corporate member benefits limits.
+     * Add participants.
      *
      * @return mixed
      */
@@ -528,6 +529,44 @@ class SiteController extends Controller
                         'eventParticipantList' => $eventParticipantList,
                     ]
                 ));
+        }
+
+    }
+
+    /**
+     * Update participant.
+     *
+     * @return mixed
+     */
+    public function actionParticipantAction()
+    {
+        $action = Yii::$app->request->post('action');
+        $participantId = Yii::$app->request->post('participantId');
+
+        if (null !== $participantId) {
+
+            $currentParticipant = Participant::findOne($participantId);
+            if (null !== $currentParticipant) {
+                switch ($action) {
+                    case 'register':
+                        $currentParticipant->registered = true;
+                        break;
+                    case 'unregister':
+                        $currentParticipant->registered = false;
+                        break;
+                    case 'came':
+                        $currentParticipant->registered = true;
+                        break;
+                    case 'notcame':
+                        $currentParticipant->registered = false;
+                        break;
+                    
+                    default:
+                        break;
+                }
+                return $currentParticipant->save() ? Json::encode($currentParticipant) : false;
+            }
+            return false;
         }
 
     }

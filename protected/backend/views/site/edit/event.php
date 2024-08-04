@@ -933,20 +933,15 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                             <span class="label label-lg font-weight-bold label-light-<?= Participant::getCameStatusColor($participant->came) ?> label-inline"><?= Participant::getCameStatusName($participant->came) ?></span>
                                                                         </td>
                                                                         <td nowrap="nowrap" class="text-center">
-                                                                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="<?= $participant->registered ? Yii::t('app', "Désinscrire") : Yii::t('app', "Inscrire") ?>" data-action="register">
+                                                                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="<?= $participant->registered ? "Désinscrire" : "Inscrire" ?>" data-action="<?= $participant->registered ? 'unregister' : 'register' ?>">
                                                                                 <i class="la la-<?= $participant->registered ? 'minus-circle' : 'plus-circle' ?>"></i>
                                                                             </a>
-                                                                            <?php
-                                                                            if (null === $participant->came || !$participant->came) { ?>
-                                                                                <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action" data-toggle="tooltip" data-placement="bottom" data-container="body" data-boundary="window" title="<?= Yii::t('app', "A participé") ?>" data-action="came">
-                                                                                    <i class="la la-user-check"></i>
-                                                                                </a>
-                                                                            <?php }
-                                                                            if (null === $participant->came || $participant->came) { ?>
-                                                                                <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="<?= Yii::t('app', "Absent") ?>" data-action="notcame">
-                                                                                    <i class="la la-user-alt-slash"></i>
-                                                                                </a>
-                                                                            <?php } ?>
+                                                                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action <?= null !== $participant->came && $participant->came ? 'd-none' : '' ?>" data-toggle="tooltip" data-placement="bottom" data-container="body" data-boundary="window" title="A participé" data-action="came">
+                                                                                <i class="la la-user-check"></i>
+                                                                            </a>
+                                                                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action <?= null !== $participant->came && !$participant->came ? 'd-none' : '' ?>" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="Absent" data-action="notcame">
+                                                                                <i class="la la-user-alt-slash"></i>
+                                                                            </a>
                                                                         </td>
                                                                     </tr>
 

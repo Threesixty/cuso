@@ -2438,7 +2438,56 @@ var KTApp = function() {
                     alert('Error: please contact support');
                 }
             });
-        })
+        });
+
+        $(document).on('click', '.participant-action', function() {
+            var button = $(this),
+                action = button.attr('data-action');
+
+            $.ajax({
+                type: "POST",
+                url: $('#datatableParticipant').data('url'),
+                data: {
+                    action: $(this).attr('data-action'),
+                    participantId: $(this).closest('tr').find('td').first().text(),
+                },
+                success: function (data) {
+
+                    var participant = JSON.parse(data);
+                    if (participant) {
+                        switch(action) {
+                            case 'register':
+                                button.attr('data-action', 'unregister').attr('title', "Désinscrire").find('i').removeClass('la-plus-circle').addClass('la-minus-circle');
+                                button.closest('tr').find('td').eq(3).find('span').removeClass('label-light-warning').addClass('label-light-info').html('Inscrit');
+                                break;
+                            case 'unregister':
+                                button.attr('data-action', 'register').attr('title', "Inscrire").find('i').addClass('la-plus-circle').removeClass('la-minus-circle');
+                                button.closest('tr').find('td').eq(3).find('span').addClass('label-light-warning').removeClass('label-light-info').html('Désnscrit');
+                                break;
+                            case 'came':
+                                button.closest('td').find('a').eq(1).addClass('d-none').closest('td').find('a').eq(2).removeClass('d-none');
+                                button.closest('tr').find('td').eq(5).html('<span class="label label-lg font-weight-bold label-light-success label-inline">Présent</span>');
+                                break;
+                            case 'notcame':
+                                button.closest('td').find('a').eq(1).removeClass('d-none').closest('td').find('a').eq(2).addClass('d-none');
+                                button.closest('tr').find('td').eq(5).html('<span class="label label-lg font-weight-bold label-light-danger label-inline">Absent</span>');
+                                break;
+
+                            default:
+                                break;
+                        }
+                        button.tooltip('dispose');
+                        button.tooltip();
+                    } else {
+                        console.log(participant);
+                    }
+                },
+                error: function (exception) {
+
+                    alert('Error: please contact support');
+                }
+            });
+        });
     };
 
     var initDebug = function() {
