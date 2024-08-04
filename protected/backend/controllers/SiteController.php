@@ -555,10 +555,10 @@ class SiteController extends Controller
                         $currentParticipant->registered = false;
                         break;
                     case 'came':
-                        $currentParticipant->registered = true;
+                        $currentParticipant->came = true;
                         break;
                     case 'notcame':
-                        $currentParticipant->registered = false;
+                        $currentParticipant->came = false;
                         break;
                     
                     default:
