@@ -550,9 +550,11 @@ class SiteController extends Controller
                 switch ($action) {
                     case 'register':
                         $currentParticipant->registered = true;
+                        $currentParticipant->updated_at = time();
                         break;
                     case 'unregister':
                         $currentParticipant->registered = false;
+                        $currentParticipant->updated_at = time();
                         break;
                     case 'came':
                         $currentParticipant->came = true;

@@ -45,13 +45,16 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                     <tbody>
                                         <?php
                                         if (!empty($eventList)) {
-                                            foreach ($eventList as $event) { ?>
+                                            foreach ($eventList as $event) {
+                                                $registeredParticipants = array_filter($event['participant'], function ($participant) {
+                                                    return $participant->registered == 1;
+                                                }); ?>
 
                                                 <tr>
                                                     <td><?= $event->id ?></td>
                                                     <td class="h6"><a href="<?= Url::to(['site/edit-event', 'id' => $event->id]) ?>"><strong><?= $event->title ?></strong></a></td>
                                                     <td><strong><?= MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'date') ?></strong><br><?= MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'time') ?></td>
-                                                    <td><?= count($event['participant']) ?></td>
+                                                    <td><?= count($registeredParticipants) ?></td>
                                                     <td data-sort="<?= $event['event']->start_datetime ?>">
                                                         <strong class="d-block text-nowrap"><?= MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'date') ?></strong>
                                                         <span class="text-nowrap"><?= MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'time') ?></span>
