@@ -50,8 +50,8 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                                 <tr>
                                                     <td><?= $event->id ?></td>
                                                     <td class="h6"><a href="<?= Url::to(['site/edit-event', 'id' => $event->id]) ?>"><strong><?= $event->title ?></strong></a></td>
-                                                    <td>Date</td>
-                                                    <td>Nombre d'inscrits</td>
+                                                    <td><strong><?= MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'date') ?></strong><br><?= MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'time') ?></td>
+                                                    <td><?= count($event['participant']) ?></td>
                                                     <td data-sort="<?= $event['event']->start_datetime ?>">
                                                         <strong class="d-block text-nowrap"><?= MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'date') ?></strong>
                                                         <span class="text-nowrap"><?= MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'time') ?></span>
