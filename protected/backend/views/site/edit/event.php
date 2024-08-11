@@ -622,8 +622,8 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                         $speakerList = User::getSpeakers();
                                                         $speakers = [];
                                                         foreach ($speakerList as $speaker) {
-                                                            $speakerCompany = Company::findOne($speaker->company_id);
-                                                            $speakerCompanyName = null !== $speakerCompany ? strtoupper($speakerCompany->name) : '';
+                                                            $speakerCompany = Company::getUserCompanyName($speaker->company_id);
+                                                            $speakerCompanyName = null !== $speakerCompany ? $speakerCompany : '';
                                                             $speakers[$speaker->id] = $speaker->firstname.' '.$speaker->lastname.' | '.$speakerCompanyName;
                                                         } ?>
 
@@ -744,6 +744,32 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                                             <video class="rounded" muted autoplay>
                                                                                                 <source src="<?= Yii::getAlias('@uploadWeb').'/'.$doc->path ?>">
                                                                                             </video>
+                                                                                            <?php break;
+
+                                                                                        case 'application':
+                                                                                            $icon = ''; 
+                                                                                            switch ($type[1]) {
+                                                                                                case 'pdf':
+                                                                                                    $icon = 'pdf';
+                                                                                                    break;
+                                                                                                case 'msword':
+                                                                                                case 'vnd.openxmlformats-officedocument.wordprocessingml.document':
+                                                                                                    $icon = 'word';
+                                                                                                    break;
+                                                                                                case 'vnd.ms-excel':
+                                                                                                case 'vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                                                                                                    $icon = 'excel';
+                                                                                                    break;
+                                                                                                case 'vnd.ms-powerpoint':
+                                                                                                case 'vnd.openxmlformats-officedocument.presentationml.presentation':
+                                                                                                    $icon = 'powerpoint';
+                                                                                                    break;
+                                                                                                 
+                                                                                                 default:
+                                                                                                    $icon = 'document';
+                                                                                                    break;
+                                                                                            } ?>
+                                                                                            <img src="<?= Yii::$app->request->BaseUrl ?>/media/<?= $icon ?>.png">
                                                                                             <?php break;
                                                                                         
                                                                                         default: ?>
@@ -873,9 +899,8 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                         <?php 
                                                         $userList = User::getActiveUsers();
                                                         foreach ($userList as $user) {
-                                                            $userCompany = Company::findOne($user->company_id);
-                                                            $userCompanyText = null !== $userCompany ? strtoupper($userCompany->name) : '';
-                                                            $users[$user->id] = $user->firstname.' '.$user->lastname.' | '.$userCompanyText;
+                                                            $userCompanyName = Company::getUserCompanyName($user->company_id);
+                                                            $users[$user->id] = $user->firstname.' '.$user->lastname.' | '.$userCompanyName;
                                                         } ?>
 
                                                         <?= Html::dropDownlist('addParticipants', null, $users, [

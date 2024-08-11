@@ -2189,7 +2189,17 @@ var KTApp = function() {
                     //maxFileSize: 1000000, // 1mb
                     //maxNumberOfFiles: 5,
                     minNumberOfFiles: 1,
-                    allowedFileTypes: ['image/*', 'video/*', 'application/pdf']
+                    allowedFileTypes: [
+                        'image/*', 
+                        'video/*', 
+                        'application/pdf',
+                        'application/msword',
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        'application/vnd.ms-excel',
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        'application/vnd.ms-powerpoint',
+                        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                    ]
                 },
             });
 
@@ -2232,6 +2242,25 @@ var KTApp = function() {
                 		case 'mp4': 
                     		newImage.find('.overflow-image video').removeClass('d-none').attr('src', newImage.attr('data-media-url') + responseBody.path);
                 			break;
+
+                        case 'pdf':
+                            newImage.find('.overflow-image img').removeClass('d-none').attr('src', newImage.attr('data-media-url') + '../backend/media/pdf.png');
+                            break;
+
+                        case 'xls':
+                        case 'xlsx':
+                            newImage.find('.overflow-image img').removeClass('d-none').attr('src', newImage.attr('data-media-url') + '../backend/media/excel.png');
+                            break;
+
+                        case 'doc':
+                        case 'docx':
+                            newImage.find('.overflow-image img').removeClass('d-none').attr('src', newImage.attr('data-media-url') + '../backend/media/word.png');
+                            break;
+
+                        case 'ppt':
+                        case 'pptx':
+                            newImage.find('.overflow-image img').removeClass('d-none').attr('src', newImage.attr('data-media-url') + '../backend/media/powerpoint.png');
+                            break;
 
                     	default:
                     		break;

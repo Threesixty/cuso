@@ -379,6 +379,16 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                                     </label>
                                                 </span>
                                             </div>
+                                            <div class="form-group">
+                                                <label>Présentation :</label>
+                                                <?= $form->field($model, 'presentation')
+                                                    ->textarea([
+                                                        'rows' => '3', 
+                                                        'class' => 'form-control textarea-autosize', 
+                                                        'placeholder' => "Quelques mots..."
+                                                    ])
+                                                    ->label(false) ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

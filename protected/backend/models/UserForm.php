@@ -29,6 +29,7 @@ class UserForm extends Model
     public $department;
     public $function;
     public $decisionScope;
+    public $presentation;
     public $role = 0;
     public $status = 9;
     public $createdAt;
@@ -63,7 +64,7 @@ class UserForm extends Model
         return [
             [['gender', 'firstname', 'lastname', 'email', 'role', 'companyId', 'department', 'function', 'decisionScope', 'interests', 'products', 'communities'], 'required'],
             [['email'], 'trim'],
-            [['photoId', 'isSpeaker', 'phone', 'mobile', 'status'], 'safe'],
+            [['photoId', 'isSpeaker', 'phone', 'mobile', 'presentation', 'status'], 'safe'],
             [['password'], 'createRequired', 'skipOnEmpty' => false],
             [
                 ['phone'],
@@ -83,7 +84,7 @@ class UserForm extends Model
                     return ($model->phone == '');
                 },
                 'whenClient' => 'function(attribute,value){
-                    return ($("#testform-phone").val()=="");
+                    return ($("#userform-phone").val()=="");
                 }',
                 'message' => 'Au moins un numéro de téléphone fixe ou mobile doit être saisi',
             ],
@@ -143,6 +144,7 @@ class UserForm extends Model
             $user->department = $this->department;
             $user->function = $this->function;
             $user->decision_scope = $this->decisionScope;
+            $user->presentation = $this->presentation;
             $user->role = $this->role;
             $user->status = $this->status;
 
@@ -245,6 +247,7 @@ class UserForm extends Model
             $this->department = $user->department;
             $this->function = $user->function;
             $this->decisionScope = $user->decision_scope;
+            $this->presentation = $user->presentation;
             $this->role = $user->role;
             $this->status = $user->status;
 
