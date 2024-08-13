@@ -43,6 +43,13 @@ class Participant extends ActiveRecord
         ];
     }
 
+    // BO
+    public function getEvent() {
+        return $this->hasOne(Cms::className(), [
+                'id' => 'event_id'
+            ]);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -105,5 +112,17 @@ class Participant extends ActiveRecord
             ];
 
         return  $came === null ? '' : $registerStatusColors[$came];
+    }
+
+    //FO 
+    public static function getMemberParticipation($userId)
+    {
+        return static::find()
+            ->innerJoinWith('event')
+            ->where([
+                'participant.user_id' => $userId,
+                'participant.registered' => true
+            ])
+            ->all();
     }
 }

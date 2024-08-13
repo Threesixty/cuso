@@ -237,7 +237,8 @@ class User extends ActiveRecord implements IdentityInterface
                     ->innerJoinWith('modelRelations')
                     ->where([
                         'user.id' => Yii::$app->request->get('id')
-                    ])->one();
+                    ])
+                    ->one();
 
         // Empty modelReltions
         if (null === $user) 
@@ -344,5 +345,32 @@ class User extends ActiveRecord implements IdentityInterface
         $author = static::findOne($userId);
 
         return null !== $author ? $author->firstname.' '.$author->lastname : false;
+    }
+
+    //FO
+    public static function getActiveMembers()
+    {
+        return static::find()
+            ->where(['status' => self::STATUS_ACTIVE])
+            ->andWhere(['role' => 3])
+            ->orderBy(['company_id' => SORT_ASC])
+            ->all();
+    }
+
+    //FO
+    public static function getMember($id) {
+
+        $user = User::find()
+                    ->innerJoinWith('modelRelations')
+                    ->where([
+                        'user.id' => $id
+                    ])
+                    ->one();
+
+        // Empty modelReltions
+        if (null === $user) 
+            $user = User::findOne($id);
+
+        return $user;
     }
 }
