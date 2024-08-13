@@ -203,7 +203,6 @@ class MainHelper
         foreach ($treeMenu as $key => $menu) {
         	if (!empty($menu['data'])) {
 	        	$currentContent = Cms::getMenuContentById($menu['data']['id']);
-	        	$currentContent = null !== $currentContent ? $currentContent : Hotel::getHotelById($menu['data']['id']);
 	        	if (null !== $currentContent) {
 	        		$menus[$menu['text']]['id'] = $currentContent->id;
 	        		$menus[$menu['text']]['url'] = $currentContent->url;
