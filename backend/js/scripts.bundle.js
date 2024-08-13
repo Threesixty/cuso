@@ -1147,7 +1147,7 @@ var KTApp = function() {
                 paging: true,
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [6] }],
-                order: [[1, 'desc']],
+                order: [[1, 'asc']],
                 language: datatableLanguage,
                 buttons: [
                     {               
