@@ -192,7 +192,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter une discussion',
                                             <div class="form-group">
                                                 <label>Sujets abordés :</label>
                                                 <?php 
-                                                $interests = Option::getOption('name', 'interests', 'select'); ?>
+                                                $interests = Option::getOption('name', 'interests', 'select', true); ?>
 
                                                 <?= $form->field($model, 'interests')
                                                     ->dropDownList(
