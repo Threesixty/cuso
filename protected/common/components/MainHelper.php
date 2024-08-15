@@ -12,6 +12,8 @@ use common\models\Option;
 
 class MainHelper
 {
+    const ONE_DAY_IN_SECONDS = 60*60*24;
+
     public static function pp($mixed) {
 
         echo '<pre class="debug">';
@@ -201,7 +203,6 @@ class MainHelper
         foreach ($treeMenu as $key => $menu) {
         	if (!empty($menu['data'])) {
 	        	$currentContent = Cms::getMenuContentById($menu['data']['id']);
-	        	$currentContent = null !== $currentContent ? $currentContent : Hotel::getHotelById($menu['data']['id']);
 	        	if (null !== $currentContent) {
 	        		$menus[$menu['text']]['id'] = $currentContent->id;
 	        		$menus[$menu['text']]['url'] = $currentContent->url;
@@ -363,6 +364,31 @@ class MainHelper
 		return $hsl->lightness < 150 ? true : false;
 	}
 
+	public static function getPrettyEventDate($start, $end, $small = false, $format = 'all') {
+		$date = '';
+		switch ($format) {
+			case 'date':
+				if ($end - $start < self::ONE_DAY_IN_SECONDS) {
+					$date = strftime("%d %B %Y", $start);
+				} else {
+					$date = $small ? strftime("%d %B %Y", $start).' - '.strftime("%d %B %Y", $end) : "Du ".strftime("%d %B %Y", $start).' '.Yii::t('app', "au").' '.strftime("%d %B %Y", $end);
+				}
+				break;
+			case 'time':
+				$date = $small ? date('G\hi', $start).' - '.date('G\hi', $end) : Yii::t('app', "De").' '.date('G\hi', $start).' '.Yii::t('app', "à").' '.date('G\hi', $end);
+				break;
+			
+			default:
+				if ($end - $start < self::ONE_DAY_IN_SECONDS) {
+					$date = $small ? strftime("%d %B %Y", $start).' | '.date('G\hi', $start).' - '.date('G\hi', $end) : strftime("%d %B %Y", $start).' '.Yii::t('app', "de").' '.date('G\hi', $start).' '.Yii::t('app', "à").' '.date('G\hi', $end);
+				} else {
+					$date = $small ? strftime("%d %B %Y", $start).' | '.date('G\hi', $start) : "Du ".strftime("%d %B %Y", $start).' '.Yii::t('app', "à").' '.date('G\hi', $start).' '.Yii::t('app', "au").' '.strftime("%d %B %Y", $end).' '.Yii::t('app', "à").' '.date('G\hi', $end);
+				}
+				break;
+		}
+		return $date;
+	}
+
     public static function uniqueUrl($cms, $cmsId, $idx = 1, $text = '') {
 
         $params = [
@@ -406,6 +432,7 @@ class MainHelper
 		if (static::seems_utf8($string)) {
 			$chars = array(
 			// Decompositions for Latin-1 Supplement
+			',' => '-',
 			'%' => '_', '&' => 'and',
 			'ª' => 'a', 'º' => 'o',
 			'À' => 'A', 'Á' => 'A',

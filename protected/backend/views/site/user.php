@@ -39,7 +39,7 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                             <th>Nom</th>
                                             <th>Société</th>
                                             <th>Role</th>
-                                            <th>Status</th>
+                                            <th>Statut</th>
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>

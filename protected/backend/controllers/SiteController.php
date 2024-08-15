@@ -13,6 +13,7 @@ use common\models\Company;
 use common\models\Cms;
 use common\models\News;
 use common\models\Event;
+use common\models\Participant;
 use common\models\Forum;
 use common\models\Media;
 use common\models\Option;
@@ -235,7 +236,7 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            if (null !== User::findOne(['username' => $model->email])) {
+            if (empty(Yii::$app->request->get('id')) && null !== User::findOne(['username' => $model->email])) {
                 Yii::$app->session->setFlash('warning', "L'utilisateur avec l'email ".$model->email." existe déjà.");
             } elseif ($user = $model->save()) {
                 Yii::$app->session->setFlash('success', 'Utilisateur sauvegardé avec succès');
@@ -493,6 +494,83 @@ class SiteController extends Controller
         return $this->render('edit/event', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Add participants.
+     *
+     * @return mixed
+     */
+    public function actionParticipants()
+    {
+        $eventId = Yii::$app->request->post('eventId');
+        $participants = Json::decode(Yii::$app->request->post('participants'));
+
+        if (null !== $participants) {
+
+            $eventParticipantList = [];
+            foreach ($participants as $participant) {
+
+                $args = [
+                        'eventId' => $eventId,
+                        'userId' => $participant['id'],
+                        'registered' => 1,
+                    ];
+
+                if ($newParticipant = Participant::add($args)) {
+                    $eventParticipantList[] = $newParticipant;
+                } else {
+                    MainHelper::pp($newParticipant);
+                }
+            }
+
+            return Json::encode($this->renderPartial(
+                    'ajax/addParticipants', [
+                        'eventParticipantList' => $eventParticipantList,
+                    ]
+                ));
+        }
+
+    }
+
+    /**
+     * Update participant.
+     *
+     * @return mixed
+     */
+    public function actionParticipantAction()
+    {
+        $action = Yii::$app->request->post('action');
+        $participantId = Yii::$app->request->post('participantId');
+
+        if (null !== $participantId) {
+
+            $currentParticipant = Participant::findOne($participantId);
+            if (null !== $currentParticipant) {
+                switch ($action) {
+                    case 'register':
+                        $currentParticipant->registered = true;
+                        $currentParticipant->updated_at = time();
+                        break;
+                    case 'unregister':
+                        $currentParticipant->registered = false;
+                        $currentParticipant->updated_at = time();
+                        break;
+                    case 'came':
+                        $currentParticipant->came = true;
+                        break;
+                    case 'notcame':
+                        $currentParticipant->came = false;
+                        break;
+                    
+                    default:
+                        break;
+                }
+                return $currentParticipant->save() ? Json::encode($currentParticipant) : false;
+            }
+            return false;
+        }
+
     }
 
     /**

@@ -40,12 +40,12 @@ class Event extends ActiveRecord
             ->innerJoinWith('event')
             ->innerJoinWith('modelRelations')
             ->where([
-                'Cms.type' => 'event',
+                'cms.type' => 'event',
             ])
             ->andWhere([
-                'is', 'lang_parent_id', new \yii\db\Expression('null')
+                'is', 'cms.lang_parent_id', new \yii\db\Expression('null')
             ])
-            ->orderBy(['created_at' => SORT_DESC])
+            ->orderBy(['cms.created_at' => SORT_DESC])
             ->all();
     }
 
@@ -98,5 +98,70 @@ class Event extends ActiveRecord
         }
 
         return $event;
+    }
+
+    // FO
+    public static function getNextEventList($limit = 10) {
+
+        $toComeUpEvents = Cms::find()
+            ->innerJoinWith('event')
+            ->innerJoinWith('modelRelations')
+            ->where([
+                'cms.type' => 'event',
+                'cms.status' => 1,
+                'cms.lang' => Yii::$app->language,
+            ])
+            ->andWhere(['>', 'event.start_datetime', time()])
+            ->limit($limit)
+            ->orderBy(['event.start_datetime' => SORT_ASC])
+            ->groupBy('event.start_datetime')
+            ->all();
+
+        if (count($toComeUpEvents) < 4) {
+            $pastEvents = Cms::find()
+                ->innerJoinWith('event')
+                ->innerJoinWith('modelRelations')
+                ->where([
+                    'cms.type' => 'event',
+                    'cms.status' => 1,
+                    'cms.lang' => Yii::$app->language,
+                ])
+                ->andWhere(['<', 'event.start_datetime', time()])
+                ->limit($limit - count($toComeUpEvents))
+                ->orderBy(['event.start_datetime' => SORT_DESC])
+                ->groupBy('event.start_datetime')
+                ->all();
+
+            $toComeUpEvents = array_merge($toComeUpEvents, $pastEvents);
+        }
+
+        return $toComeUpEvents;
+    }
+
+    // FO
+    public static function getContent($url = null) {
+
+        $params = [
+                'cms.lang' => Yii::$app->language,
+                'cms.status' => 1,
+                'cms.url' => $url
+            ];
+
+        $content = Cms::find()
+                        ->innerJoinWith('modelRelations')
+                        ->where($params)
+                        ->andWhere([
+                                'or',
+                                ['>', 'end_date', time()],
+                                ['end_date' => 0],
+                            ])
+                        ->one();
+
+        if (null !== $content) {
+            $content->content = JSON::decode($content->content);
+            return $content;
+        } else {
+            return false;
+        }
     }
 }

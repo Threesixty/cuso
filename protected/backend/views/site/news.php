@@ -37,7 +37,7 @@ $this->title = MainHelper::getPageTitle('Liste des actualités', '', true);
                                             <th>Titre</th>
                                             <th>Étiquettes</th>
                                             <th>Dates de publication</th>
-                                            <th>Status</th>
+                                            <th>Statut</th>
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>

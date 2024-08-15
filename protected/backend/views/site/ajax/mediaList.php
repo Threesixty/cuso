@@ -34,10 +34,36 @@ use common\components\MainHelper; ?>
                         		<source src="<?= Yii::getAlias('@uploadWeb').'/'.$media->path ?>">
                         	</video>
                 			<?php break;
+
+                        case 'application':
+                            $icon = ''; 
+                            switch ($type[1]) {
+                                case 'pdf':
+                                    $icon = 'pdf';
+                                    break;
+                                case 'msword':
+                                case 'vnd.openxmlformats-officedocument.wordprocessingml.document':
+                                    $icon = 'word';
+                                    break;
+                                case 'vnd.ms-excel':
+                                case 'vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                                    $icon = 'excel';
+                                    break;
+                                case 'vnd.ms-powerpoint':
+                                case 'vnd.openxmlformats-officedocument.presentationml.presentation':
+                                    $icon = 'powerpoint';
+                                    break;
+                                 
+                                 default:
+                                    $icon = 'document';
+                                    break;
+                            } ?>
+                            <img src="<?= Yii::$app->request->BaseUrl ?>/media/<?= $icon ?>.png">
+                            <?php break;
                 		
-                		default: 
-                			# code...
-                			break;
+                		default: ?>
+                            <img src="<?= Yii::$app->request->BaseUrl ?>/media/document.png">
+                            <?php break;
                 	} ?>
                 </div>
             </div>

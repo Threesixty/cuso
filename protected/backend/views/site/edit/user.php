@@ -107,6 +107,7 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                                 <label>Société :</label>
                                                 <?php 
                                                 $companyList = Company::getCompanyList();
+                                                $companies = [''=>''];
                                                 foreach ($companyList as $company) {
                                                     $companies[$company->id] = $company->name;
                                                 } ?>
@@ -160,7 +161,7 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                                     ->textInput([
                                                         'type' => 'email',
                                                         'class' => 'form-control', 
-                                                        'placeholder' => "Nom",
+                                                        'placeholder' => "Email",
                                                     ])
                                                     ->label(false) ?>
                                             </div>
@@ -316,7 +317,7 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                             <div class="form-group">
                                                 <label>Centres d'intérêts :</label>
                                                 <?php 
-                                                $interests = Option::getOption('name', 'interests', 'select'); ?>
+                                                $interests = Option::getOption('name', 'interests', 'select', true); ?>
 
                                                 <?= $form->field($model, 'interests')
                                                     ->dropDownList(
@@ -377,6 +378,16 @@ $this->title = MainHelper::getPageTitle($model->username, 'Ajouter un utilisateu
                                                             ->label(false) ?>
                                                     </label>
                                                 </span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Présentation :</label>
+                                                <?= $form->field($model, 'presentation')
+                                                    ->textarea([
+                                                        'rows' => '3', 
+                                                        'class' => 'form-control textarea-autosize', 
+                                                        'placeholder' => "Quelques mots..."
+                                                    ])
+                                                    ->label(false) ?>
                                             </div>
                                         </div>
                                     </div>

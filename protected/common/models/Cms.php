@@ -58,6 +58,24 @@ class Cms extends ActiveRecord
     }
 
     // BO
+    public function getEvent() {
+        return $this->hasOne(Event::className(), [
+                'cms_id' => 'id'
+            ]);
+    }
+    public function getModelRelations() {
+        return $this->hasMany(ModelRelations::className(), [
+                'model_id' => 'id',
+                'model' => 'type'
+            ]);
+    }
+    public function getParticipant() {
+        return $this->hasMany(Participant::className(), [
+                'event_id' => 'id',
+            ]);
+    }
+
+    // BO
     public static function getCmsList() {
 
         return static::find()->where(['type' => 'cms'])
@@ -90,19 +108,6 @@ class Cms extends ActiveRecord
 
             return false;
         }
-    }
-
-    // BO
-    public function getEvent() {
-        return $this->hasOne(Event::className(), [
-                'cms_id' => 'id'
-            ]);
-    }
-    public function getModelRelations() {
-        return $this->hasMany(ModelRelations::className(), [
-                'model_id' => 'id',
-                'model' => 'type'
-            ]);
     }
 
     // FO

@@ -29,6 +29,7 @@ use common\components\MainHelper;
  * @property string $mobile
  * @property string $department
  * @property string $decision_scope
+ * @property string $presentation
  * @property integer $role
  * @property integer $status
  * @property integer $created_at
@@ -96,11 +97,11 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByUsername($username, $operator = '>=', $role = 4)
     {
         return static::find()
             ->where(['username' => $username, 'status' => self::STATUS_ACTIVE])
-            ->andWhere(['>=', 'role', 4])
+            ->andWhere([$operator, 'role', $role])
             ->one();
     }
 
@@ -236,7 +237,8 @@ class User extends ActiveRecord implements IdentityInterface
                     ->innerJoinWith('modelRelations')
                     ->where([
                         'user.id' => Yii::$app->request->get('id')
-                    ])->one();
+                    ])
+                    ->one();
 
         // Empty modelReltions
         if (null === $user) 
@@ -296,7 +298,7 @@ class User extends ActiveRecord implements IdentityInterface
     public static function getRoles($roleId = null) {
 
     	$roles = [
-    			1 => 'Contact Oracle',
+    			1 => 'Contact Genesys',
     			2 => 'Prospect',
     			3 => 'Membre',
     			4 => 'Admin',
@@ -305,10 +307,11 @@ class User extends ActiveRecord implements IdentityInterface
 
     	if (null !== $roleId)
     		return $roles[$roleId];
-    	else
+    	else {
             if (Yii::$app->user->identity->role < 5)
                 unset($roles[5]);
     		return $roles;
+        }
     }
 
     //BO 
@@ -335,5 +338,39 @@ class User extends ActiveRecord implements IdentityInterface
     		];
 
     	return $userStatus[$status];
+    }
+
+    //FO 
+    public static function getAuthorNicename($userId) {
+        $author = static::findOne($userId);
+
+        return null !== $author ? $author->firstname.' '.$author->lastname : false;
+    }
+
+    //FO
+    public static function getActiveMembers()
+    {
+        return static::find()
+            ->where(['status' => self::STATUS_ACTIVE])
+            ->andWhere(['role' => 3])
+            ->orderBy(['company_id' => SORT_ASC])
+            ->all();
+    }
+
+    //FO
+    public static function getMember($id) {
+
+        $user = User::find()
+                    ->innerJoinWith('modelRelations')
+                    ->where([
+                        'user.id' => $id
+                    ])
+                    ->one();
+
+        // Empty modelReltions
+        if (null === $user) 
+            $user = User::findOne($id);
+
+        return $user;
     }
 }
