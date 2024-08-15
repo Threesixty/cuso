@@ -64,18 +64,15 @@ class Forum extends ActiveRecord
     public static function deleteItem($itemId)
     {
         $delForum = static::find()
-            ->select('id')
             ->where(['id' => $itemId])
             ->orWhere(['parent_id' => $itemId])
             ->all();
 
         if (null !== $delForum) {
             // Delete ModelRelations
-            $delModelRelations = ModelRelations::deleteAll(['in', 'model_id', array_values($delForum)]);
+            $delModelRelations = ModelRelations::deleteAll(['and', ['model' => 'forum'], ['in', 'model_id', array_column($delForum, 'id')]]);
+            if (static::deleteAll(['in', 'id', array_column($delForum, 'id')])) {
 
-            if ($delForum->deleteAll()) {
-
-                Update::add('forum', $delForum->id, 'delete');
                 Yii::$app->session->setFlash('success', "Discussion supprimée avec succès");
 
                 return true;
