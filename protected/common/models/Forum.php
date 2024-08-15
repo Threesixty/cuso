@@ -45,6 +45,13 @@ class Forum extends ActiveRecord
     }
 
     // BO
+    public function getModelRelations() {
+        return $this->hasMany(ModelRelations::className(), [
+                'model_id' => 'id',
+            ])->andOnCondition(['model_relations.model' => 'forum']);
+    }
+
+    // BO
     public static function getForumList() {
 
         return static::find()
@@ -84,10 +91,12 @@ class Forum extends ActiveRecord
         }
     }
 
-    // BO
-    public function getModelRelations() {
-        return $this->hasMany(ModelRelations::className(), [
-                'model_id' => 'id'
-            ]);
+    // FO
+    public static function getActiveForums($parentId = 0) {
+
+        return static::find()
+            ->where(['forum.status' => 1, 'forum.parent_id' => $parentId])
+            ->orderBy(['forum.created_at' => SORT_ASC])
+            ->all();
     }
 }
