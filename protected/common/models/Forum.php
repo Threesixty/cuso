@@ -92,11 +92,11 @@ class Forum extends ActiveRecord
     }
 
     // FO
-    public static function getActiveForums($parentId = 0) {
+    public static function getActiveForums($parentId = 0, $sort = SORT_DESC) {
 
         return static::find()
             ->where(['forum.status' => 1, 'forum.parent_id' => $parentId])
-            ->orderBy(['forum.created_at' => SORT_ASC])
+            ->orderBy(['forum.created_at' => $sort])
             ->all();
     }
 }
