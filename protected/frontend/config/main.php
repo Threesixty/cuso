@@ -54,7 +54,7 @@ return [
         ],
         'urlManager' => [
             'class' => 'codemix\localeurls\UrlManager',
-            'languages' => ['fr', 'en'],
+            'languages' => ['fr'],
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableLanguageDetection' => true,
