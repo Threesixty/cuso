@@ -35,8 +35,9 @@ $this->title = MainHelper::getPageTitle('Liste des discussions', '', true);
                                         <tr>
                                             <th>#ID</th>
                                             <th>Titre</th>
-                                            <th>Produits</th>
-                                            <th>Centres d'intérêts</th>
+                                            <th>Sujets abordés</th>
+                                            <th>Produits concernés</th>
+                                            <th>Dates de publication</th>
                                             <th>Statut</th>
                                             <th class="text-center">Actions</th>
                                         </tr>
@@ -44,13 +45,30 @@ $this->title = MainHelper::getPageTitle('Liste des discussions', '', true);
                                     <tbody>
                                         <?php
                                         if (!empty($forumList)) {
-                                            foreach ($forumList as $forum) { ?>
+                                            foreach ($forumList as $forum) {
+                                                $interests = $products = [];
+                                                foreach ($forum['modelRelations'] as $modelRelation) {
+                                                    if ($modelRelation->model == 'forum' && $modelRelation->type == 'option' && $modelRelation->type_name == 'interests')
+                                                        $interests[] = $modelRelation->type_id;
+                                                    if ($modelRelation->model == 'forum' && $modelRelation->type == 'option' && $modelRelation->type_name == 'products') {
+                                                        $products[] = $modelRelation->type_id;
+                                                    }
+                                                } ?>
 
                                                 <tr>
                                                     <td><?= $forum->id ?></td>
                                                     <td class="h6"><a href="<?= Url::to(['site/edit-forum', 'id' => $forum->id]) ?>"><strong><?= $forum->title ?></strong></a></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>
+                                                        <ul class="mb-0">
+                                                            <li><?= implode('</li><li>', $interests) ?></li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                        <ul class="mb-0">
+                                                            <li><?= implode('</li><li>', $products) ?></li>
+                                                        </ul>
+                                                    </td>
+                                                    <td data-sort="<?= $forum->created_at ?>"><?= utf8_encode(strftime('%e %B %Y', $forum->created_at)) ?></td>
                                                     <td><span class="label label-xl font-weight-bold label-light-<?= $forum->status ? 'success' : 'gray' ?> label-inline"><?= $forum->status ? 'Publié' : 'Dépublié' ?></span></td>
                                                     <td nowrap="nowrap" class="text-center">
                                                         <a href="<?= Url::to(['site/edit-forum', 'id' => $forum->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
