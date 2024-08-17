@@ -5,6 +5,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Json;
+use common\models\Company;
 use common\models\Option;
 use backend\widgets\PopinWidget;
 use common\components\MainHelper;
@@ -53,7 +54,7 @@ $this->title = MainHelper::getPageTitle('Liste des sociétés', '', true);
                                                     <td><?= $company->main_contact_name ?></td>
                                                     <td><?= $company->licenses_count ?></td>
                                                     <td data-sort="<?= $company->membership_end ?>"><?= utf8_encode(strftime('%e %B %Y', $company->membership_end)) ?></td>
-                                                    <td><span class="label label-xl font-weight-bold label-light-<?= $company->status ? 'success' : 'gray' ?> label-inline"><?= $company->status ? 'Publié' : 'Dépublié' ?></span></td>
+                                                    <td><span class="label label-xl font-weight-bold label-light-<?= Company::getCompanyStatusColor($company->status) ?> label-inline"><?= Company::getCompanyStatusName($company->status) ?></span></td>
                                                     <td nowrap="nowrap" class="text-center">
                                                         <a href="<?= Url::to(['site/edit-company', 'id' => $company->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
                                                             <i class="la la-edit"></i>
@@ -63,9 +64,63 @@ $this->title = MainHelper::getPageTitle('Liste des sociétés', '', true);
                                                                 <i class="la la-trash"></i>
                                                             </a>
                                                         </span>
-                                                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon <?= $company->status ? 'add-to-menu' : '' ?>" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="<?= $company->status ? 'Ajouter au menu' : 'Pour ajouter ce contenu aux menus, ce dernier doit être publié' ?>" <?= $company->status ? '' : ' data-theme="dark"' ?>>
-                                                            <i class="la la-plus"></i>
-                                                        </a>
+                                                        <div class="card-toolbar d-inline">
+                                                            <div class="dropdown dropdown-inline">
+                                                                <a href="#" class="btn btn-clean btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="ki ki-bold-more-ver"></i>
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                                                    <!--begin::Navigation-->
+                                                                    <ul class="navi navi-hover">
+                                                                        <li class="navi-header pb-1">
+                                                                            <span class="text-primary text-uppercase font-weight-bold font-size-sm">Statut :</span>
+                                                                        </li>
+                                                                        <?php
+                                                                        if ($company->status != 0) { ?>
+                                                                            <li class="navi-item">
+                                                                                <a href="<?= Url::to(['site/company', 'id' => $company->id, 'status' => 0]) ?>" class="navi-link">
+                                                                                    <span class="navi-icon">
+                                                                                        <i class="flaticon2-cross"></i>
+                                                                                    </span>
+                                                                                    <span class="navi-text">Refuser</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        <?php }
+                                                                        if ($company->status != 1) { ?>
+                                                                            <li class="navi-item">
+                                                                                <a href="<?= Url::to(['site/company', 'id' => $company->id, 'status' => 1]) ?>" class="navi-link">
+                                                                                    <span class="navi-icon">
+                                                                                        <i class="flaticon2-hourglass-1"></i>
+                                                                                    </span>
+                                                                                    <span class="navi-text">En attente</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        <?php }
+                                                                        if ($company->status != 2) { ?>
+                                                                            <li class="navi-item">
+                                                                                <a href="<?= Url::to(['site/company', 'id' => $company->id, 'status' => 2]) ?>" class="navi-link">
+                                                                                    <span class="navi-icon">
+                                                                                        <i class="flaticon2-time"></i>
+                                                                                    </span>
+                                                                                    <span class="navi-text">Ex-adhérente</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        <?php }
+                                                                        if ($company->status != 3) { ?>
+                                                                            <li class="navi-item">
+                                                                                <a href="<?= Url::to(['site/company', 'id' => $company->id, 'status' => 3]) ?>" class="navi-link">
+                                                                                    <span class="navi-icon">
+                                                                                        <i class="flaticon2-check-mark"></i>
+                                                                                    </span>
+                                                                                    <span class="navi-text">Active</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        <?php } ?>
+                                                                    </ul>
+                                                                    <!--end::Navigation-->
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
 

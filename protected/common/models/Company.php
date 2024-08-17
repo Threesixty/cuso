@@ -31,14 +31,17 @@ use common\components\MainHelper;
  * @property string $billing_contact_email
  * @property string $billing_contact_phone
  * @property string $billing_platform
+ * @property string $informations
  * @property integer $status
  * @property integer $author
  * @property integer $created_at
  */
 class Company extends ActiveRecord
 {
-    const STATUS_DRAFT = 0;
-    const STATUS_PUBLISHED = 1;
+    const STATUS_REFUSED = 0;
+    const STATUS_DRAFT = 1;
+    const STATUS_EX = 2;
+    const STATUS_ACTIVE = 3;
 
     const IS_SPONSOR = 1;
 
@@ -58,7 +61,7 @@ class Company extends ActiveRecord
     {
         return [
             ['status', 'default', 'value' => self::STATUS_DRAFT],
-            ['status', 'in', 'range' => [self::STATUS_PUBLISHED, self::STATUS_DRAFT]],
+            ['status', 'in', 'range' => [self::STATUS_REFUSED, self::STATUS_DRAFT, self::STATUS_EX, self::STATUS_ACTIVE]],
         ];
     }
 
@@ -74,7 +77,7 @@ class Company extends ActiveRecord
     public static function getSponsorsNames()
     {
         $sponsors = static::find()
-            ->where(['status' => self::STATUS_PUBLISHED, 'is_sponsor' => self::IS_SPONSOR])
+            ->where(['status' => self::STATUS_ACTIVE, 'is_sponsor' => self::IS_SPONSOR])
             ->all();
 
         $sponsorList = array_column($sponsors, 'name', 'id');
@@ -104,5 +107,70 @@ class Company extends ActiveRecord
 
             return false;
         }
+    }
+
+    //BO
+    public static function updateStatus($id, $status)
+    {
+        $company = static::findOne($id);
+
+        if (null !== $company) {
+            $company->status = $status;
+            if ($company->save()) {
+
+                Update::add('company', $company->id, 'status');
+                Yii::$app->session->setFlash('success', 'Statut de la société modifié avec succès');
+
+                return true;
+            } else {
+                Yii::$app->session->setFlash('warning', 'Erreur lors de la modification du statut de la société. Veuillez contacter l‘administrateur');
+
+                return false;
+            }
+        } else {
+            Yii::$app->session->setFlash('warning', 'Élément introuvable');
+
+            return false;
+        }
+    }
+
+    //BO/FO
+    public static function getUserCompanyName($companyId) {
+        $userCompany = Company::findOne($companyId);
+        return null !== $userCompany ? strtoupper($userCompany->name) : '';
+    }
+
+
+    //BO 
+    public static function getCompanyStatusName($status) {
+        $companyStatusNames = [
+                self::STATUS_REFUSED => Yii::t('app', "Refusée"),
+                self::STATUS_DRAFT => Yii::t('app', "En attente"),
+                self::STATUS_EX => Yii::t('app', "Ex-adhérente"),
+                self::STATUS_ACTIVE => Yii::t('app', "Active")
+            ];
+
+        return $status === null ? 'Non définie' : $companyStatusNames[$status];
+    }
+
+    //BO 
+    public static function getCompanyStatusColor($status) {
+        $companyStatusColors = [
+                self::STATUS_REFUSED => 'danger',
+                self::STATUS_DRAFT => 'warning',
+                self::STATUS_EX => 'info',
+                self::STATUS_ACTIVE => 'success',
+            ];
+
+        return $status === null ? '' : $companyStatusColors[$status];
+    }
+
+    // FO
+    public static function getActiveCompanies() {
+
+        return static::find()
+            ->where(['status' => self::STATUS_ACTIVE])
+            ->orderBy(['name' => SORT_ASC])
+            ->all();
     }
 }

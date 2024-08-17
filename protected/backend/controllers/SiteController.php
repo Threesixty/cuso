@@ -269,6 +269,11 @@ class SiteController extends Controller
             Company::deleteItem($delId);
         }
 
+        if (null !== Yii::$app->request->get('id') && null !== Yii::$app->request->get('status')) {
+            if (Company::updateStatus(Yii::$app->request->get('id'), Yii::$app->request->get('status')))
+                return $this->redirect(Url::to(['site/company']));
+        }
+
         return $this->render('company', [
             'companyList' => Company::getCompanyList(),
         ]);

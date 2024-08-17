@@ -33,6 +33,7 @@ class CompanyForm extends Model
     public $billingContactEmail;
     public $billingContactPhone;
     public $billingPlatform;
+    public $informations;
     public $status;
     public $author;
     public $createdAt;
@@ -58,7 +59,7 @@ class CompanyForm extends Model
     {
         return [
             [['name', 'addressLine1', 'postalCode', 'city', 'activityArea', 'public', 'size', 'licensesCount', 'membershipEnd', 'isSponsor', 'mainContactName', 'mainContactEmail', 'mainContactPhone'], 'required'],
-            [['photoId', 'addressLine2', 'country', 'billingContactName', 'billingContactEmail', 'billingContactPhone', 'billingPlatform', 'status'], 'safe'],
+            [['photoId', 'addressLine2', 'country', 'billingContactName', 'billingContactEmail', 'billingContactPhone', 'billingPlatform', 'informations', 'status'], 'safe'],
         ];
     }
 
@@ -98,6 +99,7 @@ class CompanyForm extends Model
             $company->billing_contact_email = $this->billingContactEmail;
             $company->billing_contact_phone = $this->billingContactPhone;
             $company->billing_platform = $this->billingPlatform;
+            $company->informations = $this->informations;
             $company->status = $this->status;
 
             if ($company->save())
@@ -134,6 +136,7 @@ class CompanyForm extends Model
             $this->billingContactEmail = $company->billing_contact_email;
             $this->billingContactPhone = $company->billing_contact_phone;
             $this->billingPlatform = $company->billing_platform;
+            $this->informations = $company->informations;
             $this->status = $company->status;
 
             return true;

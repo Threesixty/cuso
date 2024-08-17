@@ -47922,7 +47922,8 @@ code {
   .label.label-inline {
     width: auto;
     padding: 0.15rem 0.75rem;
-    border-radius: 0.675rem; }
+    border-radius: 0.675rem;
+    white-space:nowrap; }
     .label.label-inline.label-md {
       padding: 0.8rem 0.6rem; }
     .label.label-inline.label-lg {

@@ -159,7 +159,7 @@ $this->title = MainHelper::getPageTitle($model->name, 'Ajouter une société', t
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group p-5 mb-0 bg-light-secondary">
+                                            <div class="form-group p-5 bg-light-secondary">
                                                 <label>Adresse :</label>
                                                 <?= $form->field($model, 'addressLine1')
                                                     ->textInput([
@@ -185,68 +185,6 @@ $this->title = MainHelper::getPageTitle($model->name, 'Ajouter une société', t
                                                         'placeholder' => "Ville",
                                                     ])
                                                     ->label(false) ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <label class="option <?= $model->status == 0 ? 'border-primary' : '' ?>">
-                                                            <span class="option-control">
-                                                                <span class="radio">
-                                                                    <?= $form->field($model, 'status', [
-                                                                            'options' => ['tag' => false],
-                                                                            'errorOptions' => ['tag' => null],
-                                                                        ])
-                                                                        ->radio([
-                                                                            'template' => '{input}', 
-                                                                            'value' => 0, 
-                                                                            'uncheck' => null,
-                                                                            'checked' => $model->status == 0 ? 'checked' : false,
-                                                                        ])
-                                                                        ->label(false); ?>
-                                                                    <span></span>
-                                                                </span>
-                                                            </span>
-                                                            <span class="option-label">
-                                                                <span class="option-head">
-                                                                    <span class="option-title">Inactive</span>
-                                                                    <span class="option-focus"></span>
-                                                                    <?= $model->status == 0 ? '<span class="option-focus"><i class="nav-icon fas fa-check text-primary"></i></span>' : '<span class="option-focus"></span>' ?>
-                                                                </span>
-                                                                <span class="option-body">La société est désactivé, <strong>ses membres n'ont plus accès au portail</strong></span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label class="option <?= $model->status == 1 ? 'border-primary' : '' ?>">
-                                                            <span class="option-control">
-                                                                <span class="radio">
-                                                                    <?= $form->field($model, 'status', [
-                                                                            'options' => ['tag' => false],
-                                                                            'errorOptions' => ['tag' => null],
-                                                                        ])
-                                                                        ->radio([
-                                                                            'template' => '{input}', 
-                                                                            'value' => 1, 
-                                                                            'uncheck' => null,
-                                                                            'checked' => $model->status == 1 ? 'checked' : false,
-                                                                        ])
-                                                                        ->label(false); ?>
-                                                                    <span></span>
-                                                                </span>
-                                                            </span>
-                                                            <span class="option-label">
-                                                                <span class="option-head">
-                                                                    <span class="option-title">Active</span>
-                                                                    <span class="option-focus"></span>
-                                                                    <?= $model->status == 1 ? '<span class="option-focus"><i class="nav-icon fas fa-check text-primary"></i></span>' : '<span class="option-focus"></span>' ?>
-                                                                </span>
-                                                                <span class="option-body">La société est activée, <strong>ses membres peuvent accéder librement au portail</strong></span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>Secteur d'activité :</label>
@@ -320,6 +258,124 @@ $this->title = MainHelper::getPageTitle($model->name, 'Ajouter une société', t
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <label class="option <?= $model->status == 1 ? 'border-primary' : '' ?>">
+                                                            <span class="option-control">
+                                                                <span class="radio">
+                                                                    <?= $form->field($model, 'status', [
+                                                                            'options' => ['tag' => false],
+                                                                            'errorOptions' => ['tag' => null],
+                                                                        ])
+                                                                        ->radio([
+                                                                            'template' => '{input}', 
+                                                                            'value' => 1, 
+                                                                            'uncheck' => null,
+                                                                            'checked' => $model->status == 1 ? 'checked' : false,
+                                                                        ])
+                                                                        ->label(false); ?>
+                                                                    <span></span>
+                                                                </span>
+                                                            </span>
+                                                            <span class="option-label">
+                                                                <span class="option-head">
+                                                                    <span class="option-title">En attente</span>
+                                                                    <span class="option-focus"></span>
+                                                                    <?= $model->status == 1 ? '<span class="option-focus"><i class="nav-icon fas fa-check text-primary"></i></span>' : '<span class="option-focus"></span>' ?>
+                                                                </span>
+                                                                <span class="option-body">La société est en attente de validation, <strong>ses membres n'ont pas accès au portail</strong></span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label class="option <?= $model->status == 3 ? 'border-primary' : '' ?>">
+                                                            <span class="option-control">
+                                                                <span class="radio">
+                                                                    <?= $form->field($model, 'status', [
+                                                                            'options' => ['tag' => false],
+                                                                            'errorOptions' => ['tag' => null],
+                                                                        ])
+                                                                        ->radio([
+                                                                            'template' => '{input}', 
+                                                                            'value' => 3, 
+                                                                            'uncheck' => null,
+                                                                            'checked' => $model->status == 3 ? 'checked' : false,
+                                                                        ])
+                                                                        ->label(false); ?>
+                                                                    <span></span>
+                                                                </span>
+                                                            </span>
+                                                            <span class="option-label">
+                                                                <span class="option-head">
+                                                                    <span class="option-title">Active</span>
+                                                                    <span class="option-focus"></span>
+                                                                    <?= $model->status == 3 ? '<span class="option-focus"><i class="nav-icon fas fa-check text-primary"></i></span>' : '<span class="option-focus"></span>' ?>
+                                                                </span>
+                                                                <span class="option-body">La société est activée, <strong>ses membres peuvent accéder librement au portail</strong></span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label class="option <?= $model->status == 0 ? 'border-primary' : '' ?>">
+                                                            <span class="option-control">
+                                                                <span class="radio">
+                                                                    <?= $form->field($model, 'status', [
+                                                                            'options' => ['tag' => false],
+                                                                            'errorOptions' => ['tag' => null],
+                                                                        ])
+                                                                        ->radio([
+                                                                            'template' => '{input}', 
+                                                                            'value' => 0, 
+                                                                            'uncheck' => null,
+                                                                            'checked' => $model->status == 0 ? 'checked' : false,
+                                                                        ])
+                                                                        ->label(false); ?>
+                                                                    <span></span>
+                                                                </span>
+                                                            </span>
+                                                            <span class="option-label">
+                                                                <span class="option-head">
+                                                                    <span class="option-title">Refusée</span>
+                                                                    <span class="option-focus"></span>
+                                                                    <?= $model->status == 0 ? '<span class="option-focus"><i class="nav-icon fas fa-check text-primary"></i></span>' : '<span class="option-focus"></span>' ?>
+                                                                </span>
+                                                                <span class="option-body">La demande d'adhésion est refusée, <strong>aucun membre n'a accès au portail</strong></span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label class="option <?= $model->status == 2 ? 'border-primary' : '' ?>">
+                                                            <span class="option-control">
+                                                                <span class="radio">
+                                                                    <?= $form->field($model, 'status', [
+                                                                            'options' => ['tag' => false],
+                                                                            'errorOptions' => ['tag' => null],
+                                                                        ])
+                                                                        ->radio([
+                                                                            'template' => '{input}', 
+                                                                            'value' => 2,
+                                                                            'uncheck' => null,
+                                                                            'checked' => $model->status == 2 ? 'checked' : false,
+                                                                        ])
+                                                                        ->label(false); ?>
+                                                                    <span></span>
+                                                                </span>
+                                                            </span>
+                                                            <span class="option-label">
+                                                                <span class="option-head">
+                                                                    <span class="option-title">Ex-adhérente</span>
+                                                                    <span class="option-focus"></span>
+                                                                    <?= $model->status == 2 ? '<span class="option-focus"><i class="nav-icon fas fa-check text-primary"></i></span>' : '<span class="option-focus"></span>' ?>
+                                                                </span>
+                                                                <span class="option-body">La société est inactive, <strong>ses membres ne peuvent plus accéder au portail</strong></span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label>Nombre de licences :</label>
                                                 <?= $form->field($model, 'licensesCount')
@@ -354,6 +410,16 @@ $this->title = MainHelper::getPageTitle($model->name, 'Ajouter une société', t
                                                     ])
                                                     ->label(false) ?>
 
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Informations :</label>
+                                                <?= $form->field($model, 'informations')
+                                                    ->textarea([
+                                                        'rows' => '3', 
+                                                        'class' => 'form-control textarea-autosize', 
+                                                        'placeholder' => "..."
+                                                    ])
+                                                    ->label(false) ?>
                                             </div>
                                         </div>
                                     </div>
