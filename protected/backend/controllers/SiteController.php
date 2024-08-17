@@ -211,6 +211,11 @@ class SiteController extends Controller
             User::deleteItem($delId);
         }
 
+        if (null !== Yii::$app->request->get('id') && null !== Yii::$app->request->get('status')) {
+            if (User::updateStatus(Yii::$app->request->get('id'), Yii::$app->request->get('status')))
+                return $this->redirect(Url::to(['site/user']));
+        }
+
         return $this->render('user', [
             'userList' => User::find()->where(['!=', 'role', 0])->all(),
         ]);

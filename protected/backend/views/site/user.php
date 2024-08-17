@@ -47,7 +47,7 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                         <?php
                                         if (!empty($userList)) {
                                             foreach ($userList as $user) {
-                                                if (Yii::$app->user->identity->role >= $user->role) {
+                                                if (Yii::$app->user->identity->role >= $user->role && ($user->id != 1 || ($user->id == 1 && Yii::$app->user->id == 1))) {
                                                     $userCompany = Company::findOne($user->company_id); ?>
 
                                                     <tr>
@@ -66,10 +66,67 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                                                 <i class="la la-edit"></i>
                                                             </a>
                                                             <span class="list-delete" data-toggle="modal" data-target="#deleteModal">
-                                                                <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="Supprimer">
+                                                                <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="bottom" data-container="body" data-boundary="window" title="Supprimer">
                                                                     <i class="la la-trash"></i>
                                                                 </a>
                                                             </span>
+                                                            <div class="card-toolbar d-inline">
+                                                                <div class="dropdown dropdown-inline" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="Statut">
+                                                                    <a href="#" class="btn btn-clean btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <i class="ki ki-bold-more-ver"></i>
+                                                                    </a>
+                                                                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                                                        <!--begin::Navigation-->
+                                                                        <ul class="navi navi-hover">
+                                                                            <li class="navi-header pb-1">
+                                                                                <span class="text-primary text-uppercase font-weight-bold font-size-sm">Statut :</span>
+                                                                            </li>
+                                                                            <?php
+                                                                            if ($user->status != 0) { ?>
+                                                                                <li class="navi-item">
+                                                                                    <a href="<?= Url::to(['site/user', 'id' => $user->id, 'status' => 0]) ?>" class="navi-link">
+                                                                                        <span class="navi-icon">
+                                                                                            <i class="flaticon2-cross"></i>
+                                                                                        </span>
+                                                                                        <span class="navi-text">Refusé</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                            <?php }
+                                                                            if ($user->status != 1) { ?>
+                                                                                <li class="navi-item">
+                                                                                    <a href="<?= Url::to(['site/user', 'id' => $user->id, 'status' => 1]) ?>" class="navi-link">
+                                                                                        <span class="navi-icon">
+                                                                                            <i class="flaticon2-hourglass-1"></i>
+                                                                                        </span>
+                                                                                        <span class="navi-text">Ex-membre</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                            <?php }
+                                                                            if ($user->status != 9) { ?>
+                                                                                <li class="navi-item">
+                                                                                    <a href="<?= Url::to(['site/user', 'id' => $user->id, 'status' => 9]) ?>" class="navi-link">
+                                                                                        <span class="navi-icon">
+                                                                                            <i class="flaticon2-check-mark"></i>
+                                                                                        </span>
+                                                                                        <span class="navi-text">En attente</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                            <?php }
+                                                                            if ($user->status != 10) { ?>
+                                                                                <li class="navi-item">
+                                                                                    <a href="<?= Url::to(['site/user', 'id' => $user->id, 'status' => 10]) ?>" class="navi-link">
+                                                                                        <span class="navi-icon">
+                                                                                            <i class="flaticon2-check-mark"></i>
+                                                                                        </span>
+                                                                                        <span class="navi-text">Actif</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                            <?php } ?>
+                                                                        </ul>
+                                                                        <!--end::Navigation-->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </td>
                                                     </tr>
 

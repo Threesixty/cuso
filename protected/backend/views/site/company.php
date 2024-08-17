@@ -65,7 +65,7 @@ $this->title = MainHelper::getPageTitle('Liste des sociétés', '', true);
                                                             </a>
                                                         </span>
                                                         <div class="card-toolbar d-inline">
-                                                            <div class="dropdown dropdown-inline">
+                                                            <div class="dropdown dropdown-inline" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="Statut">
                                                                 <a href="#" class="btn btn-clean btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                     <i class="ki ki-bold-more-ver"></i>
                                                                 </a>

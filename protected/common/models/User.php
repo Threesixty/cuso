@@ -37,9 +37,8 @@ use common\components\MainHelper;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_REFUSED = 1;
-    const STATUS_EX_MEMBER = 2;
+    const STATUS_REFUSED = 0;
+    const STATUS_EX_MEMBER = 1;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
@@ -71,7 +70,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_EX_MEMBER, self::STATUS_REFUSED, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_EX_MEMBER, self::STATUS_REFUSED]],
         ];
     }
 
@@ -270,6 +269,31 @@ class User extends ActiveRecord implements IdentityInterface
         }
     }
 
+    //BO
+    public static function updateStatus($id, $status)
+    {
+        $user = static::findOne($id);
+
+        if (null !== $user) {
+            $user->status = $status;
+            if ($user->save()) {
+
+                Update::add('user', $user->id, 'status');
+                Yii::$app->session->setFlash('success', "Statut de l'utilisateur modifié avec succès");
+
+                return true;
+            } else {
+                Yii::$app->session->setFlash('warning', "Erreur lors de la modification du statut de l'utilisateur. Veuillez contacter l‘administrateur");
+
+                return false;
+            }
+        } else {
+            Yii::$app->session->setFlash('warning', 'Élément introuvable');
+
+            return false;
+        }
+    }
+
     // BO
     public function getModelRelations() {
         return $this->hasMany(ModelRelations::className(), [
@@ -317,7 +341,6 @@ class User extends ActiveRecord implements IdentityInterface
     //BO 
     public static function getUserStatusName($status = null) {
     	$userStatus = [
-			    self::STATUS_DELETED => Yii::t('app', "Supprimé"),
 			    self::STATUS_REFUSED => Yii::t('app', "Refusé"),
 			    self::STATUS_EX_MEMBER => Yii::t('app', "Ex-membre"),
 			    self::STATUS_INACTIVE => Yii::t('app', "En attente"),
@@ -330,8 +353,7 @@ class User extends ActiveRecord implements IdentityInterface
     //BO 
     public static function getUserStatusColor($status) {
     	$userStatus = [
-			    self::STATUS_DELETED => 'danger',
-			    self::STATUS_REFUSED => 'gray',
+			    self::STATUS_REFUSED => 'danger',
 			    self::STATUS_EX_MEMBER => 'info',
 			    self::STATUS_INACTIVE => 'warning',
 			    self::STATUS_ACTIVE => 'success'
