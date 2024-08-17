@@ -96,7 +96,7 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                                                                 <li class="navi-item">
                                                                                     <a href="<?= Url::to(['site/user', 'id' => $user->id, 'status' => 1]) ?>" class="navi-link">
                                                                                         <span class="navi-icon">
-                                                                                            <i class="flaticon2-hourglass-1"></i>
+                                                                                            <i class="flaticon2-time"></i>
                                                                                         </span>
                                                                                         <span class="navi-text">Ex-membre</span>
                                                                                     </a>
@@ -106,7 +106,7 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                                                                 <li class="navi-item">
                                                                                     <a href="<?= Url::to(['site/user', 'id' => $user->id, 'status' => 9]) ?>" class="navi-link">
                                                                                         <span class="navi-icon">
-                                                                                            <i class="flaticon2-check-mark"></i>
+                                                                                            <i class="flaticon2-hourglass-1"></i>
                                                                                         </span>
                                                                                         <span class="navi-text">En attente</span>
                                                                                     </a>
