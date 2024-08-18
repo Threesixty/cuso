@@ -398,7 +398,7 @@ class SiteController extends Controller
         }
 
         if (null !== $delId = Yii::$app->request->post('delete-item')) {
-            Cms::deleteItem($delId);
+            News::deleteItem($delId);
         }
 
         return $this->render('news', [
@@ -457,8 +457,7 @@ class SiteController extends Controller
         }
 
         if (null !== $delId = Yii::$app->request->post('delete-item')) {
-            //Event::deleteItem($delId);
-            Cms::deleteItem($delId);
+            Event::deleteItem($delId);
         }
 
         return $this->render('event', [

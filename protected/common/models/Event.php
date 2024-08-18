@@ -137,6 +137,35 @@ class Event extends ActiveRecord
 
         return $toComeUpEvents;
     }
+    
+    // BO
+    public static function deleteItem($itemId)
+    {
+        $delCms = Cms::find()
+                ->innerJoinWith('event')
+                ->innerJoinWith('modelRelations')
+                ->where(['cms.lang_parent_id' => $itemId])
+                ->orWhere(['cms.id' => $itemId])
+                ->orderBy(['lang_parent_id' => SORT_DESC])
+                ->all();
+
+        if (!empty($delCms)) {
+            foreach ($delCms as $content) {
+                foreach ($content['modelRelations'] as $modelRelation) {
+                    $modelRelation->delete();
+                }
+                if ($content['event']->delete() && $content->delete() && null === $content->lang_parent_id)
+                    Update::add('news', $content->id, 'delete');
+            }
+            Yii::$app->session->setFlash('success', 'Contenu supprimé avec succès');
+
+            return true;
+        } else {
+            Yii::$app->session->setFlash('warning', 'Élément introuvable');
+
+            return false;
+        }
+    }
 
     // FO
     public static function getContent($url = null) {
@@ -148,6 +177,7 @@ class Event extends ActiveRecord
             ];
 
         $content = Cms::find()
+                        ->innerJoinWith('event')
                         ->innerJoinWith('modelRelations')
                         ->where($params)
                         ->andWhere([

@@ -249,9 +249,15 @@ class User extends ActiveRecord implements IdentityInterface
     //BO
     public static function deleteItem($itemId)
     {
-        $delUser = User::findOne($itemId);
-
+        $delUser = User::find()
+                    ->innerJoinWith('modelRelations')
+                    ->where(['user.id' => $itemId])
+                    ->one();
+                    
         if (null !== $delUser) {
+            foreach ($delUser['modelRelations'] as $modelRelation) {
+                $modelRelation->delete();
+            }
             if ($delUser->delete()) {
                 Update::add('user', $delUser->id, 'delete');
                 Yii::$app->session->setFlash('success', 'Utilisateur supprimé avec succès');
