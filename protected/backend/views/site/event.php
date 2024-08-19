@@ -31,7 +31,7 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                 <h3 class="card-title text-uppercase">Liste des événements</h3>
                             </div>
 
-                            <div class="card-body overflow-hidden">
+                            <div class="card-body">
                                 <!--begin: Datatable-->
                                 <table class="table table-separate table-head-custom table-checkable" id="datatableEvent">
                                     <thead>

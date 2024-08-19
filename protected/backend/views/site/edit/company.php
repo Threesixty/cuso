@@ -548,7 +548,7 @@ $this->title = MainHelper::getPageTitle($model->name, 'Ajouter une société', t
                                         </div>
                                     </div>
                                     <div id="collapseCompanyUsers" class="collapse" data-parent="#accordionCompanyUsers">
-                                        <div class="card-body overflow-hidden">
+                                        <div class="card-body">
 
                                             <!--begin: Datatable-->
                                             <table class="table table-separate table-head-custom table-checkable" id="datatableUser" data-export-title="Liste des membres <?= $this->title ?>">
