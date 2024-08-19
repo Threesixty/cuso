@@ -7,8 +7,8 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'cuso-backend',
-    'name' => 'Portail du Club utilisateurs de solutions Oracle',
+    'id' => 'genesys-backend',
+    'name' => 'Portail du club utilisateurs de solutions Genesys et Interactions CX',
     'basePath' => dirname(__DIR__),
     'language' => 'fr',
     'controllerNamespace' => 'backend\controllers',
@@ -16,17 +16,17 @@ return [
     'modules' => [],
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-cuso-backend',
+            'csrfParam' => '_csrf-genesys-backend',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'authTimeout' => 3600, // auth expire 
-            'identityCookie' => ['name' => '_identity-cuso-backend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-genesys-backend', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
-            'name' => 'session-cuso-backend',
+            'name' => 'session-genesys-backend',
             'class' => 'yii\web\Session',
             'cookieParams' => ['httponly' => true, 'lifetime' => 3600*4],
             'timeout' => 3600*4, //session expire
@@ -47,7 +47,14 @@ return [
         'assetManager' => [
             'assetMap' => [
                 'gfonts.css' => '//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700',
+                'dataTables.css' => '//cdn.datatables.net/2.1.4/css/dataTables.dataTables.css',
+                'buttons.dataTables.css' => '//cdn.datatables.net/buttons/3.1.1/css/buttons.dataTables.css',
                 'masonry-layout.js' => '//cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js',
+                'dataTables.js' => '//cdn.datatables.net/2.1.4/js/dataTables.js',
+                'dataTables.buttons.js' => '//cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js',
+                'jszip.min.js' => '//cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+                'buttons.html5.min.js' => '//cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js',
+                'buttons.colVis.min.js' => '//cdn.datatables.net/buttons/3.1.1/js/buttons.colVis.min.js',
             ],
             'bundles' => [
                 'yii\bootstrap\BootstrapPluginAsset' => [
@@ -68,7 +75,7 @@ return [
         */
         'urlManagerFrontend' => [
             'class' => 'codemix\localeurls\UrlManager',
-            'languages' => ['fr', 'en', 'de'],
+            'languages' => ['fr'],
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableLanguageDetection' => true,

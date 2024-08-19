@@ -2068,6 +2068,16 @@ pre {
     background-color: #F3F6F9;
     opacity: 1; }
 
+div.dt-container .dt-search input {
+  border: 1px solid #E4E6EF;
+  border-radius: 6px;
+  margin-left: 10px;
+}
+div.dt-container .dt-search input:focus {
+  border-color: #c84b4f !important;
+  outline: 0;
+}
+
 input[type="date"].form-control,
 input[type="time"].form-control,
 input[type="datetime-local"].form-control,
@@ -3636,9 +3646,57 @@ input[type="button"].btn-block {
   .custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
     background-color: rgba(102, 50, 89, 0.5); }
 
+div.dt-container .dataTables_wrapper td:first-child {
+  text-align: left;
+}
+div.dt-container .dataTables_wrapper tbody tr:nth-child(odd) {
+  background-color: #f8f8f8;
+}
+div.dt-container .dataTables_wrapper th.dt-ordering-asc {
+  color: #24294c !important;
+}
+div.dt-container .dataTables_wrapper button.dt-button.btn {
+  color: #ffffff;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 12px;
+}
+div.dt-container .dataTables_wrapper button.dt-button.btn-info {
+  background-color: #8950FC;
+  border-color: #8950FC;
+}
+div.dt-container .dataTables_wrapper button.dt-button.btn-secondary {
+  background-color: #E4E6EF;
+  border-color: #E4E6EF;
+  color: #111;
+}
+div.dt-container .dt-paging .dt-paging-button {
+  border-radius: 6px;
+  border: none;
+}
+div.dt-container .dt-paging .dt-paging-button.current {
+  background: #24294c;
+  color: #fff !important;
+  border: none;
+}
+div.dt-container .dt-paging .dt-paging-button:hover,
+div.dt-container .dt-paging .dt-paging-button.current:hover {
+  border: none;
+  border-radius: 6px;
+  background: #24294c;
+  color: #fff !important;
+}
+
+div.dt-container .dt-length {
+  align-content: flex-end;
+}
+div.dt-container .dataTables_wrapper select.dt-input,
 .custom-select {
   display: inline-block;
-  width: 100%;
+  width: auto;
   height: calc(1.5em + 1.3rem + 2px);
   padding: 0.65rem 2rem 0.65rem 1rem;
   font-size: 1rem;
@@ -3654,27 +3712,35 @@ input[type="button"].btn-block {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none; }
+
+  div.dt-container .dataTables_wrapper select.dt-input:focus,
   .custom-select:focus {
     border-color: #884377;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(102, 50, 89, 0.25);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(102, 50, 89, 0.25); }
+    div.dt-container .dataTables_wrapper select.dt-input:focus::-ms-value,
     .custom-select:focus::-ms-value {
       color: #3F4254;
       background-color: #ffffff; }
+  div.dt-container .dataTables_wrapper select.dt-input[multiple], div.dt-container .dataTables_wrapper select.dt-input[size]:not([size="1"]),
   .custom-select[multiple], .custom-select[size]:not([size="1"]) {
     height: auto;
     padding-right: 1rem;
     background-image: none; }
+  div.dt-container .dataTables_wrapper select.dt-input:disabled,
   .custom-select:disabled {
     color: #7E8299;
     background-color: #EBEDF3; }
+  div.dt-container .dataTables_wrapper select.dt-input::-ms-expand,
   .custom-select::-ms-expand {
     display: none; }
+  div.dt-container .dataTables_wrapper select.dt-input:-moz-focusring,
   .custom-select:-moz-focusring {
     color: transparent;
     text-shadow: 0 0 0 #3F4254; }
 
+div.dt-container .dataTables_wrapper select.dt-input,
 .custom-select-sm {
   height: calc(1.35em + 1.1rem + 2px);
   padding-top: 0.55rem;
@@ -3871,7 +3937,8 @@ input[type="button"].btn-block {
 
 .custom-control-label::before,
 .custom-file-label,
-.custom-select {
+.custom-select,
+div.dt-container .dataTables_wrapper select.dt-input {
   -webkit-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;

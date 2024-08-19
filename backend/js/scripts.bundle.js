@@ -1120,113 +1120,193 @@ var KTApp = function() {
             var datatableUser = $('#datatableUser').DataTable({
                 responsive: true,
                 paging: true,
+                pagingType: 'simple_numbers',
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [5] }],
                 language: datatableLanguage,
                 buttons: [
-                    {               
+                    {        
+                        extend: 'excel',
                         text: 'Export rapide',
-                        className: 'ml-4 btn-info',
-                        action: function ( e, dt, node, config ) {
-                            var data = dt.rows().data();
-                            datatableUser.$("tr", { 'search': 'applied' }).each(function() {
-                                // AJAX
-                                console.log($(this).find('td:first-child').text());
-                            });
-                        },
+                        className: 'ml-4 btn btn-info',
+                    },
+                    {        
+                        extend: 'colvis',
+                        text: 'Colonnes',
+                        className: 'ml-2 btn btn-secondary',
                     }
                 ],
+                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-7"'
+                                + '<"d-flex"lB>'
+                            + '>'
+                            + '<"col-sm-12 col-md-5 text-right"f>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12"rt>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-5"i>'
+                            + '<"col-sm-12 col-md-7 text-right"p>'
+                        + '>'
+                    + '>',
             });
-
-            datatableUser.buttons().container().appendTo( $('#datatableUser_length', datatableUser.table().container() ) );
         }
 
         if ($('#datatableCompany').length) {
             var datatableCompany = $('#datatableCompany').DataTable({
                 responsive: true,
                 paging: true,
+                pagingType: 'simple_numbers',
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[1, 'asc']],
                 language: datatableLanguage,
                 buttons: [
-                    {               
+                    {        
+                        extend: 'excel',
                         text: 'Export rapide',
-                        className: 'ml-4 btn-info',
-                        action: function ( e, dt, node, config ) {
-                            var data = dt.rows().data();
-                            datatableCompany.$("tr", { 'search': 'applied' }).each(function() {
-                                // AJAX
-                                console.log($(this).find('td:first-child').text());
-                            });
-                        },
+                        className: 'ml-4 btn btn-info',
+                    },
+                    {        
+                        extend: 'colvis',
+                        text: 'Colonnes',
+                        className: 'ml-2 btn btn-secondary',
                     }
                 ],
+                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-7"'
+                                + '<"d-flex"lB>'
+                            + '>'
+                            + '<"col-sm-12 col-md-5 text-right"f>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12"rt>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-5"i>'
+                            + '<"col-sm-12 col-md-7 text-right"p>'
+                        + '>'
+                    + '>',
             });
-
-            datatableCompany.buttons().container().appendTo( $('#datatableCompany_length', datatableCompany.table().container() ) );
         }
 
         if ($('#datatableEvent').length) {
             var datatableEvent = $('#datatableEvent').DataTable({
                 responsive: true,
                 paging: true,
+                pagingType: 'simple_numbers',
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[4, 'desc']],
                 language: datatableLanguage,
                 buttons: [
-                    {               
+                    {        
+                        extend: 'excel',
                         text: 'Export rapide',
-                        className: 'ml-4 btn-info',
-                        action: function ( e, dt, node, config ) {
-                            var data = dt.rows().data();
-                            datatableEvent.$("tr", { 'search': 'applied' }).each(function() {
-                                // AJAX
-                                console.log($(this).find('td:first-child').text());
-                            });
-                        }
+                        className: 'ml-4 btn btn-info',
+                    },
+                    {        
+                        extend: 'colvis',
+                        text: 'Colonnes',
+                        className: 'ml-2 btn btn-secondary',
                     }
                 ],
+                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-7"'
+                                + '<"d-flex"lB>'
+                            + '>'
+                            + '<"col-sm-12 col-md-5 text-right"f>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12"rt>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-5"i>'
+                            + '<"col-sm-12 col-md-7 text-right"p>'
+                        + '>'
+                    + '>',
             });
-
-            datatableEvent.buttons().container().appendTo( $('#datatableEvent_length', datatableEvent.table().container() ) );
         }
 
         if ($('#datatableParticipant').length) {
             var datatableParticipant = $('#datatableParticipant').DataTable({
                 responsive: true,
                 paging: true,
+                pagingType: 'simple_numbers',
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[4, 'desc']],
                 language: datatableLanguage,
                 buttons: [
-                    {               
+                    {        
+                        extend: 'excel',
                         text: 'Export rapide',
-                        className: 'ml-4 btn-info',
-                        action: function ( e, dt, node, config ) {
-                            var data = dt.rows().data();
-                            datatableParticipant.$("tr", { 'search': 'applied' }).each(function() {
-                                // AJAX
-                                console.log($(this).find('td:first-child').text());
-                            });
-                        }
+                        className: 'ml-4 btn btn-info',
+                    },
+                    {        
+                        extend: 'colvis',
+                        text: 'Colonnes',
+                        className: 'ml-2 btn btn-secondary',
                     }
                 ],
+                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-7"'
+                                + '<"d-flex"lB>'
+                            + '>'
+                            + '<"col-sm-12 col-md-5 text-right"f>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12"rt>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-5"i>'
+                            + '<"col-sm-12 col-md-7 text-right"p>'
+                        + '>'
+                    + '>',
             });
-
-            datatableParticipant.buttons().container().appendTo( $('#datatableParticipant_length', datatableParticipant.table().container() ) );
         }
 
         if ($('#datatableNews').length) {
             $('#datatableNews').DataTable({
                 responsive: true,
                 paging: true,
+                pagingType: 'simple_numbers',
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [5] }],
                 order: [[3, 'desc']],
-                language: datatableLanguage
+                language: datatableLanguage,
+                buttons: [
+                    {        
+                        extend: 'excel',
+                        text: 'Export rapide',
+                        className: 'ml-4 btn btn-info',
+                    },
+                    {        
+                        extend: 'colvis',
+                        text: 'Colonnes',
+                        className: 'ml-2 btn btn-secondary',
+                    }
+                ],
+                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-7"'
+                                + '<"d-flex"lB>'
+                            + '>'
+                            + '<"col-sm-12 col-md-5 text-right"f>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12"rt>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-5"i>'
+                            + '<"col-sm-12 col-md-7 text-right"p>'
+                        + '>'
+                    + '>',
             });
         }
 
@@ -1234,10 +1314,38 @@ var KTApp = function() {
             $('#datatableForum').DataTable({
                 responsive: true,
                 paging: true,
+                pagingType: 'simple_numbers',
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [5] }],
                 order: [[0, 'desc']],
-                language: datatableLanguage
+                language: datatableLanguage,
+                buttons: [
+                    {        
+                        extend: 'excel',
+                        text: 'Export rapide',
+                        className: 'ml-4 btn btn-info',
+                    },
+                    {        
+                        extend: 'colvis',
+                        text: 'Colonnes',
+                        className: 'ml-2 btn btn-secondary',
+                    }
+                ],
+                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-7"'
+                                + '<"d-flex"lB>'
+                            + '>'
+                            + '<"col-sm-12 col-md-5 text-right"f>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12"rt>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-5"i>'
+                            + '<"col-sm-12 col-md-7 text-right"p>'
+                        + '>'
+                    + '>',
             });
         }
 
@@ -1245,10 +1353,38 @@ var KTApp = function() {
             var datatableContent = $('#datatableContent').DataTable({
                 responsive: true,
                 paging: true,
+                pagingType: 'simple_numbers',
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[4, 'desc']],
-                language: datatableLanguage
+                language: datatableLanguage,
+                buttons: [
+                    {        
+                        extend: 'excel',
+                        text: 'Export rapide',
+                        className: 'ml-4 btn btn-info',
+                    },
+                    {        
+                        extend: 'colvis',
+                        text: 'Colonnes',
+                        className: 'ml-2 btn btn-secondary',
+                    }
+                ],
+                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-7"'
+                                + '<"d-flex"lB>'
+                            + '>'
+                            + '<"col-sm-12 col-md-5 text-right"f>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12"rt>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-5"i>'
+                            + '<"col-sm-12 col-md-7 text-right"p>'
+                        + '>'
+                    + '>',
             });
         }
 
@@ -1256,10 +1392,38 @@ var KTApp = function() {
             $('#datatableOption').DataTable({
                 responsive: true,
                 paging: true,
+                pagingType: 'simple_numbers',
                 pageLength: 25,
                 columnDefs: [{ "orderable": false, "targets": [5] }],
                 order: [[0, 'desc']],
-                language: datatableLanguage
+                language: datatableLanguage,
+                buttons: [
+                    {        
+                        extend: 'excel',
+                        text: 'Export rapide',
+                        className: 'ml-4 btn btn-info',
+                    },
+                    {        
+                        extend: 'colvis',
+                        text: 'Colonnes',
+                        className: 'ml-2 btn btn-secondary',
+                    }
+                ],
+                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-7"'
+                                + '<"d-flex"lB>'
+                            + '>'
+                            + '<"col-sm-12 col-md-5 text-right"f>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12"rt>'
+                        + '>'
+                        + '<"row"'
+                            + '<"col-sm-12 col-md-5"i>'
+                            + '<"col-sm-12 col-md-7 text-right"p>'
+                        + '>'
+                    + '>',
             });
         }
     };
@@ -2106,6 +2270,7 @@ var KTApp = function() {
                                 'block' : $(this).attr('data-block'),
                                 'value' : {
                                         'content': $(this).find('.summernote').summernote('code'),
+                                        'width': $(this).find('select[name="width"]').val(),
                                     },
                             };
                         break;
