@@ -1170,6 +1170,7 @@ var KTApp = function() {
 
             currentDatatable = $('#datatableUser').DataTable({
                 responsive: true,
+                select: true,
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
@@ -1186,6 +1187,7 @@ var KTApp = function() {
         if ($('#datatableCompany').length) {
             currentDatatable = $('#datatableCompany').DataTable({
                 responsive: true,
+                select: true,
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
@@ -1203,6 +1205,7 @@ var KTApp = function() {
         if ($('#datatableEvent').length) {
             currentDatatable = $('#datatableEvent').DataTable({
                 responsive: true,
+                select: true,
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
@@ -1224,6 +1227,7 @@ var KTApp = function() {
 
             currentDatatable = $('#datatableParticipant').DataTable({
                 responsive: true,
+                select: true,
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
@@ -1283,8 +1287,6 @@ var KTApp = function() {
                 columnDefs: [{ "orderable": false, "targets": [5] }],
                 order: [[0, 'desc']],
                 language: datatableLanguage,
-                buttons: datatableButtons,
-                dom: datatableDom,
             })
         }
 

@@ -45577,6 +45577,13 @@ code {
     border: 0;
     border-radius: 0.675rem; }
 
+table.dataTable > tbody > tr.selected > * {
+  box-shadow: inset 0 0 0 9999px rgba(200, 75, 79, 0.9);
+}
+table.dataTable > tbody > tr.selected > td, table.dataTable > tbody > tr.selected > td > a {
+  background: #c84b4f !important;
+  color: #fff !important;
+}
 .datatable:not(.table) {
   display: none; }
 .overflow-scroll {
@@ -47919,8 +47926,7 @@ code {
     .label.label-outline-success.label-outline-2x {
       border: 2px solid #c84b4f; }
   .label.label-light-success {
-  	olor: #5cc22f;
-  	background-color: rgba(92, 194, 47, 0.3); }
+  	background-color: #c9e8bb; }
   .label.label-info {
     color: #ffffff;
     background-color: #8950FC; }

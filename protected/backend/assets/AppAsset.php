@@ -45,6 +45,8 @@ class AppAsset extends AssetBundle
         'jszip.min.js',
         'buttons.html5.min.js',
         'buttons.colVis.min.js',
+        'dataTables.select.js',
+        'select.dataTables.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

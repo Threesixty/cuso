@@ -55,6 +55,8 @@ return [
                 'jszip.min.js' => '//cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
                 'buttons.html5.min.js' => '//cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js',
                 'buttons.colVis.min.js' => '//cdn.datatables.net/buttons/3.1.1/js/buttons.colVis.min.js',
+                'dataTables.select.js' => '//cdn.datatables.net/select/2.0.5/js/dataTables.select.js',
+                'select.dataTables.js' => '//cdn.datatables.net/select/2.0.5/js/select.dataTables.js',
             ],
             'bundles' => [
                 'yii\bootstrap\BootstrapPluginAsset' => [
