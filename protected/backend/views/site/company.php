@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\helpers\Json;
 use common\models\Company;
 use common\models\Option;
+use common\models\Update;
 use backend\widgets\PopinWidget;
 use common\components\MainHelper;
 
@@ -36,25 +37,56 @@ $this->title = MainHelper::getPageTitle('Liste des sociétés', '', true);
                                         <tr>
                                             <th>#ID</th>
                                             <th>Nom</th>
+                                            <th>Adresse</th>
+                                            <th>Secteur d'activité</th>
+                                            <th>Taille</th>
+                                            <th>Secteur public</th>
+                                            <th>Sponsor</th>
                                             <th>Contact principal</th>
+                                            <th>&#8227 Email</th>
+                                            <th>&#8227 Téléphone</th>
+                                            <th>Contact facturation</th>
+                                            <th>&#8227 Email</th>
+                                            <th>&#8227 Téléphone</th>
+                                            <th>Plateforme facturation</th>
                                             <th>Nombre de licences</th>
                                             <th>Fin d'adhésion</th>
                                             <th>Statut</th>
+                                            <th>Date de création</th>
+                                            <th>Dernière mise à jour</th>
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
                                         if (!empty($companyList)) {
-                                            foreach ($companyList as $company) { ?>
+                                            foreach ($companyList as $company) {
+                                                $lastUpdate = Update::getLastUpdate('company', $company->id); ?>
 
                                                 <tr>
                                                     <td><?= $company->id ?></td>
                                                     <td class="h6"><a href="<?= Url::to(['site/edit-company', 'id' => $company->id]) ?>"><strong><?= $company->name ?></strong></a></td>
+                                                    <td class="list-type-none">
+                                                        <li><?= $company->address_line1 ?></li>
+                                                        <li><?= $company->address_line2 != '' ? $company->address_line2 : '' ?></li>
+                                                        <li><?= $company->postal_code ?> <?= $company->city ?></li>
+                                                    </td>
+                                                    <td><?= $company->activity_area ?></td>
+                                                    <td><?= $company->size ?></td>
+                                                    <td><?= $company->public ? 'Oui' : 'Non' ?></td>
+                                                    <td><?= $company->is_sponsor ? 'Oui' : 'Non' ?></td>
                                                     <td><?= $company->main_contact_name ?></td>
+                                                    <td><?= $company->main_contact_email ?></td>
+                                                    <td><?= $company->main_contact_phone ?></td>
+                                                    <td><?= $company->billing_contact_name ?></td>
+                                                    <td><?= $company->billing_contact_email ?></td>
+                                                    <td><?= $company->billing_contact_phone ?></td>
+                                                    <td><?= $company->billing_platform ?></td>
                                                     <td><?= $company->licenses_count ?></td>
                                                     <td data-sort="<?= $company->membership_end ?>"><?= utf8_encode(strftime('%e %B %Y', $company->membership_end)) ?></td>
                                                     <td><span class="label label-xl font-weight-bold label-light-<?= Company::getCompanyStatusColor($company->status) ?> label-inline"><?= Company::getCompanyStatusName($company->status) ?></span></td>
+                                                    <td data-sort="<?= $company->created_at ?>"><?= utf8_encode(strftime('%e %B %Y', $company->created_at)) ?></td>
+                                                    <td data-sort="<?= null !== $lastUpdate ? $lastUpdate->date : $company->created_at ?>"><?= null !== $lastUpdate ? utf8_encode(strftime('%e %B %Y', $lastUpdate->date)) : utf8_encode(strftime('%e %B %Y', $company->created_at)) ?></td>
                                                     <td nowrap="nowrap" class="text-center">
                                                         <a href="<?= Url::to(['site/edit-company', 'id' => $company->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
                                                             <i class="la la-edit"></i>

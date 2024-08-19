@@ -9,6 +9,8 @@ use yii\helpers\Json;
 use common\models\Media;
 use common\models\Option;
 use common\models\User;
+use common\models\Participant;
+use common\models\Company;
 use backend\widgets\BlockWidget;
 use common\components\MainHelper;
 
@@ -546,50 +548,92 @@ $this->title = MainHelper::getPageTitle($model->name, 'Ajouter une société', t
                                         </div>
                                     </div>
                                     <div id="collapseCompanyUsers" class="collapse" data-parent="#accordionCompanyUsers">
-                                        <div class="card-body">
-                                            <div class="row">
+                                        <div class="card-body overflow-hidden">
 
-                                                <div class="card-body">
-                                                    <!--begin: Datatable-->
-                                                    <table class="table table-separate table-head-custom table-checkable" id="datatableUser">
-                                                        <thead>
-                                                            <tr>
-                                                                <th width="50">#ID</th>
-                                                                <th>Nom</th>
-                                                                <th>Email</th>
-                                                                <th>Role</th>
-                                                                <th>Status</th>
-                                                                <th class="text-center">Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php
-                                                            if (!empty($userCompanyList)) {
-                                                                foreach ($userCompanyList as $user) {
-                                                                    if (Yii::$app->user->identity->role >= $user->role) { ?>
-
-                                                                        <tr>
-                                                                            <td><?= $user->id ?></td>
-                                                                            <td class="h6"><a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>"><strong><?= ucfirst($user->firstname) ?> <?= mb_strtoupper($user->lastname) ?></strong></a></td>
-                                                                            <td><?= $user->email ?></td>
-                                                                            <td><span class="font-weight-bold text-uppercase"><?= User::getRoles($user->role) ?></span></td>
-                                                                            <td><span class="label label-lg font-weight-bold label-light-<?= User::getUserStatusColor($user->status) ?> label-inline"><?= User::getUserStatusName($user->status) ?></span></td>
-                                                                            <td nowrap="nowrap" class="text-center">
-                                                                                <a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
-                                                                                    <i class="la la-edit"></i>
-                                                                                </a>
-                                                                            </td>
-                                                                        </tr>
-
-                                                                    <?php }
+                                            <!--begin: Datatable-->
+                                            <table class="table table-separate table-head-custom table-checkable" id="datatableUser">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="50">#ID</th>
+                                                        <th>Nom complet</th>
+                                                        <th>Prénom</th>
+                                                        <th>Nom</th>
+                                                        <th>Société</th>
+                                                        <th>Fonction</th>
+                                                        <th>Email</th>
+                                                        <th>Tel. fixe</th>
+                                                        <th>Mobile</th>
+                                                        <th>Centres d'intérêts</th>
+                                                        <th>Produits utilisés</th>
+                                                        <th>Evénements</th>
+                                                        <th>Role</th>
+                                                        <th>Statut</th>
+                                                        <th>Date de création</th>
+                                                        <th>Dernière mise à jour</th>
+                                                        <th class="text-center no-export">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    if (!empty($userCompanyList)) {
+                                                        foreach ($userCompanyList as $user) {
+                                                            if (Yii::$app->user->identity->role >= $user->role) {
+                                                                $userCompany = Company::findOne($user->company_id);
+                                                                $interests = $products = [];
+                                                                foreach ($user['modelRelations'] as $modelRelation) {
+                                                                    if ($modelRelation->model == 'user' && $modelRelation->type == 'option' && $modelRelation->type_name == 'interests')
+                                                                        $interests[] = $modelRelation->type_id;
+                                                                    if ($modelRelation->model == 'user' && $modelRelation->type == 'option' && $modelRelation->type_name == 'products') {
+                                                                        $products[] = $modelRelation->type_id;
+                                                                    }
                                                                 }
-                                                            } ?>
-                                                        </tbody>
-                                                    </table>
-                                                    <!--end: Datatable-->
-                                                </div>
+                                                                $eventParticipations = Participant::getMemberParticipation($user->id); ?>
 
-                                            </div>
+                                                                <tr>
+                                                                    <td><?= $user->id ?></td>
+                                                                    <td class="h6"><a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>"><strong><?= ucfirst($user->firstname) ?> <?= mb_strtoupper($user->lastname) ?></strong></a></td>
+                                                                    <td><?= $user->firstname ?></td>
+                                                                    <td><?= $user->lastname ?></td>
+                                                                    <td>
+                                                                        <?php 
+                                                                        if (null !== $userCompany) { ?>
+                                                                            <a class="btn-link" href="<?= Url::to(['site/edit-company', 'id' => $userCompany->id]) ?>"><?= strtoupper($userCompany->name) ?></a>
+                                                                        <?php } ?>
+                                                                    </td>
+                                                                    <td><?= $user->function ?></td>
+                                                                    <td><?= $user->email ?></td>
+                                                                    <td><?= $user->phone ?></td>
+                                                                    <td><?= $user->mobile ?></td>
+                                                                    <td><?= implode(', ', $interests) ?></td>
+                                                                    <td><?= implode(', ', $products) ?></td>
+                                                                    <td>
+                                                                        <?php
+                                                                        if (null !== $eventParticipations) {
+                                                                            foreach ($eventParticipations as $participation) {
+                                                                                if (isset($participation['event'])) { ?>
+                                                                                    <li><a href="<?= Url::to(['site/edit-event', 'id' => $participation['event']->id]) ?>" target="_blank"><?= $participation['event']->title ?></a></li>
+                                                                                <?php }
+                                                                            }
+                                                                        } ?>
+                                                                    </td>
+                                                                    <td><span class="font-weight-bold text-uppercase"><?= User::getRoles($user->role) ?></span></td>
+                                                                    <td><span class="label label-lg font-weight-bold label-light-<?= User::getUserStatusColor($user->status) ?> label-inline"><?= User::getUserStatusName($user->status) ?></span></td>
+                                                                    <td data-sort="<?= $user->created_at ?>"><?= utf8_encode(strftime('%e %B %Y', $user->created_at)) ?></td>
+                                                                    <td data-sort="<?= $user->updated_at ?>"><?= utf8_encode(strftime('%e %B %Y', $user->updated_at)) ?></td>
+                                                                    <td nowrap="nowrap" class="text-center">
+                                                                        <a href="<?= Url::to(['site/edit-user', 'id' => $user->id]) ?>" class="btn btn-sm btn-clean btn-icon" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="Modifier">
+                                                                            <i class="la la-edit"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+
+                                                            <?php }
+                                                        }
+                                                    } ?>
+                                                </tbody>
+                                            </table>
+                                            <!--end: Datatable-->
+
                                         </div>
                                     </div>
                                 </div>

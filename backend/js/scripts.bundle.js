@@ -1116,85 +1116,88 @@ var KTApp = function() {
                 }
             };
 
+        var datatableButtons = [
+                {        
+                    extend: 'colvis',
+                    text: 'Colonnes',
+                    className: 'ml-2 btn btn-secondary',
+                },
+                {        
+                    extend: 'excel',
+                    text: 'Export rapide',
+                    className: 'ml-2 btn btn-info',
+                    exportOptions: {
+                        columns: ':not(.no-export)',
+                        format: {
+                            body: function (data, row, column, node ) {
+                              if (typeof data === 'string' || data instanceof String) {
+                                  data = data.replace( /<br\s*\/?>/ig, "\n"); //convert <br> tag to newline 
+                                  data = data.replace(/[ \t]+/g, ' '); //remove unwanted tabs
+                                  data = data.split(/\r?\n/); //split by newline
+                                  data = data.map(s => s.trim()); // trim all string in array
+                                  data = data.filter(item => item); //remove empty array string
+                                  data = data.join('\n'); //recreate clean string
+                              }
+                              data = $('<p>' + data + '</p>').text();
+                              return data;
+                            }
+                        }
+                    }
+                },
+            ];
+
+        var datatableDom = '<"dataTables_wrapper dt-bootstrap4 no-footer"'
+                + '<"row"'
+                    + '<"col-sm-12 col-md-7"'
+                        + '<"d-flex"lB>'
+                    + '>'
+                    + '<"col-sm-12 col-md-5 text-right"f>'
+                + '>'
+                + '<"row"'
+                    + '<"col-sm-12 overflow-scroll"rt>'
+                + '>'
+                + '<"row"'
+                    + '<"col-sm-12 col-md-5"i>'
+                    + '<"col-sm-12 col-md-7 text-right"p>'
+                + '>'
+            + '>';
+
+        var currentDatatable = null;
         if ($('#datatableUser').length) {
-            var datatableUser = $('#datatableUser').DataTable({
+            currentDatatable = $('#datatableUser').DataTable({
                 responsive: true,
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [5] }],
-                language: datatableLanguage,
-                buttons: [
-                    {        
-                        extend: 'excel',
-                        text: 'Export rapide',
-                        className: 'ml-4 btn btn-info',
-                    },
-                    {        
-                        extend: 'colvis',
-                        text: 'Colonnes',
-                        className: 'ml-2 btn btn-secondary',
-                    }
+                columnDefs: [
+                    { "orderable": false, "targets": [16] },
+                    { "visible": false, "targets": [2, 3, 5, 6, 7, 8, 9, 10, 11, 14, 15] },
                 ],
-                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-7"'
-                                + '<"d-flex"lB>'
-                            + '>'
-                            + '<"col-sm-12 col-md-5 text-right"f>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12"rt>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-5"i>'
-                            + '<"col-sm-12 col-md-7 text-right"p>'
-                        + '>'
-                    + '>',
-            });
+                language: datatableLanguage,
+                buttons: datatableButtons,
+                dom: datatableDom,
+            }).columns.adjust();
         }
 
         if ($('#datatableCompany').length) {
-            var datatableCompany = $('#datatableCompany').DataTable({
+            currentDatatable = $('#datatableCompany').DataTable({
                 responsive: true,
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [6] }],
+                columnDefs: [
+                    { "orderable": false, "targets": [19] },
+                    { "visible": false, "targets": [2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 17, 18] },
+                ],
                 order: [[1, 'asc']],
                 language: datatableLanguage,
-                buttons: [
-                    {        
-                        extend: 'excel',
-                        text: 'Export rapide',
-                        className: 'ml-4 btn btn-info',
-                    },
-                    {        
-                        extend: 'colvis',
-                        text: 'Colonnes',
-                        className: 'ml-2 btn btn-secondary',
-                    }
-                ],
-                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-7"'
-                                + '<"d-flex"lB>'
-                            + '>'
-                            + '<"col-sm-12 col-md-5 text-right"f>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12"rt>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-5"i>'
-                            + '<"col-sm-12 col-md-7 text-right"p>'
-                        + '>'
-                    + '>',
+                buttons: datatableButtons,
+                dom: datatableDom,
             });
         }
 
         if ($('#datatableEvent').length) {
-            var datatableEvent = $('#datatableEvent').DataTable({
+            currentDatatable = $('#datatableEvent').DataTable({
                 responsive: true,
                 paging: true,
                 pagingType: 'simple_numbers',
@@ -1202,38 +1205,13 @@ var KTApp = function() {
                 columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[4, 'desc']],
                 language: datatableLanguage,
-                buttons: [
-                    {        
-                        extend: 'excel',
-                        text: 'Export rapide',
-                        className: 'ml-4 btn btn-info',
-                    },
-                    {        
-                        extend: 'colvis',
-                        text: 'Colonnes',
-                        className: 'ml-2 btn btn-secondary',
-                    }
-                ],
-                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-7"'
-                                + '<"d-flex"lB>'
-                            + '>'
-                            + '<"col-sm-12 col-md-5 text-right"f>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12"rt>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-5"i>'
-                            + '<"col-sm-12 col-md-7 text-right"p>'
-                        + '>'
-                    + '>',
+                buttons: datatableButtons,
+                dom: datatableDom,
             });
         }
 
         if ($('#datatableParticipant').length) {
-            var datatableParticipant = $('#datatableParticipant').DataTable({
+            currentDatatable = $('#datatableParticipant').DataTable({
                 responsive: true,
                 paging: true,
                 pagingType: 'simple_numbers',
@@ -1241,38 +1219,13 @@ var KTApp = function() {
                 columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[4, 'desc']],
                 language: datatableLanguage,
-                buttons: [
-                    {        
-                        extend: 'excel',
-                        text: 'Export rapide',
-                        className: 'ml-4 btn btn-info',
-                    },
-                    {        
-                        extend: 'colvis',
-                        text: 'Colonnes',
-                        className: 'ml-2 btn btn-secondary',
-                    }
-                ],
-                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-7"'
-                                + '<"d-flex"lB>'
-                            + '>'
-                            + '<"col-sm-12 col-md-5 text-right"f>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12"rt>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-5"i>'
-                            + '<"col-sm-12 col-md-7 text-right"p>'
-                        + '>'
-                    + '>',
+                buttons: datatableButtons,
+                dom: datatableDom,
             });
         }
 
         if ($('#datatableNews').length) {
-            $('#datatableNews').DataTable({
+            currentDatatable = $('#datatableNews').DataTable({
                 responsive: true,
                 paging: true,
                 pagingType: 'simple_numbers',
@@ -1280,38 +1233,11 @@ var KTApp = function() {
                 columnDefs: [{ "orderable": false, "targets": [5] }],
                 order: [[3, 'desc']],
                 language: datatableLanguage,
-                buttons: [
-                    {        
-                        extend: 'excel',
-                        text: 'Export rapide',
-                        className: 'ml-4 btn btn-info',
-                    },
-                    {        
-                        extend: 'colvis',
-                        text: 'Colonnes',
-                        className: 'ml-2 btn btn-secondary',
-                    }
-                ],
-                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-7"'
-                                + '<"d-flex"lB>'
-                            + '>'
-                            + '<"col-sm-12 col-md-5 text-right"f>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12"rt>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-5"i>'
-                            + '<"col-sm-12 col-md-7 text-right"p>'
-                        + '>'
-                    + '>',
             });
         }
 
         if ($('#datatableForum').length) {
-            $('#datatableForum').DataTable({
+            currentDatatable = $('#datatableForum').DataTable({
                 responsive: true,
                 paging: true,
                 pagingType: 'simple_numbers',
@@ -1319,38 +1245,11 @@ var KTApp = function() {
                 columnDefs: [{ "orderable": false, "targets": [5] }],
                 order: [[0, 'desc']],
                 language: datatableLanguage,
-                buttons: [
-                    {        
-                        extend: 'excel',
-                        text: 'Export rapide',
-                        className: 'ml-4 btn btn-info',
-                    },
-                    {        
-                        extend: 'colvis',
-                        text: 'Colonnes',
-                        className: 'ml-2 btn btn-secondary',
-                    }
-                ],
-                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-7"'
-                                + '<"d-flex"lB>'
-                            + '>'
-                            + '<"col-sm-12 col-md-5 text-right"f>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12"rt>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-5"i>'
-                            + '<"col-sm-12 col-md-7 text-right"p>'
-                        + '>'
-                    + '>',
             });
         }
 
         if ($('#datatableContent').length) {
-            var datatableContent = $('#datatableContent').DataTable({
+            currentDatatable = $('#datatableContent').DataTable({
                 responsive: true,
                 paging: true,
                 pagingType: 'simple_numbers',
@@ -1358,38 +1257,11 @@ var KTApp = function() {
                 columnDefs: [{ "orderable": false, "targets": [6] }],
                 order: [[4, 'desc']],
                 language: datatableLanguage,
-                buttons: [
-                    {        
-                        extend: 'excel',
-                        text: 'Export rapide',
-                        className: 'ml-4 btn btn-info',
-                    },
-                    {        
-                        extend: 'colvis',
-                        text: 'Colonnes',
-                        className: 'ml-2 btn btn-secondary',
-                    }
-                ],
-                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-7"'
-                                + '<"d-flex"lB>'
-                            + '>'
-                            + '<"col-sm-12 col-md-5 text-right"f>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12"rt>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-5"i>'
-                            + '<"col-sm-12 col-md-7 text-right"p>'
-                        + '>'
-                    + '>',
             });
         }
 
         if ($('#datatableOption').length) {
-            $('#datatableOption').DataTable({
+            currentDatatable = $('#datatableOption').DataTable({
                 responsive: true,
                 paging: true,
                 pagingType: 'simple_numbers',
@@ -1397,35 +1269,11 @@ var KTApp = function() {
                 columnDefs: [{ "orderable": false, "targets": [5] }],
                 order: [[0, 'desc']],
                 language: datatableLanguage,
-                buttons: [
-                    {        
-                        extend: 'excel',
-                        text: 'Export rapide',
-                        className: 'ml-4 btn btn-info',
-                    },
-                    {        
-                        extend: 'colvis',
-                        text: 'Colonnes',
-                        className: 'ml-2 btn btn-secondary',
-                    }
-                ],
-                dom: '<"dataTables_wrapper dt-bootstrap4 no-footer"'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-7"'
-                                + '<"d-flex"lB>'
-                            + '>'
-                            + '<"col-sm-12 col-md-5 text-right"f>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12"rt>'
-                        + '>'
-                        + '<"row"'
-                            + '<"col-sm-12 col-md-5"i>'
-                            + '<"col-sm-12 col-md-7 text-right"p>'
-                        + '>'
-                    + '>',
-            });
+                buttons: datatableButtons,
+                dom: datatableDom,
+            })
         }
+
     };
 
     var initSelect2 = function() {

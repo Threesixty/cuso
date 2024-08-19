@@ -45579,6 +45579,13 @@ code {
 
 .datatable:not(.table) {
   display: none; }
+.overflow-scroll {
+  overflow: scroll; }
+.list-type-none {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
 .datatable.datatable-default {
   display: block; }

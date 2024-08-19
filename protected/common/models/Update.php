@@ -39,15 +39,25 @@ class Update extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function add($model, $modelId, $action)
+    public static function add($model, $modelId, $action, $authorId = null)
     {
         $update = new Update();
         $update->model = $model;
         $update->model_id = $modelId;
         $update->action = $action;
         $update->date = time();
-        $update->author = Yii::$app->user->identity->id;
+        $update->author = null === $authorId ? Yii::$app->user->identity->id : $authorId;
 
         return $update->save();
+    }
+
+    public static function getLastUpdate($model, $modelId) {
+        return static::find()
+                ->where([
+                    'model' => $model,
+                    'model_id' => $modelId
+                ])
+                ->orderBy(['date' => SORT_DESC])
+                ->one();
     }
 }
