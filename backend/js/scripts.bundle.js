@@ -1164,6 +1164,10 @@ var KTApp = function() {
 
         var currentDatatable = null;
         if ($('#datatableUser').length) {
+
+            if (undefined !== $('#datatableUser').data('export-title'))
+                datatableButtons[1].title = $('#datatableUser').data('export-title');
+
             currentDatatable = $('#datatableUser').DataTable({
                 responsive: true,
                 paging: true,
@@ -1202,7 +1206,10 @@ var KTApp = function() {
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [6] }],
+                columnDefs: [
+                    { "orderable": false, "targets": [14] },
+                    { "visible": false, "targets": [4, 5, 6, 7, 8, 9, 10, 12, 13] },
+                ],
                 order: [[4, 'desc']],
                 language: datatableLanguage,
                 buttons: datatableButtons,
@@ -1211,12 +1218,19 @@ var KTApp = function() {
         }
 
         if ($('#datatableParticipant').length) {
+
+            if (undefined !== $('#datatableParticipant').data('export-title'))
+                datatableButtons[1].title = $('#datatableParticipant').data('export-title');
+
             currentDatatable = $('#datatableParticipant').DataTable({
                 responsive: true,
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [6] }],
+                columnDefs: [
+                    { "orderable": false, "targets": [17] },
+                    { "visible": false, "targets": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] },
+                ],
                 order: [[4, 'desc']],
                 language: datatableLanguage,
                 buttons: datatableButtons,

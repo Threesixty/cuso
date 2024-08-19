@@ -551,7 +551,7 @@ $this->title = MainHelper::getPageTitle($model->name, 'Ajouter une société', t
                                         <div class="card-body overflow-hidden">
 
                                             <!--begin: Datatable-->
-                                            <table class="table table-separate table-head-custom table-checkable" id="datatableUser">
+                                            <table class="table table-separate table-head-custom table-checkable" id="datatableUser" data-export-title="Liste des membres <?= $this->title ?>">
                                                 <thead>
                                                     <tr>
                                                         <th width="50">#ID</th>

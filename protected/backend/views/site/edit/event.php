@@ -410,7 +410,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                     <div class="form-group">
                                                         <label>Sujets abordés :</label>
                                                         <?php 
-                                                        $interests = Option::getOption('name', 'interests', 'select'); ?>
+                                                        $interests = Option::getOption('name', 'interests', 'select', true); ?>
 
                                                         <?= $form->field($model, 'interests')
                                                             ->dropDownList(
@@ -921,64 +921,105 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                     <hr>
                                                 </div>   
 
-                                                <div class="card-body">
-                                                    <!--begin: Datatable-->
-                                                    <table class="table table-separate table-head-custom table-checkable" id="datatableParticipant" data-url="<?= Yii::$app->getUrlManager()->createUrl(['site/participant-action']) ?>">
-                                                        <thead>
-                                                            <tr>
-                                                                <th width="50">#ID</th>
-                                                                <th>Nom</th>
-                                                                <th>Société</th>
-                                                                <th>Statut</th>
-                                                                <th>Date</th>
-                                                                <th>Participation</th>
-                                                                <th class="text-center">Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php
-                                                            if (!empty($model->participantList)) {
-                                                                foreach ($model->participantList as $participant) {
-                                                                    $userParticipant = User::findOne($participant->user_id);
-                                                                    $participantCompany = Company::findOne($userParticipant->company_id);
-                                                                    $registrationDate = null !== $participant->updated_at && $participant->updated_at > $participant->created_at ? $participant->updated_at : $participant->created_at ?>
+                                                <div class="col-lg-12">
+                                                    <div class="card-body">
+                                                        <!--begin: Datatable-->
+                                                        <table class="table table-separate table-head-custom table-checkable" id="datatableParticipant" data-url="<?= Yii::$app->getUrlManager()->createUrl(['site/participant-action']) ?>" data-export-title="Liste des inscrits - <?= $this->title ?>">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="50">#ID</th>
+                                                                    <th>Nom</th>
+                                                                    <th>Société</th>
+                                                                    <th>Statut inscription</th>
+                                                                    <th>Date</th>
+                                                                    <th>Participation</th>
+                                                                    <th>Fonction</th>
+                                                                    <th>Email</th>
+                                                                    <th>Tel. fixe</th>
+                                                                    <th>Mobile</th>
+                                                                    <th>Centres d'intérêts</th>
+                                                                    <th>Produits utilisés</th>
+                                                                    <th>Evénements</th>
+                                                                    <th>Role</th>
+                                                                    <th>Statut</th>
+                                                                    <th>Date de création</th>
+                                                                    <th>Dernière mise à jour</th>
+                                                                    <th class="text-center no-export">Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                if (!empty($model->participantList)) {
+                                                                    foreach ($model->participantList as $participant) {
+                                                                        $userParticipant = User::findOne($participant->user_id);
+                                                                        $participantCompany = Company::findOne($userParticipant->company_id);
+                                                                        $registrationDate = null !== $participant->updated_at && $participant->updated_at > $participant->created_at ? $participant->updated_at : $participant->created_at;
+                                                                        $interests = $products = [];
+                                                                        foreach ($userParticipant['modelRelations'] as $modelRelation) {
+                                                                            if ($modelRelation->model == 'user' && $modelRelation->type == 'option' && $modelRelation->type_name == 'interests')
+                                                                                $interests[] = $modelRelation->type_id;
+                                                                            if ($modelRelation->model == 'user' && $modelRelation->type == 'option' && $modelRelation->type_name == 'products') {
+                                                                                $products[] = $modelRelation->type_id;
+                                                                            }
+                                                                        }
+                                                                        $eventParticipations = Participant::getMemberParticipation($userParticipant->id); ?>
 
-                                                                    <tr>
-                                                                        <td><?= $participant->id ?></td>
-                                                                        <td class="h6"><a href="<?= Url::to(['site/edit-user', 'id' => $userParticipant->id]) ?>"><strong class="text-nowrap"><?= ucfirst($userParticipant->firstname) ?> <?= mb_strtoupper($userParticipant->lastname) ?></strong></a></td>
-                                                                        <td>
-                                                                            <?php 
-                                                                            if (null !== $participantCompany) { ?>
-                                                                                <a class="btn-link" href="<?= Url::to(['site/edit-company', 'id' => $participantCompany->id]) ?>"><?= strtoupper($participantCompany->name) ?></a>
-                                                                            <?php } ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span class="label label-lg font-weight-bold label-light-<?= Participant::getRegisterStatusColor($participant->registered) ?> label-inline"><?= Participant::getRegisterStatusName($participant->registered) ?></span>
-                                                                        </td>
-                                                                        <td data-sort="<?= $registrationDate ?>"><strong><?= date('d/m/Y', $registrationDate) ?></strong><br><?= date('H:i', $registrationDate) ?></td>
-                                                                        <td>
-                                                                            <span class="label label-lg font-weight-bold label-light-<?= Participant::getCameStatusColor($participant->came) ?> label-inline"><?= Participant::getCameStatusName($participant->came) ?></span>
-                                                                        </td>
-                                                                        <td nowrap="nowrap" class="text-center">
-                                                                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="<?= $participant->registered ? "Désinscrire" : "Inscrire" ?>" data-action="<?= $participant->registered ? 'unregister' : 'register' ?>">
-                                                                                <i class="la la-<?= $participant->registered ? 'minus-circle' : 'plus-circle' ?>"></i>
-                                                                            </a>
-                                                                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action <?= null !== $participant->came && $participant->came ? 'd-none' : '' ?>" data-toggle="tooltip" data-placement="bottom" data-container="body" data-boundary="window" title="A participé" data-action="came">
-                                                                                <i class="la la-user-check"></i>
-                                                                            </a>
-                                                                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action <?= null !== $participant->came && !$participant->came ? 'd-none' : '' ?>" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="Absent" data-action="notcame">
-                                                                                <i class="la la-user-alt-slash"></i>
-                                                                            </a>
-                                                                        </td>
-                                                                    </tr>
+                                                                        <tr>
+                                                                            <td><?= $participant->id ?></td>
+                                                                            <td class="h6"><a href="<?= Url::to(['site/edit-user', 'id' => $userParticipant->id]) ?>"><strong class="text-nowrap"><?= ucfirst($userParticipant->firstname) ?> <?= mb_strtoupper($userParticipant->lastname) ?></strong></a></td>
+                                                                            <td>
+                                                                                <?php 
+                                                                                if (null !== $participantCompany) { ?>
+                                                                                    <a class="btn-link" href="<?= Url::to(['site/edit-company', 'id' => $participantCompany->id]) ?>"><?= strtoupper($participantCompany->name) ?></a>
+                                                                                <?php } ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span class="label label-lg font-weight-bold label-light-<?= Participant::getRegisterStatusColor($participant->registered) ?> label-inline"><?= Participant::getRegisterStatusName($participant->registered) ?></span>
+                                                                            </td>
+                                                                            <td data-sort="<?= $registrationDate ?>"><strong><?= date('d/m/Y', $registrationDate) ?></strong><br><?= date('H:i', $registrationDate) ?></td>
+                                                                            <td>
+                                                                                <span class="label label-lg font-weight-bold label-light-<?= Participant::getCameStatusColor($participant->came) ?> label-inline"><?= Participant::getCameStatusName($participant->came) ?></span>
+                                                                            </td>
+                                                                            <td><?= $userParticipant->function ?></td>
+                                                                            <td><?= $userParticipant->email ?></td>
+                                                                            <td><?= $userParticipant->phone ?></td>
+                                                                            <td><?= $userParticipant->mobile ?></td>
+                                                                            <td><?= implode(', ', $interests) ?></td>
+                                                                            <td><?= implode(', ', $products) ?></td>
+                                                                            <td>
+                                                                                <?php
+                                                                                if (null !== $eventParticipations) {
+                                                                                    foreach ($eventParticipations as $participation) {
+                                                                                        if (isset($participation['event'])) { ?>
+                                                                                            <li><a href="<?= Url::to(['site/edit-event', 'id' => $participation['event']->id]) ?>" target="_blank"><?= $participation['event']->title ?></a></li>
+                                                                                        <?php }
+                                                                                    }
+                                                                                } ?>
+                                                                            </td>
+                                                                            <td><span class="font-weight-bold text-uppercase"><?= User::getRoles($userParticipant->role) ?></span></td>
+                                                                            <td><span class="label label-lg font-weight-bold label-light-<?= User::getUserStatusColor($userParticipant->status) ?> label-inline"><?= User::getUserStatusName($userParticipant->status) ?></span></td>
+                                                                            <td data-sort="<?= $userParticipant->created_at ?>"><?= utf8_encode(strftime('%e %B %Y', $userParticipant->created_at)) ?></td>
+                                                                            <td data-sort="<?= $userParticipant->updated_at ?>"><?= utf8_encode(strftime('%e %B %Y', $userParticipant->updated_at)) ?></td>
+                                                                            <td nowrap="nowrap" class="text-center">
+                                                                                <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action" data-toggle="tooltip" data-placement="left" data-container="body" data-boundary="window" title="<?= $participant->registered ? "Désinscrire" : "Inscrire" ?>" data-action="<?= $participant->registered ? 'unregister' : 'register' ?>">
+                                                                                    <i class="la la-<?= $participant->registered ? 'minus-circle' : 'plus-circle' ?>"></i>
+                                                                                </a>
+                                                                                <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action <?= null !== $participant->came && $participant->came ? 'd-none' : '' ?>" data-toggle="tooltip" data-placement="bottom" data-container="body" data-boundary="window" title="A participé" data-action="came">
+                                                                                    <i class="la la-user-check"></i>
+                                                                                </a>
+                                                                                <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon participant-action <?= null !== $participant->came && !$participant->came ? 'd-none' : '' ?>" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="Absent" data-action="notcame">
+                                                                                    <i class="la la-user-alt-slash"></i>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
 
-                                                                <?php }
-                                                            } ?>
-                                                        </tbody>
-                                                    </table>
-                                                    <!--end: Datatable-->
+                                                                    <?php }
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                        <!--end: Datatable-->
+                                                    </div>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>

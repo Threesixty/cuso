@@ -54,7 +54,7 @@ $this->title = MainHelper::getPageTitle('Liste des sociétés', '', true);
                                             <th>Statut</th>
                                             <th>Date de création</th>
                                             <th>Dernière mise à jour</th>
-                                            <th class="text-center">Actions</th>
+                                            <th class="text-center no-export">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
