@@ -31,7 +31,7 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                 <h3 class="card-title text-uppercase">Liste des utilisateurs</h3>
                             </div>
 
-                            <div class="card-body">
+                            <div class="card-body overflow-hidden">
                                 <!--begin: Datatable-->
                                 <table class="table table-separate table-head-custom table-checkable" id="datatableUser">
                                     <thead>

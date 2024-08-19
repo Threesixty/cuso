@@ -922,7 +922,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                 </div>   
 
                                                 <div class="col-lg-12">
-                                                    <div class="card-body">
+                                                    <div class="card-bodybody overflow-hidden">
                                                         <!--begin: Datatable-->
                                                         <table class="table table-separate table-head-custom table-checkable" id="datatableParticipant" data-url="<?= Yii::$app->getUrlManager()->createUrl(['site/participant-action']) ?>" data-export-title="Liste des inscrits - <?= $this->title ?>">
                                                             <thead>

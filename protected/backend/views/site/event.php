@@ -31,7 +31,7 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                 <h3 class="card-title text-uppercase">Liste des événements</h3>
                             </div>
 
-                            <div class="card-body">
+                            <div class="card-body overflow-hidden">
                                 <!--begin: Datatable-->
                                 <table class="table table-separate table-head-custom table-checkable" id="datatableEvent">
                                     <thead>
@@ -50,7 +50,7 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                             <th>Statut</th>
                                             <th>Date de création</th>
                                             <th>Dernière mise à jour</th>
-                                            <th class="text-center">Actions</th>
+                                            <th class="text-center no-export">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
