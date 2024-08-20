@@ -95,6 +95,11 @@ class SiteController extends Controller
     {
     	$args = [
             'pendingUsers' => User::find()->where(['status' => 9])->all(),
+            'activeUsers' => count(User::find()->where(['status' => 10])->all()),
+            'activeCompanies' => count(Company::find()->where(['status' => 3])->all()),
+            'publishedEvents' => count(Cms::find()->where(['type' => 'event', 'status' => 1])->all()),
+            'publishedCms' => count(Cms::find()->where(['type' => 'cms', 'status' => 1])->all()),
+            'publishedNews' => count(Cms::find()->where(['type' => 'news', 'status' => 1])->all()),
         ];
 
         return $this->render('index', $args);
