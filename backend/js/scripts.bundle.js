@@ -1201,7 +1201,8 @@ var KTApp = function() {
                 select: true,
                 paging: true,
                 pagingType: 'simple_numbers',
-                pageLength: 25,
+                pageLength: $('#datatableUser').attr('data-pageLength') !== undefined ? $('#datatableUser').attr('data-pageLength') : 25,
+                lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Tous']],
                 columnDefs: [
                     { "orderable": false, "targets": [16] },
                     { "visible": false, "targets": [2, 3, 5, 6, 7, 8, 9, 10, 11, 14, 15] },

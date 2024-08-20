@@ -93,7 +93,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-    	$args = [];
+    	$args = [
+            'pendingUsers' => User::find()->where(['status' => 9])->all(),
+        ];
 
         return $this->render('index', $args);
     }

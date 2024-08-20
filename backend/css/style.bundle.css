@@ -45586,6 +45586,15 @@ table.dataTable > tbody > tr.selected > td, table.dataTable > tbody > tr.selecte
 }
 .datatable:not(.table) {
   display: none; }
+.dataTables_wrapper  .select-info {
+  float: right;
+  padding: 5px 10px;
+  background: #f1bbbd;
+  border-radius: 6px;
+  border: solid 1px #c84a4f;
+  color: #c84a4f;
+  font-weight: 500;
+}
 .overflow-scroll {
   overflow: scroll; }
 .list-type-none {
