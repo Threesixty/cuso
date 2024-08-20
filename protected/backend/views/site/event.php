@@ -52,6 +52,23 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                             <th>Dernière mise à jour</th>
                                             <th class="text-center no-export">Actions</th>
                                         </tr>
+                                        <tr id="column-search">
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th class="text-center">Actions</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         <?php

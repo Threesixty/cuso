@@ -33,7 +33,7 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
 
                             <div class="card-body">
                                 <!--begin: Datatable-->
-                                <table class="table table-separate table-head-custom table-checkable" id="datatableUser">
+                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="datatableUser">
                                     <thead>
                                         <tr>
                                             <th width="50">#ID</th>
@@ -53,6 +53,25 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                             <th>Date de création</th>
                                             <th>Dernière mise à jour</th>
                                             <th class="text-center no-export">Actions</th>
+                                        </tr>
+                                        <tr id="column-search">
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -175,6 +194,27 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                             }
                                         } ?>
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th width="50">#ID</th>
+                                            <th>Nom complet</th>
+                                            <th>Prénom</th>
+                                            <th>Nom</th>
+                                            <th>Société</th>
+                                            <th>Fonction</th>
+                                            <th>Email</th>
+                                            <th>Tel. fixe</th>
+                                            <th>Mobile</th>
+                                            <th>Centres d'intérêts</th>
+                                            <th>Produits utilisés</th>
+                                            <th>Evénements</th>
+                                            <th>Role</th>
+                                            <th>Statut</th>
+                                            <th>Date de création</th>
+                                            <th>Dernière mise à jour</th>
+                                            <th class="text-center no-export">Actions</th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                                 <!--end: Datatable-->
 

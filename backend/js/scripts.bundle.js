@@ -1124,6 +1124,7 @@ var KTApp = function() {
                 },
                 {        
                     extend: 'excel',
+                    footer: false,
                     text: 'Export rapide',
                     className: 'ml-2 btn btn-info',
                     exportOptions: {
@@ -1162,6 +1163,32 @@ var KTApp = function() {
                 + '>'
             + '>';
 
+        function initCompleteDt(column) {
+
+            var columnCount = column.api().columns()[0].length;
+            var visibleIndex = 0;
+            column.api()
+                .columns(':visible')
+                .every(function (index) {
+                    if (index+1 < columnCount) {
+                        let column = this;
+                        let title = this.header().textContent;
+         
+                        // Create input element
+                        let input = $('<input placeholder="'+title+'" class="form-control px-2">');
+                        input.appendTo($('#column-search th:eq('+visibleIndex+')').empty());
+         
+                        // Event listener for user input
+                        input.on('keyup', function() {
+                            if (column.search() !== $(this).val()) {
+                                column.search($(this).val()).draw();
+                            }
+                        });
+                        visibleIndex++;
+                    }
+                });
+        }
+
         var currentDatatable = null;
         if ($('#datatableUser').length) {
 
@@ -1169,6 +1196,7 @@ var KTApp = function() {
                 datatableButtons[1].title = $('#datatableUser').data('export-title');
 
             currentDatatable = $('#datatableUser').DataTable({
+                orderCellsTop: true,
                 responsive: true,
                 select: true,
                 paging: true,
@@ -1181,11 +1209,16 @@ var KTApp = function() {
                 language: datatableLanguage,
                 buttons: datatableButtons,
                 dom: datatableDom,
-            }).columns.adjust();
+                initComplete: function () {
+                    initCompleteDt(this);
+                },
+            });
+
         }
 
         if ($('#datatableCompany').length) {
             currentDatatable = $('#datatableCompany').DataTable({
+                orderCellsTop: true,
                 responsive: true,
                 select: true,
                 paging: true,
@@ -1199,11 +1232,15 @@ var KTApp = function() {
                 language: datatableLanguage,
                 buttons: datatableButtons,
                 dom: datatableDom,
+                initComplete: function () {
+                    initCompleteDt(this);
+                },
             });
         }
 
         if ($('#datatableEvent').length) {
             currentDatatable = $('#datatableEvent').DataTable({
+                orderCellsTop: true,
                 responsive: true,
                 select: true,
                 paging: true,
@@ -1217,6 +1254,9 @@ var KTApp = function() {
                 language: datatableLanguage,
                 buttons: datatableButtons,
                 dom: datatableDom,
+                initComplete: function () {
+                    initCompleteDt(this);
+                },
             });
         }
 
@@ -1226,6 +1266,7 @@ var KTApp = function() {
                 datatableButtons[1].title = $('#datatableParticipant').data('export-title');
 
             currentDatatable = $('#datatableParticipant').DataTable({
+                orderCellsTop: true,
                 responsive: true,
                 select: true,
                 paging: true,
@@ -1239,6 +1280,9 @@ var KTApp = function() {
                 language: datatableLanguage,
                 buttons: datatableButtons,
                 dom: datatableDom,
+                initComplete: function () {
+                    initCompleteDt(this);
+                },
             });
         }
 
@@ -1289,6 +1333,29 @@ var KTApp = function() {
                 language: datatableLanguage,
             })
         }
+
+        currentDatatable.on('column-visibility.dt', function (e, settings, column, state) {
+
+            var visibleIndex = -1;
+            currentDatatable.columns(':visible').every(function (index) {
+                visibleIndex++;
+                if (index == column) {
+                    let currentColumn = this;                        
+                    var title = this.header().textContent;
+     
+                    // Create input element
+                    let input = $('<input placeholder="'+title+'" class="form-control px-2">');
+                    input.appendTo($('#column-search th:eq('+visibleIndex+')').empty());
+
+                    // Event listener for user input
+                    input.on('keyup', function() {
+                        if (currentColumn.search() !== $(this).val()) {
+                            currentColumn.search($(this).val()).draw();
+                        }
+                    });
+                }
+            })
+        });
 
     };
 
