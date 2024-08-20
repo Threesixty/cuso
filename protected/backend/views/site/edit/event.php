@@ -964,7 +964,7 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un événement',
                                                                     <th></th>
                                                                     <th></th>
                                                                     <th></th>
-                                                                    <th class="text-center">Actions</th>
+                                                                    <th></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>

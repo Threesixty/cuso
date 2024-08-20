@@ -67,7 +67,7 @@ $this->title = MainHelper::getPageTitle('Liste des événements', '', true);
                                             <th></th>
                                             <th></th>
                                             <th></th>
-                                            <th class="text-center">Actions</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -589,7 +589,7 @@ $this->title = MainHelper::getPageTitle($model->name, 'Ajouter une société', t
                                                         <th></th>
                                                         <th></th>
                                                         <th></th>
-                                                        <th class="text-center">Actions</th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

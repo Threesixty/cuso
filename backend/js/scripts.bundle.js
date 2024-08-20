@@ -1334,29 +1334,30 @@ var KTApp = function() {
             })
         }
 
-        currentDatatable.on('column-visibility.dt', function (e, settings, column, state) {
+        if (currentDatatable !== null) {
+            currentDatatable.on('column-visibility.dt', function (e, settings, column, state) {
 
-            var visibleIndex = -1;
-            currentDatatable.columns(':visible').every(function (index) {
-                visibleIndex++;
-                if (index == column) {
-                    let currentColumn = this;                        
-                    var title = this.header().textContent;
-     
-                    // Create input element
-                    let input = $('<input placeholder="'+title+'" class="form-control px-2">');
-                    input.appendTo($('#column-search th:eq('+visibleIndex+')').empty());
+                var visibleIndex = -1;
+                currentDatatable.columns(':visible').every(function (index) {
+                    visibleIndex++;
+                    if (index == column) {
+                        let currentColumn = this;                        
+                        var title = this.header().textContent;
+         
+                        // Create input element
+                        let input = $('<input placeholder="'+title+'" class="form-control px-2">');
+                        input.appendTo($('#column-search th:eq('+visibleIndex+')').empty());
 
-                    // Event listener for user input
-                    input.on('keyup', function() {
-                        if (currentColumn.search() !== $(this).val()) {
-                            currentColumn.search($(this).val()).draw();
-                        }
-                    });
-                }
-            })
-        });
-
+                        // Event listener for user input
+                        input.on('keyup', function() {
+                            if (currentColumn.search() !== $(this).val()) {
+                                currentColumn.search($(this).val()).draw();
+                            }
+                        });
+                    }
+                })
+            });
+        }
     };
 
     var initSelect2 = function() {

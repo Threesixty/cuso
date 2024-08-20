@@ -71,7 +71,7 @@ $this->title = MainHelper::getPageTitle('Liste des utilisateurs', '', true);
                                             <th></th>
                                             <th></th>
                                             <th></th>
-                                            <th class="text-center">Actions</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
