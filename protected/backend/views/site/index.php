@@ -30,6 +30,16 @@ $this->title = 'Tableau de bord';
                                         <span class="d-block text-muted mt-2 font-size-sm">Plus anciennes demandes en premier</span>
                                     </h3>
                                 </div>
+                                <div class="card-toolbar">
+                                    <ul class="nav nav-pills nav-pills-sm nav-dark-75" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link py-2 px-4 bg-primary toggle-pending-users" href="javascript:void(0)">
+                                                <span class="nav-text text-light font-size-sm toggle-text">Masquer</span>
+                                                <span class="nav-text text-light font-size-sm toggle-text d-none">Afficher</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <!--end:: Card header-->
                             <!--begin::Card body-->

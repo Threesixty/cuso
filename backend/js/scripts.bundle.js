@@ -2617,6 +2617,13 @@ var KTApp = function() {
         });
     };
 
+    var initDashboard = function() {
+        $(document).on('click', '.toggle-pending-users', function() {
+            $(this).closest('.card').toggleClass('bg-light').find('.card-body').slideToggle();
+            $(this).find('.toggle-text').toggleClass('d-none');
+        });
+    };
+
     var initDebug = function() {
         $(document).on('click', '.debug a', function() {
             $(this).parent().toggleClass('hide');
@@ -2662,6 +2669,7 @@ var KTApp = function() {
             initTagify();
 
             initEnventSubscription();
+            initDashboard();
             initDebug();
         },
 
