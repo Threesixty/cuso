@@ -47,10 +47,10 @@ $this->title = 'Tableau de bord';
                                 <div class="row">
                                     <div class="col-lg-2 d-flex flex-column">
                                         <!--begin::Engage Widget 2-->
-                                        <div class="flex-grow-1 bg-success p-8 rounded-xl flex-grow-1 bgi-no-repeat" style="background-position: calc(100% + 0.5rem) bottom; background-size: auto 70%; background-image: url(<?= Yii::$app->request->BaseUrl ?>/media/svg/humans/custom-3.svg)">
+                                        <div class="flex-grow-1 bg-primary p-8 rounded-xl flex-grow-1 bgi-no-repeat" style="background-position: calc(100% + 0.5rem) bottom; background-size: auto 70%; background-image: url(<?= Yii::$app->request->BaseUrl ?>/media/svg/humans/custom-3.svg)">
                                             <h4 class="text-inverse-danger mt-2 font-weight-bolder">Nombre de demandes en attente</h4>
-                                            <p class="display-1 text-inverse-danger my-6"><?= count($pendingUsers) ?></p>
-                                            <a href="<?= Url::to(['site/user']) ?>" class="btn btn-light-success font-weight-bold py-2 px-6">Voir tout</a>
+                                            <p class="display-1 text-success my-6"><?= count($pendingUsers) ?></p>
+                                            <a href="<?= Url::to(['site/user']) ?>" class="btn btn-success btn-hover-light font-weight-bold py-2 px-6">Voir tout</a>
                                         </div>
                                         <!--end::Engage Widget 2-->
                                     </div>
