@@ -1205,6 +1205,7 @@ var KTApp = function() {
                 lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Tous']],
                 columnDefs: [
                     { "orderable": false, "targets": [16] },
+                    { "searchable": false, "targets": [16] },
                     { "visible": false, "targets": [2, 3, 5, 6, 7, 8, 9, 10, 11, 14, 15] },
                 ],
                 language: datatableLanguage,
@@ -1227,6 +1228,7 @@ var KTApp = function() {
                 pageLength: 25,
                 columnDefs: [
                     { "orderable": false, "targets": [19] },
+                    { "searchable": false, "targets": [19] },
                     { "visible": false, "targets": [2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 17, 18] },
                 ],
                 order: [[1, 'asc']],
@@ -1249,6 +1251,7 @@ var KTApp = function() {
                 pageLength: 25,
                 columnDefs: [
                     { "orderable": false, "targets": [14] },
+                    { "searchable": false, "targets": [14] },
                     { "visible": false, "targets": [4, 5, 6, 7, 8, 9, 10, 12, 13] },
                 ],
                 order: [[4, 'desc']],
@@ -1275,6 +1278,7 @@ var KTApp = function() {
                 pageLength: 25,
                 columnDefs: [
                     { "orderable": false, "targets": [17] },
+                    { "searchable": false, "targets": [17] },
                     { "visible": false, "targets": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] },
                 ],
                 order: [[4, 'desc']],
@@ -1293,7 +1297,10 @@ var KTApp = function() {
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [5] }],
+                columnDefs: [
+                    { "orderable": false, "targets": [5] },
+                    { "searchable": false, "targets": [5] },
+                ],
                 order: [[3, 'desc']],
                 language: datatableLanguage,
             });
@@ -1305,7 +1312,10 @@ var KTApp = function() {
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [5] }],
+                columnDefs: [
+                    { "orderable": false, "targets": [5] },
+                    { "searchable": false, "targets": [5] },
+                ],
                 order: [[0, 'desc']],
                 language: datatableLanguage,
             });
@@ -1317,7 +1327,10 @@ var KTApp = function() {
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [6] }],
+                columnDefs: [
+                    { "orderable": false, "targets": [6] },
+                    { "searchable": false, "targets": [6] },
+                ],
                 order: [[4, 'desc']],
                 language: datatableLanguage,
             });
@@ -1329,7 +1342,10 @@ var KTApp = function() {
                 paging: true,
                 pagingType: 'simple_numbers',
                 pageLength: 25,
-                columnDefs: [{ "orderable": false, "targets": [5] }],
+                columnDefs: [
+                    { "orderable": false, "targets": [5] },
+                    { "searchable": false, "targets": [5] },
+                ],
                 order: [[0, 'desc']],
                 language: datatableLanguage,
             })
