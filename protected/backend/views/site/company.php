@@ -136,7 +136,7 @@ $this->title = MainHelper::getPageTitle('Liste des sociétés', '', true);
                                                                                     <span class="navi-icon">
                                                                                         <i class="flaticon2-cross"></i>
                                                                                     </span>
-                                                                                    <span class="navi-text">Refuser</span>
+                                                                                    <span class="navi-text">Refusée</span>
                                                                                 </a>
                                                                             </li>
                                                                         <?php }

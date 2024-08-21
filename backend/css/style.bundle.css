@@ -3649,8 +3649,19 @@ input[type="button"].btn-block {
 div.dt-container .dataTables_wrapper td:first-child {
   text-align: left;
 }
+div.dt-container .dataTables_wrapper tbody tr {
+  transition: all ease .2s;
+}
 div.dt-container .dataTables_wrapper tbody tr:nth-child(odd) {
   background-color: #f8f8f8;
+}
+div.dt-container .dataTables_wrapper tbody tr:hover {
+  background-color: #f1bbbd;
+  transition: all ease .2s;
+  transform: scale(1.01);
+}
+div.dt-container .dataTables_wrapper tbody tr:hover td:last-child i {
+  color: #3F4254;
 }
 div.dt-container .dataTables_wrapper th.dt-ordering-asc {
   color: #24294c !important;
