@@ -298,7 +298,7 @@ $this->title = 'Tableau de bord';
                                             <!--begin::Title-->
                                             <div class="d-flex flex-column flex-grow-1 mr-2">
                                                 <a href="<?= Url::to(['site/user']) ?>" class="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1">Utilisateurs actifs</a>
-                                                <span class="text-muted font-weight-bold"></span>
+                                                <span class="text-muted font-weight-bold">En attente : <?= count($pendingUsers) ?></span>
                                             </div>
                                             <!--end::Title-->
                                             <!--begin::Lable-->
@@ -328,7 +328,7 @@ $this->title = 'Tableau de bord';
                                             <!--begin::Title-->
                                             <div class="d-flex flex-column flex-grow-1 mr-2">
                                                 <a href="<?= Url::to(['site/company']) ?>" class="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1">Entreprises actives</a>
-                                                <span class="text-muted font-weight-bold"></span>
+                                                <span class="text-muted font-weight-bold">En attente : <?= $pendingCompanies ?></span>
                                             </div>
                                             <!--end::Title-->
                                             <!--begin::Lable-->
@@ -357,7 +357,7 @@ $this->title = 'Tableau de bord';
                                             <!--begin::Title-->
                                             <div class="d-flex flex-column flex-grow-1 mr-2">
                                                 <a href="<?= Url::to(['site/event']) ?>" class="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1">Evénements publiés</a>
-                                                <span class="text-muted font-weight-bold"></span>
+                                                <span class="text-muted font-weight-bold">Brouillons : <?= $draftEvents ?></span>
                                             </div>
                                             <!--end::Title-->
                                             <!--begin::Lable-->
@@ -386,7 +386,7 @@ $this->title = 'Tableau de bord';
                                             <!--begin::Title-->
                                             <div class="d-flex flex-column flex-grow-1 mr-2">
                                                 <a href="<?= Url::to(['site/cms']) ?>" class="font-weight-bold text-light text-hover-light font-size-lg mb-1">Pages de contenu publiées</a>
-                                                <span class="text-muted font-weight-bold"></span>
+                                                <span class="text-muted font-weight-bold">Brouillons : <?= $draftCms ?></span>
                                             </div>
                                             <!--end::Title-->
                                             <!--begin::Lable-->
@@ -414,7 +414,7 @@ $this->title = 'Tableau de bord';
                                             <!--begin::Title-->
                                             <div class="d-flex flex-column flex-grow-1 mr-2">
                                                 <a href="<?= Url::to(['site/news']) ?>" class="font-weight-bold text-secondary text-hover-primary font-size-lg mb-1">Actualités publiées </a>
-                                                <span class="text-muted font-weight-bold"></span>
+                                                <span class="text-muted font-weight-bold">Brouillons : <?= $draftNews ?></span>
                                             </div>
                                             <!--end::Title-->
                                             <!--begin::Lable-->

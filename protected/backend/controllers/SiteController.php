@@ -94,12 +94,16 @@ class SiteController extends Controller
     public function actionIndex()
     {
     	$args = [
-            'pendingUsers' => User::find()->where(['status' => 9])->all(),
             'activeUsers' => count(User::find()->where(['status' => 10])->all()),
+            'pendingUsers' => User::find()->where(['status' => 9])->all(),
             'activeCompanies' => count(Company::find()->where(['status' => 3])->all()),
+            'pendingCompanies' => count(Company::find()->where(['status' => 1])->all()),
             'publishedEvents' => count(Cms::find()->where(['type' => 'event', 'status' => 1])->all()),
+            'draftEvents' => count(Cms::find()->where(['type' => 'event', 'status' => 0])->all()),
             'publishedCms' => count(Cms::find()->where(['type' => 'cms', 'status' => 1])->all()),
+            'draftCms' => count(Cms::find()->where(['type' => 'cms', 'status' => 0])->all()),
             'publishedNews' => count(Cms::find()->where(['type' => 'news', 'status' => 1])->all()),
+            'draftNews' => count(Cms::find()->where(['type' => 'news', 'status' => 0])->all()),
         ];
 
         return $this->render('index', $args);

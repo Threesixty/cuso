@@ -3658,7 +3658,6 @@ div.dt-container .dataTables_wrapper tbody tr:nth-child(odd) {
 div.dt-container .dataTables_wrapper tbody tr:hover {
   background-color: #f1bbbd;
   transition: all ease .2s;
-  transform: scale(1.01);
 }
 div.dt-container .dataTables_wrapper tbody tr:hover td:last-child i {
   color: #3F4254;
@@ -45597,13 +45596,11 @@ table.dataTable > tbody > tr.selected > td, table.dataTable > tbody > tr.selecte
 }
 .datatable:not(.table) {
   display: none; }
-.dataTables_wrapper  .select-info {
+.dataTables_wrapper .select-info {
   float: right;
   padding: 5px 10px;
-  background: #f1bbbd;
   border-radius: 6px;
-  border: solid 1px #c84a4f;
-  color: #c84a4f;
+  border: solid 1px #3F4254;
   font-weight: 500;
 }
 .overflow-scroll {
