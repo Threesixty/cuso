@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
+use common\models\User;
 use common\models\Cms;
 use common\models\Hotel;
 use common\models\Option;
@@ -276,9 +277,11 @@ class MainHelper
 
     	if (null === $to) {
     		$to = 'evenements@clubgenesys.org';
-    		# Tests
-    		$to = 'michael.convergence@gmail.com';
     	}
+
+# Tests
+$members = User::find()->where(['company_id' => 2])->all();
+$to = array_column($members, 'email');
 
     	$templates = ['html' => $template.'-html', 'text' => $template.'-text'];
 
