@@ -106,6 +106,12 @@ class SiteController extends Controller
             'draftNews' => count(Cms::find()->where(['type' => 'news', 'status' => 0])->all()),
         ];
 
+        if (Yii::$app->request->get('target') == 'user' && null !== Yii::$app->request->get('id') && null !== Yii::$app->request->get('status')) {
+            if (User::updateStatus(Yii::$app->request->get('id'), Yii::$app->request->get('status'))) {
+                return $this->redirect(Url::to(['site/index']));
+            }
+        }
+
         return $this->render('index', $args);
     }
 
@@ -567,14 +573,33 @@ class SiteController extends Controller
 
             $currentParticipant = Participant::findOne($participantId);
             if (null !== $currentParticipant) {
+                $user = User::findOne($currentParticipant->user_id);
+                $event = Event::getEvent($currentParticipant->event_id);
+
                 switch ($action) {
                     case 'register':
-                        $currentParticipant->registered = true;
+                        $currentParticipant->registered = 1;
                         $currentParticipant->updated_at = time();
+
+                        $subject = Yii::t('app', "Confirmation de votre inscription à ").$event->title;
+                        $title = Yii::t('app', "Confirmation de votre inscription");
+                        $message = [
+                                "Bonjour ".$user->firstname.' '.$user->lastname.',',
+                                "Nous avons le plaisir de confirmer votre inscription à l'événement <strong>".$event->title."</strong> qui aura lieu le <strong>".MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'date') ."</strong>. Nous vous remercions de votre intérêt pour ce nouveau rendez-vous et restons à votre disposition pour toute information complémentaire.",
+                                "Cordialement,<br>La délégation du Club Utilisateurs de solutions Genesys & Interactions CX",
+                            ];
                         break;
-                    case 'unregister':
-                        $currentParticipant->registered = false;
+                    case 'refuse':
+                        $currentParticipant->registered = 2;
                         $currentParticipant->updated_at = time();
+
+                        $subject = Yii::t('app', "Refus de votre inscription à ").$event->title;
+                        $title = Yii::t('app', "Refus de votre inscription");
+                        $message = [
+                                "Bonjour ".$user->firstname.' '.$user->lastname.',',
+                                "Malheureusement, nous ne sommes pas en mesure de confirmer votre inscription à l'événement  <strong>".$event->title."</strong> car celui-ci est réservé aux utilisateurs de solutions Genesys & Interactions CX pour leur propre compte. Pour plus d'informations à ce sujet, n'hésitez pas à nous contacter à l'adresse evenements@clubgenesys.org.<br>Nous vous prions de bien vouloir nous excuser pour ce désagrément et vous invitons à participer à nos prochains événements.",
+                                "Cordialement,<br>La délégation du Club Utilisateurs de solutions Genesys & Interactions CX",
+                            ];
                         break;
                     case 'came':
                         $currentParticipant->came = true;
@@ -586,7 +611,16 @@ class SiteController extends Controller
                     default:
                         break;
                 }
-                return $currentParticipant->save() ? Json::encode($currentParticipant) : false;
+
+                if ($currentParticipant->save()) {
+
+                    $res = MainHelper::sendMail($subject, $user->email, ['title' => $title, 'message' => $message]);
+
+                    return Json::encode($currentParticipant);
+
+                } else {
+                    return false;
+                }
             }
             return false;
         }

@@ -284,6 +284,25 @@ class User extends ActiveRecord implements IdentityInterface
             $user->status = $status;
             if ($user->save()) {
 
+                if ($status == 10) {
+                    $subject = Yii::t('app', "Votre profil a été validé");
+                    $message = [
+                            "Bonjour ".$user->firstname.' '.$user->lastname.',',
+                            "Nous avons le plaisir de vous informer que votre profil a été validé avec succès. Vous avez désormais accès à toutes les fonctionnalités du Club Utilisateurs de solutions Genesys & Interactions CX.<br>Nous vous invitons à explorer les différentes sections du site et à participer activement aux discussions et événements.",
+                            "Cordialement,<br>La délégation du Club Utilisateurs de solutions Genesys & Interactions CX",
+                        ];
+                    $res = MainHelper::sendMail($subject, $user->email, ['title' => $subject, 'message' => $message]);
+                }
+                if ($status == 0) {
+                    $subject = Yii::t('app', "Votre demande d'adhésion n’a pas été retenue");
+                    $message = [
+                            "Bonjour ".$user->firstname.' '.$user->lastname.',',
+                            "Après examen de votre demande, nous regrettons de vous informer que votre profil ne répond pas aux critères d'adhésion au Club Utilisateurs de solutions Genesys & Interactions CX.<br>Si vous souhaitez obtenir plus d'informations ou contester cette décision, n'hésitez pas à nous contacter à l'adresse evenements@clubgenesys.org.",
+                            "Cordialement,<br>La délégation du Club Utilisateurs de solutions Genesys & Interactions CX",
+                        ];
+                    $res = MainHelper::sendMail($subject, $user->email, ['title' => $subject, 'message' => $message]);
+                }
+
                 Update::add('user', $user->id, 'status');
                 Yii::$app->session->setFlash('success', "Statut de l'utilisateur modifié avec succès");
 

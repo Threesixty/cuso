@@ -1,11 +1,13 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use common\models\Cms;
 
 /* @var $this yii\web\View */
 /* @var $user common\models\User */
 
-$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]);
+$resetPasswordPage = Cms::getCmsByTemplate('resetPassword', null, true);
+$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/content', 'url' => $resetPasswordPage->url, 'token' => $user->password_reset_token]);
 ?>
 
     <table cellpadding="0" cellspacing="0" align="center" class="es-content" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:100%;table-layout:fixed !important">
@@ -20,8 +22,8 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 't
                                         <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                             <tr>
                                                 <td align="center" style="padding:0;Margin:0;padding-bottom:10px;padding-top:10px;font-size:0px">
-                                                    <img src="https://foujnwn.stripocdn.email/content/guids/CABINET_91d375bbb7ce4a7f7b848a611a0368a7/images/69901618385469411.png" alt="" width="100" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none">
-                                                    <!--img src="<?= Url::to('@web/images/mail/reset-password.png', true) ?>" alt="" width="100" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none"-->
+                                                	<img src="https://foujnwn.stripocdn.email/content/guids/CABINET_91d375bbb7ce4a7f7b848a611a0368a7/images/69901618385469411.png" alt="" width="100" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none">
+                                                	<!--img src="<?= Url::to('@web/images/mail/reset-password.png', true) ?>" alt="" width="100" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none"-->
                                                 </td>
                                             </tr>
                                             <tr>

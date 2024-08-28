@@ -3652,6 +3652,10 @@ div.dt-container .dataTables_wrapper td:first-child {
 div.dt-container .dataTables_wrapper tbody tr {
   transition: all ease .2s;
 }
+div.dt-container .dataTables_wrapper tbody tr.loading {
+  opacity: .4;
+  pointer-events: none;
+}
 div.dt-container .dataTables_wrapper tbody tr:nth-child(odd) {
   background-color: #f8f8f8;
 }

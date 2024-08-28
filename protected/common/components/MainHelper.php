@@ -272,23 +272,23 @@ class MainHelper
         return $dest;
     }
 
-    public static function sendMail($subject, $message, $from = false, $to = false) {
+    public static function sendMail($subject, $to = null, $args = [], $template = 'main') { // $args['message'] for default main templates
 
-    	if (!$from)
-    		$from = ['delegation@clubsutulisateursoracle.org' => 'Clubs utilisateurs de produits Oracle'];
-
-    	if (!$to) {
-    		$to = 'delegation@clubsutulisateursoracle.org';
+    	if (null === $to) {
+    		$to = 'evenements@clubgenesys.org';
     		# Tests
-    		//$to = 'mthomas@nux-digital.com';
+    		$to = 'michael.convergence@gmail.com';
     	}
+
+    	$templates = ['html' => $template.'-html', 'text' => $template.'-text'];
 
         return Yii::$app
             ->mailer
-            ->compose()
-            ->setTextBody(str_replace('<br>', '\r\n', $message))
-    		->setHtmlBody($message)
-            ->setFrom($from)
+            ->compose(
+                $templates,
+                $args
+            )
+            ->setFrom(['contact@clubgenesysetinteractionscx.org' => Yii::$app->name])
             ->setTo($to)
             ->setSubject($subject)
             ->send();

@@ -50,7 +50,9 @@ class Event extends ActiveRecord
     }
 
     // BO
-    public static function getEvent() {
+    public static function getEvent($id = null) {
+
+        $currentId = null !== $id ? $id : Yii::$app->request->get('id');
 
         $event = null;
         if (!empty(Yii::$app->request->get('lang'))) {
@@ -58,7 +60,7 @@ class Event extends ActiveRecord
                         ->innerJoinWith('event')
                         ->innerJoinWith('modelRelations')
                         ->where([
-                            'cms.lang_parent_id' => Yii::$app->request->get('id'), 
+                            'cms.lang_parent_id' => $currentId, 
                             'cms.lang' => Yii::$app->request->get('lang')
                         ])
                         ->one();
@@ -68,7 +70,7 @@ class Event extends ActiveRecord
                             ->innerJoinWith('event')
                             ->innerJoinWith('modelRelations')
                             ->where([
-                                'cms.id' => Yii::$app->request->get('id')
+                                'cms.id' => $currentId
                             ])
                             ->one();
 
@@ -77,7 +79,7 @@ class Event extends ActiveRecord
                     $event = Cms::find()
                                 ->innerJoinWith('event')
                                 ->where([
-                                    'cms.id' => Yii::$app->request->get('id')
+                                    'cms.id' => $currentId
                                 ])->one();
             }
         } else {
@@ -85,7 +87,7 @@ class Event extends ActiveRecord
                         ->innerJoinWith('event')
                         ->innerJoinWith('modelRelations')
                         ->where([
-                            'cms.id' => Yii::$app->request->get('id')
+                            'cms.id' => $currentId
                         ])->one();
 
             // Empty modelReltions
@@ -93,7 +95,7 @@ class Event extends ActiveRecord
                 $event = Cms::find()
                             ->innerJoinWith('event')
                             ->where([
-                                'cms.id' => Yii::$app->request->get('id')
+                                'cms.id' => $currentId
                             ])->one();
         }
 

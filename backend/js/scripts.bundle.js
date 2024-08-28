@@ -2587,6 +2587,8 @@ var KTApp = function() {
             var button = $(this),
                 action = button.attr('data-action');
 
+            button.closest('tr').addClass('loading');
+
             $.ajax({
                 type: "POST",
                 url: $('#datatableParticipant').data('url'),
@@ -2600,19 +2602,19 @@ var KTApp = function() {
                     if (participant) {
                         switch(action) {
                             case 'register':
-                                button.attr('data-action', 'unregister').attr('title', "Désinscrire").find('i').removeClass('la-plus-circle').addClass('la-minus-circle');
-                                button.closest('tr').find('td').eq(3).find('span').removeClass('label-light-warning').addClass('label-light-info').html('Inscrit');
+                                button.closest('td').find('a').eq(0).addClass('d-none').closest('td').find('a').eq(1).removeClass('d-none');
+                                button.closest('tr').find('td').eq(3).find('span').removeClass('label-light-warning label-light-danger').addClass('label-light-info').html('Inscrit');
                                 break;
-                            case 'unregister':
-                                button.attr('data-action', 'register').attr('title', "Inscrire").find('i').addClass('la-plus-circle').removeClass('la-minus-circle');
-                                button.closest('tr').find('td').eq(3).find('span').addClass('label-light-warning').removeClass('label-light-info').html('Désnscrit');
+                            case 'refuse':
+                                button.closest('td').find('a').eq(0).removeClass('d-none').closest('td').find('a').eq(1).addClass('d-none');
+                                button.closest('tr').find('td').eq(3).find('span').addClass('label-light-danger').removeClass('label-light-warning label-light-info').html('Refusé');
                                 break;
                             case 'came':
-                                button.closest('td').find('a').eq(1).addClass('d-none').closest('td').find('a').eq(2).removeClass('d-none');
+                                button.closest('td').find('a').eq(2).addClass('d-none').closest('td').find('a').eq(3).removeClass('d-none');
                                 button.closest('tr').find('td').eq(5).html('<span class="label label-lg font-weight-bold label-light-success label-inline">Présent</span>');
                                 break;
                             case 'notcame':
-                                button.closest('td').find('a').eq(1).removeClass('d-none').closest('td').find('a').eq(2).addClass('d-none');
+                                button.closest('td').find('a').eq(2).removeClass('d-none').closest('td').find('a').eq(3).addClass('d-none');
                                 button.closest('tr').find('td').eq(5).html('<span class="label label-lg font-weight-bold label-light-danger label-inline">Absent</span>');
                                 break;
 
@@ -2621,6 +2623,7 @@ var KTApp = function() {
                         }
                         button.tooltip('dispose');
                         button.tooltip();
+                        button.closest('tr').removeClass('loading');
                     } else {
                         console.log(participant);
                     }

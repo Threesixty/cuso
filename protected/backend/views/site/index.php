@@ -169,7 +169,7 @@ $this->title = 'Tableau de bord';
                                                                                         <?php
                                                                                         if ($user->status != 0) { ?>
                                                                                             <li class="navi-item">
-                                                                                                <a href="<?= Url::to(['site/user', 'id' => $user->id, 'status' => 0]) ?>" class="navi-link">
+                                                                                                <a href="<?= Url::to(['site/index', 'target' => 'user', 'id' => $user->id, 'status' => 0]) ?>" class="navi-link">
                                                                                                     <span class="navi-icon">
                                                                                                         <i class="flaticon2-cross"></i>
                                                                                                     </span>
@@ -179,7 +179,7 @@ $this->title = 'Tableau de bord';
                                                                                         <?php }
                                                                                         if ($user->status != 1) { ?>
                                                                                             <li class="navi-item">
-                                                                                                <a href="<?= Url::to(['site/user', 'id' => $user->id, 'status' => 1]) ?>" class="navi-link">
+                                                                                                <a href="<?= Url::to(['site/index', 'target' => 'user', 'id' => $user->id, 'status' => 1]) ?>" class="navi-link">
                                                                                                     <span class="navi-icon">
                                                                                                         <i class="flaticon2-time"></i>
                                                                                                     </span>
@@ -189,7 +189,7 @@ $this->title = 'Tableau de bord';
                                                                                         <?php }
                                                                                         if ($user->status != 9) { ?>
                                                                                             <li class="navi-item">
-                                                                                                <a href="<?= Url::to(['site/user', 'id' => $user->id, 'status' => 9]) ?>" class="navi-link">
+                                                                                                <a href="<?= Url::to(['site/index', 'target' => 'user', 'id' => $user->id, 'status' => 9]) ?>" class="navi-link">
                                                                                                     <span class="navi-icon">
                                                                                                         <i class="flaticon2-hourglass-1"></i>
                                                                                                     </span>
@@ -199,7 +199,7 @@ $this->title = 'Tableau de bord';
                                                                                         <?php }
                                                                                         if ($user->status != 10) { ?>
                                                                                             <li class="navi-item">
-                                                                                                <a href="<?= Url::to(['site/user', 'id' => $user->id, 'status' => 10]) ?>" class="navi-link">
+                                                                                                <a href="<?= Url::to(['site/index', 'target' => 'user', 'id' => $user->id, 'status' => 10]) ?>" class="navi-link">
                                                                                                     <span class="navi-icon">
                                                                                                         <i class="flaticon2-check-mark"></i>
                                                                                                     </span>
