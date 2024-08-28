@@ -597,7 +597,7 @@ class SiteController extends Controller
                         $title = Yii::t('app', "Refus de votre inscription");
                         $message = [
                                 "Bonjour ".$user->firstname.' '.$user->lastname.',',
-                                "Malheureusement, nous ne sommes pas en mesure de confirmer votre inscription à l'événement  <strong>".$event->title."</strong> car celui-ci est réservé aux utilisateurs de solutions Genesys & Interactions CX pour leur propre compte. Pour plus d'informations à ce sujet, n'hésitez pas à nous contacter à l'adresse evenements@clubgenesys.org.<br>Nous vous prions de bien vouloir nous excuser pour ce désagrément et vous invitons à participer à nos prochains événements.",
+                                "Malheureusement, nous ne sommes pas en mesure de confirmer votre inscription à l'événement  <strong>".$event->title."</strong> car celui-ci est réservé aux utilisateurs de solutions Genesys & Interactions CX pour leur propre compte. Pour plus d'informations à ce sujet, n'hésitez pas à nous contacter à l'adresse <a href=\"mailto:evenements@clubgenesys.org\">evenements@clubgenesys.org</a>.<br>Nous vous prions de bien vouloir nous excuser pour ce désagrément et vous invitons à participer à nos prochains événements.",
                                 "Cordialement,<br>La délégation du Club Utilisateurs de solutions Genesys & Interactions CX",
                             ];
                         break;

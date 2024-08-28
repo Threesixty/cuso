@@ -282,6 +282,7 @@ class MainHelper
 # Tests
 $members = User::find()->where(['company_id' => 2])->all();
 $to = array_column($members, 'email');
+$to = 'michael.convergence@gmail.com';
 
     	$templates = ['html' => $template.'-html', 'text' => $template.'-text'];
 

@@ -297,7 +297,7 @@ class User extends ActiveRecord implements IdentityInterface
                     $subject = Yii::t('app', "Votre demande d'adhésion n’a pas été retenue");
                     $message = [
                             "Bonjour ".$user->firstname.' '.$user->lastname.',',
-                            "Après examen de votre demande, nous regrettons de vous informer que votre profil ne répond pas aux critères d'adhésion au Club Utilisateurs de solutions Genesys & Interactions CX.<br>Si vous souhaitez obtenir plus d'informations ou contester cette décision, n'hésitez pas à nous contacter à l'adresse evenements@clubgenesys.org.",
+                            "Après examen de votre demande, nous regrettons de vous informer que votre profil ne répond pas aux critères d'adhésion au Club Utilisateurs de solutions Genesys & Interactions CX.<br>Si vous souhaitez obtenir plus d'informations ou contester cette décision, n'hésitez pas à nous contacter à l'adresse <a href=\"mailto:evenements@clubgenesys.org\">evenements@clubgenesys.org</a>.",
                             "Cordialement,<br>La délégation du Club Utilisateurs de solutions Genesys & Interactions CX",
                         ];
                     $res = MainHelper::sendMail($subject, $user->email, ['title' => $subject, 'message' => $message]);
