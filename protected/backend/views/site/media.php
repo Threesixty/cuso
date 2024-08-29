@@ -133,6 +133,29 @@ $this->title = MainHelper::getPageTitle('Liste des médias', '', true);
 	                                <?php } 
 	                            } ?>
 
+                                <div class="col-6 col-sm-3 col-md-2 mt-3 mb-3 draggable block-image" role="button" data-toggle="tooltip" data-placement="left" data-theme="dark" title="" data-id="" data-media-url="<?= Yii::getAlias('@uploadWeb').'/' ?>">
+                                    <div class="action-btn">
+                                        <a href="" class="btn btn-icon btn-danger btn-circle btn-sm delete-media" data-toggle="modal" data-target="#deleteModal" data-media-id="">
+                                            <i class="flaticon2-trash"></i>
+                                        </a>
+                                        <a href="javascript:;" class="btn btn-icon btn-danger btn-circle btn-lg remove-media" data-media-id="">
+                                            <i class="flaticon2-trash"></i>
+                                        </a>
+                                        <a href="javascript:;" class="btn btn-icon btn-success btn-circle btn-sm edit-media" data-toggle="modal" data-target="#modalEditMedia" data-media-src="" data-media-id="" data-getmedia-url="<?= Url::to(['site/get-media']) ?>">
+                                            <i class="flaticon2-edit"></i>
+                                        </a>
+                                    </div>
+                                    <div class="overflow-image rounded draggable-handle text-center">
+                                        <img class="d-none" src="">
+                                        <figure class="d-none">
+                                            <audio class="rounded d-none" controls></audio>
+                                        </figure>
+                                        <video class="rounded d-none" muted>
+                                            <source src="">
+                                        </video>
+                                    </div>
+                                </div>
+
 	                        </div>
 	                        <div class="text-center mt-5">
 	                        	<div class="spinner spinner-track spinner-success spinner-lg mt-5 text-center d-none"></div>

@@ -2379,6 +2379,17 @@ var KTApp = function() {
                     	default:
                     		break;
                     }
+                    var mediaElem = $('.medias-evenodd');
+                    mediaElem.imagesLoaded().then(function(){
+
+                        if ($('.masonry-layout').length) {
+                            $('.masonry-layout').masonry('destroy');
+                            var masonryLayout = $('.masonry-layout').masonry({
+                                percentPosition: true,
+                            });
+                            mediaElem.animate({ opacity: 1 });
+                        }
+                    });
                 }
             });
         }
