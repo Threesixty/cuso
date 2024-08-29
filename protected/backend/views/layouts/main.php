@@ -121,10 +121,9 @@ $actionId = Yii::$app->controller->action->id;
                         <!--begin::Nav-->
                         <ul class="nav flex-column">
                             <!--begin::Item-->
-                            <li class="nav-item mb-2" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="CRM">
+                            <!--li class="nav-item mb-2" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="CRM">
                                 <a href="<?= Url::to(['site/crm']) ?>" class="nav-link btn btn-icon btn-lg btn-borderless <?= strpos($actionId, 'crm') !== false ? 'active' : '' ?>">
                                     <span class="svg-icon svg-icon-xxl">
-                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Equalizer.svg-->
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                 <rect x="0" y="0" width="24" height="24"></rect>
@@ -134,10 +133,9 @@ $actionId = Yii::$app->controller->action->id;
                                                 <rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5"></rect>
                                             </g>
                                         </svg>
-                                        <!--end::Svg Icon-->
                                     </span>
                                 </a>
-                            </li>
+                            </li-->
                             <!--end::Item-->
                             <!--begin::Item-->
                             <li class="nav-item mb-2" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="Utilisateurs">
@@ -363,14 +361,14 @@ $actionId = Yii::$app->controller->action->id;
                                                         <span class="navi-text">Discussion</span>
                                                     </a>
                                                 </li>
-                                                <li class="navi-item">
+                                                <!--li class="navi-item">
                                                     <a href="<?= Url::to(['site/edit-chatbot']) ?>" class="navi-link">
                                                         <span class="navi-icon">
                                                             <i class="flaticon2-speaker"></i>
                                                         </span>
                                                         <span class="navi-text">Chatbot</span>
                                                     </a>
-                                                </li>
+                                                </li-->
                                                 <li class="navi-separator mb-3 opacity-70"></li>
                                                 <li class="navi-item">
                                                     <a href="<?= Url::to(['site/edit-user']) ?>" class="navi-link">
