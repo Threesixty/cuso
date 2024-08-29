@@ -71,7 +71,7 @@ $this->title = MainHelper::getPageTitle('Liste des médias', '', true);
 	                                foreach ($mediaList as $media) {
 						                $pathInfo = pathinfo(Yii::getAlias('@uploadFolder').'/'.$media->path); ?>
 
-	                                    <div class="col-6 col-sm-3 col-md-2 mt-3 mb-3 draggable media<?= $media->id ?>" role="button" data-toggle="tooltip" data-placement="left" data-theme="dark" title="<?= $media->title ?>" data-id="<?= $media->id ?>">
+	                                    <div class="col-6 col-sm-3 col-md-3 mt-3 mb-3 draggable media<?= $media->id ?>" role="button" data-toggle="tooltip" data-placement="left" data-theme="dark" title="<?= $media->title ?>" data-id="<?= $media->id ?>">
 	                                        <div class="action-btn">
 	                                            <a href="javascript:;" class="btn btn-icon btn-danger btn-circle btn-sm delete-media" data-toggle="modal" data-target="#deleteModal" data-media-id="<?= $media->id ?>">
 	                                                <i class="flaticon2-trash"></i>
@@ -133,7 +133,7 @@ $this->title = MainHelper::getPageTitle('Liste des médias', '', true);
 	                                <?php } 
 	                            } ?>
 
-                                <div class="col-6 col-sm-3 col-md-2 mt-3 mb-3 draggable block-image" role="button" data-toggle="tooltip" data-placement="left" data-theme="dark" title="" data-id="" data-media-url="<?= Yii::getAlias('@uploadWeb').'/' ?>">
+                                <div class="col-6 col-sm-3 col-md-3 mt-3 mb-3 draggable block-image" role="button" data-toggle="tooltip" data-placement="left" data-theme="dark" title="" data-id="" data-media-url="<?= Yii::getAlias('@uploadWeb').'/' ?>">
                                     <div class="action-btn">
                                         <a href="" class="btn btn-icon btn-danger btn-circle btn-sm delete-media" data-toggle="modal" data-target="#deleteModal" data-media-id="">
                                             <i class="flaticon2-trash"></i>
