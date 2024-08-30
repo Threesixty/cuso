@@ -23,7 +23,11 @@ return [
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'cuso-frontend',
+            'name' => 'session-cuso-frontend',
+            'class' => 'yii\web\Session',
+            'cookieParams' => ['httponly' => true, 'lifetime' => 3600*4],
+            'timeout' => 3600*4, //session expire
+            'useCookies' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -7,7 +7,7 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'genesys-backend',
+    'id' => 'cuso-backend',
     'name' => 'Portail du club utilisateurs de solutions Genesys et Interactions CX',
     'basePath' => dirname(__DIR__),
     'language' => 'fr',
@@ -16,17 +16,17 @@ return [
     'modules' => [],
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-genesys-backend',
+            'csrfParam' => '_csrf-cuso-backend',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'authTimeout' => 3600, // auth expire 
-            'identityCookie' => ['name' => '_identity-genesys-backend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-cuso-backend', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
-            'name' => 'session-genesys-backend',
+            'name' => 'session-cuso-backend',
             'class' => 'yii\web\Session',
             'cookieParams' => ['httponly' => true, 'lifetime' => 3600*4],
             'timeout' => 3600*4, //session expire
