@@ -5,11 +5,10 @@ use Yii;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use yii\console\Controller;
-use common\models\Cms;
-use common\models\Faq;
-use common\models\Hotel;
-use common\models\Update;
 use common\components\MainHelper;
+
+
+require_once(realpath(dirname(__FILE__)).'/../../../../clubsoracle/wp-config.php');
 
 /**
  * Test controller
@@ -20,152 +19,182 @@ class CronController extends Controller {
 
     }
 
-    public function actionSitemap() {
+    /**
+     * Import Companies
+     * 
+     * cmd: php yii cron/import-company
+     * **/
+    public function actionImportCompany() {
 
-    	$sitemapArr = $allContentsByLang = [];
-    	$allContents = Cms::find()->where(['status' => 1])->andWhere(['<>', 'template', 'index'])->all();
-		foreach ($allContents as $content) {
-			if (null !== $content->lang_parent_id)
-				$allContentsByLang[$content->lang_parent_id][] = $content;
-			else
-				$allContentsByLang[$content->id][] = $content;
-		}
+    	global $wpdb;
+    	$args = [
+    			'post_type' => 'company',
+  				'post_status' => 'any',
+    			'posts_per_page' => -1
+    		];
 
-    	if (null !== $allContentsByLang) {
-    		
-    		$xmlData = '<?xml version="1.0"?>'.PHP_EOL;
-    		$xmlData .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'.PHP_EOL;
-
-    		// Homepage
-    		$homepages = Cms::find()->where(['status' => 1, 'template' => 'index'])->all();
-
-    		foreach ($homepages as $home) {
-
-				$xmlData .= static::tab(1).'<url>'.PHP_EOL;
-				$xmlData .= static::tab(2).'<loc>'.Url::to(['site/index', 'language' => $home->lang], true).'</loc>'.PHP_EOL;
-
-				$lastUpdate = Update::find()->where(['model_id' => $home->id])->orderBy(['date' => SORT_DESC])->one();
-				if (null !== $lastUpdate)
-					$xmlData .= static::tab(2).'<lastmod>'.date('Y-m-d', $lastUpdate->date).'</lastmod>'.PHP_EOL;
-
-	    		foreach ($homepages as $alternate) {
-					$xmlData .= static::tab(2).'<link rel="alternate" hreflang="'.$alternate->lang.'" href="'.Url::to(['site/index', 'language' => $alternate->lang], true).'" />'.PHP_EOL;
-				}
-
-				$xmlData .= static::tab(1).'</url>'.PHP_EOL;
-    		}
-
-    		foreach ($allContentsByLang as $contentLangs) {
-    			foreach ($contentLangs as $content) {
-
-	    			$xmlData .= static::tab(1).'<url>'.PHP_EOL;
-	    			$xmlData .= static::tab(2).'<loc>'.Url::to(['site/content', 'url' => $content->url, 'language' => $content->lang], true).'</loc>'.PHP_EOL;
-
-	    			$lastUpdate = Update::find()->where(['model_id' => $content->id])->orderBy(['date' => SORT_DESC])->one();
-	    			if (null !== $lastUpdate)
-	    				$xmlData .= static::tab(2).'<lastmod>'.date('Y-m-d', $lastUpdate->date).'</lastmod>'.PHP_EOL;
-
-		    		foreach ($contentLangs as $alternate) {
-						$xmlData .= static::tab(2).'<link rel="alternate" hreflang="'.$alternate->lang.'" href="'.Url::to(['site/content', 'url' => $alternate->url, 'language' => $alternate->lang], true).'" />'.PHP_EOL;
-					}
-
-	    			$xmlData .= static::tab(1).'</url>'.PHP_EOL;
-	    		}
-    		}
-    		$xmlData .= '</urlset>';
-
-    		file_put_contents(realpath(dirname(__FILE__).'/../../../').'/sitemap.xml', $xmlData);
-    	}
-
+    	$query = new \WP_Query($args);
+    	$companyList = $query->posts;
+    	
+    	var_dump(count($companyList));
     }
 
-    public static function tab($nb) {
-    	$tabs = '';
-    	for ($idx = 0; $idx < $nb; $idx++) {
-    		$tabs .= "\t";
-    	}
-    	return $tabs;
+    /**
+     * Import Users
+     * 
+     * cmd: php yii cron/import-user
+     * **/
+    public function actionImportUser() {
+
+    	global $wpdb;
+    	$args = [
+  				'post_status' => 'any',
+    			'posts_per_page' => -1
+    		];
+
+    	$query = new \WP_User_Query($args);
+    	$userList = $query->get_results();
+    	
+    	var_dump(count($userList));
     }
 
-    public function actionFaqImport() { // php yii cron/faq-import
+    /**
+     * Import Event
+     * 
+     * cmd: php yii cron/import-event
+     * **/
+    public function actionImportEvent() {
 
-    	$hotels = [
-	    		'G' => 'general', 
-	    		'H' => 3, // Zilwa
-	    		'I' => 5, // Friday
-	    		'J' => 7, // The Ravenala
-	    		'K' => 9, // Lagoon
-	    		'L' => 11, // Coin de Mire
-	    		'M' => 13, // Tropical
-	    		'N' => 15, // Récif
-	    		'O' => 17 // Sunrise
-	    	];
+    	global $wpdb;
+    	$args = [
+    			'post_type' => 'event',
+  				'post_status' => 'any',
+    			'posts_per_page' => -1
+    		];
 
-    	$categories = [
-	    		'P' => 'most-asked', 
-	    		'Q' => 'booking', 
-	    		'R' => 'general',
-	    		'S' => 'room',
-	    		'T' => 'restaurant',
-	    		'U' => 'activities',
-	    		'V' => 'kids',
-	    		'W' => 'mauritius'
-	    	];
+    	$query = new \WP_Query($args);
+    	$eventList = $query->posts;
+    	
+    	var_dump(count($eventList));
+    }
 
-        $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load(realpath(dirname(__FILE__).'/../import/').'/faq-cdma.xlsx');
-		$itemList = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
-		if (!empty($itemList)) {
-			foreach ($itemList as $key => $item) {
-				if ($item['A'] != null && $key > 2) {
+    /**
+     * Import JU
+     * 
+     * cmd: php yii cron/import-ju
+     * **/
+    public function actionImportJu() {
 
-		       		$faqFR = new Faq();
-		       		$faqEN = new Faq();
-		       		$faqDE = new Faq();
-		       		$faqFR->status = $faqEN->status = $faqDE->status = 1;
-		       		$faqFR->author = $faqEN->author = $faqDE->author = 4;
-		       		$faqFR->created_at = $faqEN->created_at = $faqDE->created_at = time();
-		       		$faqFR->lang = 'fr';
-		       		$faqEN->lang = 'en';
-		       		$faqDE->lang = 'de';
+    	global $wpdb;
+    	$args = [
+    			'post_type' => 'ju',
+  				'post_status' => 'any',
+    			'posts_per_page' => -1
+    		];
 
-		       		$currentHotels = $currentCategories = [];
+    	$query = new \WP_Query($args);
+    	$juList = $query->posts;
+    	
+    	var_dump(count($juList));
+    }
 
-        			$faqFR->title = $item['A'];
-        			$faqFR->url = MainHelper::cleanUrl($item['A']);
-        			$faqFR->content = $item['B'];
+    /**
+     * Import News
+     * 
+     * cmd: php yii cron/import-news
+     * **/
+    public function actionImportNews() {
 
-        			$faqEN->title = $item['C'];
-        			$faqEN->url = MainHelper::cleanUrl($item['C']);
-        			$faqEN->content = $item['D'];
+    	global $wpdb;
+    	$args = [
+    			'post_type' => 'post',
+  				'post_status' => 'any',
+    			'posts_per_page' => -1
+    		];
 
-        			$faqDE->title = $item['E'];
-        			$faqDE->url = MainHelper::cleanUrl($item['E']);
-        			$faqDE->content = $item['F'];
+    	$query = new \WP_Query($args);
+    	$newsList = $query->posts;
+    	
+    	var_dump(count($newsList));
+    }
 
-					foreach (range('G', 'O') as $char) {
-	        			if ($item[$char] == 'TRUE')
-	        				$currentHotels[] = $hotels[$char];
-					}
-					foreach (range('P', 'W') as $char) {
-	        			if ($item[$char] == 'TRUE')
-	        				$currentCategories[] = $categories[$char];
-					}
-					$currentCategories = empty($currentCategories) ? null : $currentCategories;
+    /**
+     * Import Medias
+     * 
+     * cmd: php yii cron/import-media
+     * **/
+    public function actionImportMedia() {
 
-		        	$currentHotels = JSON::encode($currentHotels);
-		        	$faqFR->hotel = $faqEN->hotel = $faqDE->hotel = $currentHotels;
-		        	$currentCategories = JSON::encode($currentCategories);
-		        	$faqFR->category = $faqEN->category = $faqDE->category = $currentCategories;
+    	global $wpdb;
+    	$args = [
+    			'post_type' => 'attachment',
+    			'post_parent' => null, // any parent
+  				'post_status' => 'any',
+    			'posts_per_page' => -1
+    		];
 
-		        	if ($faqFR->save()) {
-		        		$faqEN->lang_parent_id = $faqFR->id;
-		        		$faqEN->save();
+    	$query = new \WP_Query($args);
+    	$attachmentList = $query->posts;
+    	
+    	var_dump(count($attachmentList));
+    }
 
-		        		$faqDE->lang_parent_id = $faqFR->id;
-		        		$faqDE->save();
-		        	}
-				}
-			}
-		}
+    /**
+     * Import Forum
+     * 
+     * cmd: php yii cron/import-forum
+     * **/
+    public function actionImportForum() {
+
+    	global $wpdb;
+    	$args = [
+    			'post_type' => 'faq',
+  				'post_status' => 'any',
+    			'posts_per_page' => -1
+    		];
+
+    	$query = new \WP_Query($args);
+    	$forumList = $query->posts;
+    	
+    	var_dump(count($forumList));
+    }
+
+    /**
+     * Import Job
+     * 
+     * cmd: php yii cron/import-job
+     * **/
+    public function actionImportJob() {
+
+    	global $wpdb;
+    	$args = [
+    			'post_type' => 'job',
+  				'post_status' => 'any',
+    			'posts_per_page' => -1
+    		];
+
+    	$query = new \WP_Query($args);
+    	$jobList = $query->posts;
+    	
+    	var_dump(count($jobList));
+    }
+
+    /**
+     * Import Comments
+     * 
+     * cmd: php yii cron/import-comment
+     * **/
+    public function actionImportComment() {
+
+    	global $wpdb;
+    	$args = [
+  				'post_status' => 'any',
+    			'posts_per_page' => -1
+    		];
+
+    	$query = new \WP_Comment_Query($args);
+    	$commentList = $query->comments;
+    	
+    	var_dump(count($commentList));
     }
 }
