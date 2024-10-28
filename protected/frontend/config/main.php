@@ -43,9 +43,7 @@ return [
         ],
         'assetManager' => [
             'assetMap' => [
-                'google-fonts.css' => '//fonts.googleapis.com/css2?family=Lato:wght@300;400;700',
-                'jquery-ui.css' => '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css',
-                'jquery-ui.js' => '//code.jquery.com/ui/1.12.1/jquery-ui.js',
+                'google-fonts.css' => '//fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap',
             ],
             'bundles' => [
                 'yii\bootstrap\BootstrapPluginAsset' => [

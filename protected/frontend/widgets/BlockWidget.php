@@ -4,7 +4,6 @@ namespace frontend\widgets;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use common\models\Hotel;
 use common\components\MainHelper;
 
 class BlockWidget extends Widget

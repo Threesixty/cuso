@@ -13,8 +13,16 @@ class BlockWidget extends Widget
     public $idx; # block idx
 
     public static $blocks = [
-            'simple-title' => 'Titre',
-            'text-and-image' => 'Texte et image',
+            '3-blocks-cta' => '3 pictos + CTA',
+            'big-title' => 'Gros titre',
+            'next-news' => 'Prochaines actualités',
+            'next-events' => 'Prochains événements',
+            'all-news' => 'Toutes les actualités',
+            'all-events' => 'Tous les événements',
+            'partners' => 'Partenaires',
+            'photos' => 'Photos',
+            'simple-text' => 'Texte simple',
+            'title-subtitle-cta' => 'Titre, sous-titre & bouton',
         ];
 
     public function init()

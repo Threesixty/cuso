@@ -327,6 +327,22 @@ $this->title = MainHelper::getPageTitle($model->title, 'Ajouter un contenu', tru
                                                     ->label(false) ?>
                                             </div>
                                             <div class="form-group">
+                                                <label>Communauté :</label>
+                                                <?php 
+                                                $communities = Option::getOption('name', 'communities', 'select', true);
+                                                $communities = array_replace(array(''=>''), $communities); ?>
+                                                
+                                                <?= $form->field($model, 'community')
+                                                    ->dropDownList(
+                                                        $communities, 
+                                                        [
+                                                            'class' => 'form-control select2-tags',
+                                                            'data-placeholder' => 'Sélectionnez une communauté'
+                                                        ]
+                                                    )
+                                                    ->label(false) ?>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>Étiquette(s) :</label>
                                                 <?php 
                                                 $tplTags = Option::getOption('name', 'cms-tags', 'select');

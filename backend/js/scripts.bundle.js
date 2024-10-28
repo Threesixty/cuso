@@ -1331,7 +1331,7 @@ var KTApp = function() {
                     { "orderable": false, "targets": [6] },
                     { "searchable": false, "targets": [6] },
                 ],
-                order: [[4, 'desc']],
+                order: [[0, 'desc']],
                 language: datatableLanguage,
             });
         }

@@ -35,16 +35,38 @@ class Alert extends \yii\bootstrap\Widget
         
         foreach ($flashes as $type => $flash) {
 
-            foreach ((array) $flash as $i => $message) { ?>
+            foreach ((array) $flash as $i => $message) {
+                $title = '';
+                switch ($type) {
+                     case 'success':
+                         $title = "Succès";
+                         break;
+                     case 'warning':
+                         $title = "Attention";
+                         break;
+                     case 'error':
+                         $title = "Erreur";
+                         break;
+                     
+                     default:
+                         break;
+                } ?>
 
-				<div class="cookie alert-widget mfp-hide">
-					<div class="cookie-summary">
-						<p><?= $message ?></p>
-					</div>
-					<div class="cookie-button">
-						<a href="#" class="close-alert">Ok</a>
-					</div>
-				</div>
+                <!-- Modal -->
+                <div class="modal modal-notification fade" id="notificationModal<?= $i ?>" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="notificationModalLabel"><?= $title ?></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?= Yii::t('app', "Fermer") ?>"></button>
+                            </div>
+                            <div class="modal-body"><?= $message ?></div>
+                            <div class="modal-footer">
+                                <button type="button" class="theme-btn btn-one" data-bs-dismiss="modal"><?= Yii::t('app', "Fermer") ?></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             <?php }
 

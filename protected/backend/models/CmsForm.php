@@ -20,6 +20,7 @@ class CmsForm extends Model
     public $url;
     public $urlRedirect;
     public $template;
+    public $community;
     public $tags;
     public $photoId;
     public $youtubeEmbed;
@@ -47,9 +48,9 @@ class CmsForm extends Model
     public function rules()
     {
         return [
-            [['type', 'title', 'metaTitle'], 'required'],
+            [['type', 'title'], 'required'],
             [['tags'], 'default', 'value' => null],
-            [['url', 'urlRedirect', 'status', 'photoId', 'template', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang'], 'safe'],
+            [['url', 'urlRedirect', 'metaTitle', 'status', 'photoId', 'template', 'metaDescription', 'summary', 'content', 'startDate', 'endDate', 'lang', 'community'], 'safe'],
         ];
     }
 
@@ -86,9 +87,10 @@ class CmsForm extends Model
             $cms->url = $this->url != '' ? trim(MainHelper::cleanUrl($this->url), '/') : trim(MainHelper::cleanUrl($this->title), '/');
             $cms->url_redirect = $this->urlRedirect;
             $cms->template = $this->template;
+            $cms->community = $this->community;
             $cms->tags = Json::encode($this->tags);
             $cms->photo_id = $this->photoId;
-            $cms->meta_title = $this->metaTitle;
+            $cms->meta_title = $this->metaTitle == '' ? $this->title : $this->metaTitle;
             $cms->meta_description = $this->metaDescription;
             $cms->summary = $this->summary;
             $cms->content = $this->content;
@@ -126,6 +128,7 @@ class CmsForm extends Model
             $this->url = $cms->url;
             $this->urlRedirect = $cms->url_redirect;
             $this->template = $cms->template;
+            $this->community = $cms->community;
             $this->tags = Json::decode($cms->tags);
             $this->photoId = $cms->photo_id;
             $this->metaTitle = $cms->meta_title;

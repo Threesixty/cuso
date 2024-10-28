@@ -10,13 +10,21 @@ use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use common\models\Cms;
-use common\models\Hotel;
-use common\models\RoomCategory;
+use common\models\Event;
+use common\models\Participant;
+use common\models\News;
+use common\models\Company;
+use common\models\Forum;
 use common\models\Media;
 use common\models\Option;
-use common\models\Newsletter;
-use common\models\Form;
-use common\models\Faq;
+use common\models\User;
+use frontend\models\LoginForm;
+use frontend\models\RegisterForm;
+use frontend\models\AccountForm;
+use frontend\models\ContactForm;
+use frontend\models\ForumForm;
+use frontend\models\PasswordResetRequestForm;
+use frontend\models\ResetPasswordForm;
 use common\components\MainHelper;
 
 /**
@@ -52,6 +60,9 @@ class SiteController extends Controller
 	        $this->view->params['cms'] = null !== Yii::$app->request->get('url') || $action->id == 'index' ? Cms::getContent(Yii::$app->request->get('url')) : false;
 	        $this->view->params['menus'] = MainHelper::getMenus();
 	        $this->view->params['lang'] = MainHelper::getLangSwitcher($action->id);
+            $this->view->params['login'] = Cms::getCmsByTemplate('login', null, true);
+            $this->view->params['myAccount'] = Cms::getCmsByTemplate('myAccount', null, true);
+            $this->view->params['contact'] = Cms::getCmsByTemplate('contact', null, true);
 
 	        // Open Graph
 	        $content = $this->view->params['cms'];
@@ -60,86 +71,7 @@ class SiteController extends Controller
 			$this->view->params['og']['url'] = $content && $action->id != 'index' ? Url::to(['site/content', 'url' => $content->url]) : Yii::$app->request->BaseUrl;
 
 			$this->view->params['og']['image'] = Yii::$app->request->BaseUrl.'/images/og-image.jpg';
-			if (isset($content->content)) {
-				$heroPic = array_filter($content->content, function($block) {
-				   return ($block['block'] == 'hero-pic');
-				});
-
-	            $heroPic = array_values($heroPic);
-	            if (!empty($heroPic) && isset($heroPic[0])) {
-	                foreach (JSON::decode($heroPic[0]['value']['media']) as $photoId) {
-	                    $photo = Media::findOne($photoId);
-	                    if (null !== $photo)
-	                    	$this->view->params['og']['image'] =  Yii::getAlias('@uploadWeb').'/'.$photo->path;
-	                }
-	            }
-			}
 	    }
-
-    	if (null != Yii::$app->request->post() && isset(Yii::$app->request->post()['submit-call-me-back'])) {
-        	$p = Yii::$app->request->post();
-
-    		if (MainHelper::isAHuman('verify', trim($p['_human']))) {
-    			unset($p['_human']);
-
-        		$mailContent = 'Vous avez reçu une nouvelle demande de rappel depuis le site https://hotels-attitude.com<br><br>';
-        		foreach ($p as $key => $value) {
-        			if ($key != '_csrf-frontend' && $key != 'submit-call-me-back') {
-            			$field = str_replace('call-me-back', '', $key);
-            			$field = str_replace('-', ' ', $field);
-            			$mailContent .= ucwords($field).': '.$value.'<br>';
-            		}
-        		}
-
-        		$sendStatus = MainHelper::sendMail('Call me back', $mailContent);
-        		if ($sendStatus) {
-        			$this->view->params['cmbPopinTitle'] = Yii::t('app', "Votre demande de rappel a été envoyée avec succès !");
-        			$this->view->params['cmbPopinContent'] = Yii::t('app', "Nous vous recontacterons dans les plus brefs délais.");
-        		} else {
-        			$this->view->params['cmbPopinTitle'] = Yii::t('app', "Une erreur s'est produite !");
-        			$this->view->params['cmbPopinContent'] = Yii::t('app', "Veuillez nous contacter à resa@hotels-attitude.com.");
-        		}
-    		} else {
-    			$this->view->params['cmbPopinTitle'] = Yii::t('app', "Une erreur s'est produite !");
-    			$this->view->params['cmbPopinContent'] = Yii::t('app', "Le Captcha est invalide.");
-    		}
-    	}
-
-
-		if (null != Yii::$app->request->post() && isset(Yii::$app->request->post()['newsletter-email'])) {
-
-			$nlEmail = Yii::$app->request->post()['newsletter-email'];
-	    	$newsletter = Newsletter::findOne(['email' => $nlEmail]);
-	    	if (null === $newsletter) {
-		    	$newsletter = new Newsletter();
-	    	}
-		    $newsletter->email = $nlEmail;
-		    $newsletter->maurician = Yii::$app->request->post()['newsletter-isMauritian'];
-		    $newsletter->types = Yii::$app->request->post()['newsletter-type'];
-		    $newsletter->date = date('d/m/Y');
-		    $newsletter->lang = strtoupper(Yii::$app->language);
-		    $newsletterStatus = $newsletter->save();
-
-		    // Send mail
-			$res = Yii::$app
-	            ->mailer
-	            ->compose(
-	                ['html' => 'welcome-'.Yii::$app->language.'-html'],
-	            )
-	            ->setFrom(['resaweb@hotels-attitude.com' => 'Hôtels Attitude'])
-	            ->setTo($nlEmail)
-	            ->setSubject('🌴 '.Yii::t('app', 'Bravo, vous êtes inscrit !'))
-	            ->send();
-
-    		$this->view->params['nlSaved'] = true;
-    		if ($newsletterStatus) {
-    			$this->view->params['nlPopinTitle'] = Yii::t('app', "Vous êtes inscrit !");
-    			$this->view->params['nlPopinContent'] = Yii::t('app', "Votre demande d'inscription à notre newsletter à bien été prise en compte. Merci.");
-    		} else {
-    			$this->view->params['nlPopinTitle'] = Yii::t('app', "Une erreur s'est produite !");
-    			$this->view->params['nlPopinContent'] = Yii::t('app', "Veuillez nous contacter à resa@hotels-attitude.com.");
-    		}
-		}
 
         if (!parent::beforeAction($action)) {
             return false;
@@ -167,9 +99,15 @@ class SiteController extends Controller
      */
     public function actionContent()
     {
-        $currentContent = Cms::getContent(Yii::$app->request->get('url'));
+        $currentContent = Event::getContent(Yii::$app->request->get('url'));
+        if (!$currentContent) 
+        	$currentContent = News::getContent(Yii::$app->request->get('url'));
+        if (!$currentContent) 
+        	$currentContent = Cms::getContent(Yii::$app->request->get('url'));
+        
         if ($currentContent) {
 	        $view = $currentContent->template != '' ? $currentContent->template : 'content';
+            $view = $currentContent->type == 'event' ? 'event' : $view;
 
 	        $args = [
 	                'cms' => $currentContent,
@@ -177,93 +115,263 @@ class SiteController extends Controller
 	            ];
 
 	        switch ($view) {
-	            case 'form/global-quote':
-	            case 'form/event-quote':
-	            case 'form/event-global-quote':
 
-	            	$type = 'global';
-	            	if ($view == 'form/global-quote') {
-						$args['optionNames'] = Option::getOption('name', 'hotel-category', true, false, true);
-			    		foreach (Hotel::getHotelsByLang() as $hotel) {
-			    		 	$args['hotelsByCat'][$hotel->category][] = $hotel;
-			    		}
-	            	}
-					if ($view == 'form/event-quote' && null !== $currentContent->hotel) {
-	            		$type = 'event';
-						$args['hotel'] = Hotel::getHotelById($currentContent->hotel);
-						$args['events'] = Cms::getCmsByTag('events');
-						$args['rooms'] = RoomCategory::getRoomCategoriesByHotelId($currentContent->hotel);
-					}
-	            	if ($view == 'form/event-global-quote') {
-	            		$type = 'event_global';
-	            		$args['hotelList'] = Hotel::getHotels();
-						$args['events'] = Cms::getCmsByTag('events');
-						$args['rooms'] = RoomCategory::getRoomCategories();
-	            	}
+                case 'event':                    
+                    if (!Yii::$app->user->isGuest) {
+                        $currentParticipant = Participant::find()
+                                                ->where([
+                                                    'event_id' => $currentContent->id,
+                                                    'user_id' => Yii::$app->user->identity->id
+                                                ])
+                                                ->one();
 
-	            	if (null != Yii::$app->request->post() && isset(Yii::$app->request->post()['quote-firstname'])) {
+                        if (null !== Yii::$app->request->get('register')) {
+                            $event = Event::getEvent($currentContent->id);
 
-	            		$args['mailSent'] = Form::send(Yii::$app->request->post(), $type, $view);
-	            		if ($args['mailSent']) {
-	            			$args['popinTitle'] = Yii::t('app', "Votre demande de devis a été envoyée avec succès !");
-	            			$args['popinContent'] = Yii::t('app', "Nous vous répondrons dans les plus brefs délais.");
-	            		} else {
-	            			$args['popinTitle'] = Yii::t('app', "Une erreur s'est produite !");
-	            			$args['popinContent'] = Yii::t('app', "Veuillez nous contacter à resa@hotels-attitude.com.");
-	            		}
-	            	}
-	                break;
+                            switch (Yii::$app->request->get('register')) {
+                                case '0':
+                                    $currentParticipant->updated_at = time();
+                                    $currentParticipant->registered = 0;
 
-	            case 'form/contact-us':
-	            	$args['hotelList'] = Hotel::getHotels(true);
-	            	$args['quoteForm'] = Cms::getCmsByTag('global-quote', true);
-	            	$args['quoteEventForm'] = Cms::getCmsByTag('event-global-quote', true);
-	                break;
+                                    if ($currentParticipant->save()) {
 
-	            case 'faq':
-	            	// Generic
-    				$generic = Cms::getCmsByTemplate('faq', null, false, true);
-    				$args['generic'] = $generic
-								->andWhere(['like', 'content', '"hotel":"general"'])
-								->andWhere(['like', 'content', '"category":"most-asked"'])
-								->one();
-	            	// Hotels
-	            	$hotels = Hotel::getHotels();
-	            	if (null !== $hotels) {
-	            		$args['hotelList'] = [];
-	            		foreach ($hotels as $hotel) {
-	            			$cat = Option::getOptionLabel('hotel-category', $hotel->category);
-	            			if ($cat) {
-	            				$hotelMostAsked = Cms::getCmsByTemplate('faq', null, false, true);
-	            				$hotelMostAsked = $hotelMostAsked
-	            									->andWhere(['like', 'content', '"hotel":"'.$hotel->id.'"'])
-	            									->andWhere(['like', 'content', '"category":"most-asked"'])
-	            									->one();
-	            				if (null !== $hotelMostAsked) {
-	            					$args['hotelList'][$cat][] = ['name' => $hotel->name, 'content' => $hotelMostAsked];
-	            				}
-	            			}
-	            		}
-	            	}
+                                        // To member
+                                        $subject = Yii::t('app', "Confirmation de votre désinscription à ").$event->title;
+                                        $title = Yii::t('app', "Confirmation de votre désinscription");
+                                        $message = [
+                                                "Bonjour ".Yii::$app->user->identity->firstname.' '.Yii::$app->user->identity->lastname.',',
+                                                "Nous vous confirmons que votre désinscription à l'événement <strong>".$event->title."</strong> a bien été prise en compte.<br>Nous espérons vous voir lors de nos prochains événements et restons à votre disposition pour toute autre demande.",
+                                                "Cordialement,<br>La délégation du Club Utilisateurs de solutions Genesys & Interactions CX",
+                                            ];
+                                        $res = MainHelper::sendMail($subject, Yii::$app->user->identity->email, ['title' => $title, 'message' => $message]);
 
-	            	// Categories
-	            	$args['faqCategories'] = Option::getOption('name', 'faq-categories', null, false, true);
+                                        // To admin
+                                        $subject = Yii::t('app', "Désinscription d'un utilisateur à ").$event->title;
+                                        $title = Yii::t('app', "Désinscription d'un utilisateur");
+                                        $message = [
+                                                "<strong>".Yii::$app->user->identity->firstname." ".Yii::$app->user->identity->lastname."</strong> s'est désinscrit de l'évènement <strong>".$event->title."</strong>.",
+                                            ];
+                                        $res = MainHelper::sendMail($subject, null, ['title' => $title, 'message' => $message]);
 
-	            	// Search
-	            	if (null !== Yii::$app->request->get('q')) {
+                                        Yii::$app->session->setFlash('success', Yii::t('app', "Demande de désinscription enregistrée avec succès."));
+                                    } else {
+                                        Yii::$app->session->setFlash('error', Yii::t('app', "Désolé, Impossible d'enregistrer la demande de désinscription.<br>Veuillez contacter l'administrateur du site."));
+                                    }
+                                    break;
+                                case '1':
+                                    if (null === $currentParticipant) {
+                                        $currentParticipant = new Participant();
+                                        $currentParticipant->event_id = $currentContent->id;
+                                        $currentParticipant->user_id = Yii::$app->user->identity->id;
+                                        $currentParticipant->created_at = time();
+                                    } else {
+                                        $currentParticipant->updated_at = time();
+                                    }
+                                    $currentParticipant->registered = 1;
 
-	            		$hotel = $args['cms']->content[0]['value']['hotel'];
-	            		$search = Faq::searchFaq($hotel, Yii::$app->request->get('q'));
+                                    if ($currentParticipant->save()) {
 
-	            		if (!empty($search)) {
-	            			$args['search'] = $search;
-	            		} else {
-	            			$args['search'] = Faq::getFaqByHotelAndCategory($hotel, 'most-asked', Yii::$app->language);
-	            			$args['noMatch'] = true;
-	            		}
-	            	}
+                                        $subject = Yii::t('app', "Confirmation de votre inscription à ").$event->title;
+                                        $title = Yii::t('app', "Confirmation de votre inscription");
+                                        $message = [
+                                                "Bonjour ".Yii::$app->user->identity->firstname.' '.Yii::$app->user->identity->lastname.',',
+                                                "Nous avons le plaisir de confirmer votre inscription à l'événement <strong>".$event->title."</strong> qui aura lieu le <strong>".MainHelper::getPrettyEventDate($event['event']->start_datetime, $event['event']->end_datetime, false, 'date') ."</strong>. Nous vous remercions de votre intérêt pour ce nouveau rendez-vous et restons à votre disposition pour toute information complémentaire.",
+                                                "Cordialement,<br>La délégation du Club Utilisateurs de solutions Genesys & Interactions CX",
+                                            ];
+                                        $res = MainHelper::sendMail($subject, Yii::$app->user->identity->email, ['title' => $title, 'message' => $message]);
 
-	                break;
+                                        Yii::$app->session->setFlash('success', Yii::t('app', "Demande d'inscription enregistrée avec succès."));
+                                    } else {
+                                        Yii::$app->session->setFlash('error', Yii::t('app', "Désolé, Impossible d'enregistrer la demande d'inscription.<br>Veuillez contacter l'administrateur du site."));
+                                    }
+                                    break;
+                                
+                                default:
+                                    break;
+                            }
+                            return $this->redirect(Url::to(['site/content', 'url' => $args['cms']->url]));
+                        }
+                        
+                        $args['currentParticipant'] = $currentParticipant;
+                    }
+                    $args['register'] = Cms::getCmsByTemplate('register', null, true);
+                    break;
+
+                case 'contact':
+                    $model = new ContactForm();
+
+                    if ($model->load(Yii::$app->request->post())) {
+                        if ($model->send()) {
+                            Yii::$app->session->setFlash('success', Yii::t('app', "Message envoyé avec succès."));
+                            $model = new ContactForm();
+                        } else {
+                            Yii::$app->session->setFlash('error', Yii::t('app', "Désolé, Impossible d'envoyer votre message.<br>Veuillez contacter l'administrateur du site."));
+                        }
+                    }
+                    $args['model'] = $model;
+                    break;
+
+                case 'members':
+                    if (Yii::$app->user->isGuest) {
+                        return $this->goHome();
+                    }
+                    $args['members'] = User::getActiveMembers();
+                    $args['companies'] = Company::getActiveCompanies();
+                    break;
+
+                case 'forum':
+                    if (Yii::$app->user->isGuest) {
+                        return $this->goHome();
+                    }
+
+                    $model = new ForumForm();
+                    $model->parentId = 0;
+
+                    if ($model->load(Yii::$app->request->post())) {
+                        if ($model->save()) {
+                            Yii::$app->session->setFlash('success', Yii::t('app', "Discussion publié avec succès."));
+
+                            return $this->redirect(['site/content', 'url' => $args['cms']->url]);
+                        } else {
+                            Yii::$app->session->setFlash('error', Yii::t('app', "Désolé, Impossible de publier votre discussion.<br>Veuillez contacter l'administrateur du site."));
+                        }
+                    }
+                    if (null !== Yii::$app->request->get('del')) {
+                        if (null !== $delForum = Forum::findOne(Yii::$app->request->get('del'))) {
+                            if (Yii::$app->user->identity->id == $delForum->author) {
+                                $children = Forum::getActiveForums($delForum->id);
+                                if (!empty($children)) {
+                                    Yii::$app->session->setFlash('error', Yii::t('app', "Désolé, Impossible de supprimer votre discussion car elle déjà reçu des réponsess."));
+                                } else {
+                                    if (Forum::deleteItem($delForum->id)) {
+                                        Yii::$app->session->setFlash('success', Yii::t('app', "Discussion supprimé avec succès."));
+                                    }
+                                }
+                            } else {
+                                Yii::$app->session->setFlash('error', Yii::t('app', "Désolé, Impossible de supprimer un discussion dont vous n'êtes pas l'auteur."));
+                            }
+                            return $this->redirect(['site/content', 'url' => $args['cms']->url]);
+                        } else {
+                            Yii::$app->session->setFlash('error', Yii::t('app', "Désolé, Impossible de supprimer votre discussion. Discussion introuvable.<br>Veuillez contacter l'administrateur du site."));
+                        }
+
+                    }
+                    $args['model'] = $model;
+                    $args['forums'] = Forum::getActiveForums();
+                    break;
+
+                case 'myAccount':
+                    if (Yii::$app->user->isGuest) {
+                        return $this->goHome();
+                    }
+                    $model = new AccountForm();
+
+                    $args['login'] = Cms::getCmsByTemplate('login', null, true);
+                    if (!isset(Yii::$app->user->identity->id) || !$model->find())
+                        return $this->redirect(Url::to(['site/content', 'url' => $args['login']->url]));
+
+                    if ($model->load(Yii::$app->request->post())) {
+                        if ($account = $model->save()) {
+                            Yii::$app->session->setFlash('success', Yii::t('app', "Profil sauvegardé avec succès."));
+                        } else {
+                            Yii::$app->session->setFlash('error', Yii::t('app', "Désolé, Impossible de mettre à jour le profil.<br>Veuillez contacter l'administrateur du site."));
+                            $model->password = '';
+                        }
+                    }
+                    $args['model'] = $model;
+                    $args['login'] = Cms::getCmsByTemplate('login', null, true);
+                    $args['companyList'] = Company::getCompanyList();
+                    $args['interestList'] = Option::getOption('name', 'interests', 'select', true);
+                    $args['productList'] = Option::getOption('name', 'products', 'select', true);
+                    break;
+
+                case 'register':
+                    if (!Yii::$app->user->isGuest) {
+                        return $this->goHome();
+                    }
+                    $model = new RegisterForm();
+                    if ($model->load(Yii::$app->request->post())) {
+
+                        if (null !== User::findOne(['username' => $model->email])) {
+                            Yii::$app->session->setFlash('warning', "L'utilisateur avec l'email ".$model->email." existe déjà.");
+                        } elseif ($registered = $model->register()) {
+                            Yii::$app->session->setFlash('success', Yii::t('app', "Votre demande d'adhésion à bien été enregistrée.<br>Un membre de la délégation reviendra vers vous très prochainement."));
+
+                            $res = $model->sendEmail();
+                            if ($model->company != '')
+                                $res = $model->sendEmailToMainContact($registered['company']);
+                            
+                            return $this->goBack();
+                        } else {
+                            Yii::$app->session->setFlash('error', Yii::t('app', "Impossible de sauvegarder le nouvel utilisateur. Veuillez contacter l'administrateur du site"));
+                        }
+                    } else {
+                        $model->password = '';
+                    }
+                    $args['model'] = $model;
+                    $args['cgi'] = Cms::getCmsByTag('cgi', true);
+                    $args['login'] = Cms::getCmsByTemplate('login', null, true);
+                    $args['companyList'] = Company::getCompanyList();
+                    $args['interestList'] = Option::getOption('name', 'interests', 'select', true);
+                    $args['productList'] = Option::getOption('name', 'products', 'select', true);
+                    break;
+
+                case 'login':
+                    if (!Yii::$app->user->isGuest) {
+                        return $this->goHome();
+                    }
+                    $model = new LoginForm();
+                    if ($model->load(Yii::$app->request->post()) && $model->login()) {
+                        return $this->goBack();
+                    } else {
+                        $model->password = '';
+                    }
+                    $args['model'] = $model;
+                    $args['requestPasswordReset'] = Cms::getCmsByTemplate('requestPasswordResetToken', null, true);
+                    $args['register'] = Cms::getCmsByTemplate('register', null, true);
+                    break;
+
+                case 'requestPasswordResetToken':
+                    if (!Yii::$app->user->isGuest) {
+                        return $this->goHome();
+                    }
+                    $model = new PasswordResetRequestForm();
+                    if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                        if ($model->sendEmail()) {
+                            Yii::$app->session->setFlash('success', Yii::t('app', "Consultez vos emails et suivez les instructions."));
+
+                            return $this->refresh();
+                        } else {
+                            Yii::$app->session->setFlash('error', Yii::t('app', "Désolé, Impossible de mettre à jour le mot de passe pour cet email."));
+                        }
+                    }
+                    $args['model'] = $model;
+                    $args['login'] = Cms::getCmsByTemplate('login', null, true);
+                    break;
+
+                case 'resetPassword':
+                    if (!Yii::$app->user->isGuest) {
+                        return $this->goHome();
+                    }
+                    try {
+                        $model = new ResetPasswordForm(Yii::$app->request->get('token'));
+                    } catch (InvalidArgumentException $e) {
+                        Yii::$app->session->setFlash('error', "Jeton invalide. Veuillez réessayer.");
+                        throw new BadRequestHttpException($e->getMessage());
+                    }
+
+                    if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+
+                        $res = $model->sendEmail();
+
+                        Yii::$app->session->setFlash('success', 'Nouveau mot de passe sauvegardé.');
+
+                        $login = Cms::getCmsByTemplate('login', null, true);
+                        return $this->redirect(['site/content', 'url' => $login->url]);
+                    }
+                    $args['model'] = $model;
+                    $args['login'] = Cms::getCmsByTemplate('login', null, true);
+                    break;
 	            
 	            default:
 	                break;
@@ -272,11 +380,28 @@ class SiteController extends Controller
 	        return $this->render($view, $args);
 	    } else {
 
-        	$redirect = Cms::getContentRedirect(Yii::$app->request->get('url'));
-        	if ($redirect)
-        		return $this->redirect(['site/content', 'url' => $redirect->url]);
+            if (Yii::$app->request->get('url') == 'logout') {
+                Yii::$app->user->logout();
+                return $this->goBack();
+            } elseif (Yii::$app->request->isAjax) {
+                if (Yii::$app->request->get('url') == 'memberDetails') {
+                    $memberId = Yii::$app->request->post('memberId');
+                    if (null !== $memberId) {
 
-	        return $this->render('error');
+                        return Json::encode($this->renderPartial(
+                                'ajax/memberDetails', [
+                                    'member' => User::getMember($memberId),
+                                ]
+                            ));
+                    }
+                }
+            } else {
+                $redirect = Cms::getContentRedirect(Yii::$app->request->get('url'));
+                if ($redirect)
+                    return $this->redirect(['site/content', 'url' => $redirect->url]);
+
+                return $this->render('error');
+            }
 	    }
     }
 
