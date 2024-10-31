@@ -1148,6 +1148,10 @@ pre {
   background-color: #ffe9dd;
 }
 
+.w-520 {
+  max-width: 520px;
+}
+
 .w-620 {
   max-width: 620px;
 }
@@ -1226,6 +1230,62 @@ pre {
 
 .mt-n-50 {
   margin-top: -50px;
+}
+
+.pt-5 {
+  padding-top: 5px;
+}
+
+.pt-10 {
+  padding-top: 10px;
+}
+
+.pt-15 {
+  padding-top: 15px;
+}
+
+.pt-20 {
+  padding-top: 20px;
+}
+
+.pt-25 {
+  padding-top: 25px;
+}
+
+.pt-30 {
+  padding-top: 30px;
+}
+
+.pt-35 {
+  padding-top: 35px;
+}
+
+.pt-40 {
+  padding-top: 40px;
+}
+
+.pt-45 {
+  padding-top: 45px;
+}
+
+.pt-50 {
+  padding-top: 50px;
+}
+
+.pt-55 {
+  padding-top: 55px;
+}
+
+.pt-60 {
+  padding-top: 60px;
+}
+
+.pt-65 {
+  padding-top: 65px;
+}
+
+.pt-70 {
+  padding-top: 70px;
 }
 
 .ta-center {
@@ -3147,6 +3207,7 @@ pre {
 }
 .button.black,
 .button.white,
+.button.gray,
 .button.navy,
 .button.rose,
 .button.blue,
@@ -3203,6 +3264,32 @@ pre {
   color: #000;
 }
 .button.white.transparent {
+  background-color: transparent;
+}
+
+.button.gray {
+  background-color: #f8f8f8;
+  color: #021a3f;
+}
+.button.gray.border {
+  border-color: #f8f8f8;
+}
+.button.gray.border:hover {
+  background-color: #f1f1f1;
+  color: #fff;
+}
+.button.gray.reverse {
+  background-color: #f1f1f1;
+  color: #fff;
+}
+.button.gray.reverse.border {
+  border-color: #f1f1f1;
+}
+.button.gray.reverse.border:hover {
+  background-color: #f8f8f8;
+  color: #021a3f;
+}
+.button.gray.transparent {
   background-color: transparent;
 }
 .button.navy {
@@ -4418,6 +4505,10 @@ pre {
   font-weight: 500;
   line-height: 1.5;
 }
+.form-button .float-right {
+  float: right;
+}
+
 
 /* xs */
 @media (max-width: 767px) {
@@ -4436,7 +4527,7 @@ pre {
 /* sm - md - lg */
 @media (min-width: 768px) {
   .form-button {
-    text-align: right;
+    text-align: left;
   }
   .form-upload {
     display: -webkit-box;
@@ -4489,7 +4580,8 @@ pre {
     margin-right: -12px;
     margin-left: -12px;
   }
-  .form-grid .form-item {
+  .form-grid .form-item,
+  .form-option .form-item {
     width: 50%;
     padding-right: 12px;
     padding-left: 12px;

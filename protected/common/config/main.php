@@ -18,13 +18,12 @@ return [
             // for the mailer to send real emails.
             'useFileTransport' => false,
             'transport' => [
-                'scheme' => 'smtps',
-                'host' => 'mail.gandi.net',
-                'username' => 'contact@clubutilisateursoracle.org',
-                'password' => 'Oconnection92!',
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'ssl0.ovh.net',
+                'username' => 'delegation@cdn-deliver.fr',
+                'password' => 'clubutilisateursoracle',
                 'port' => '465',
                 'encryption' => 'ssl',
-                'dsn' => 'native://default',
                 'streamOptions' => [
                     'ssl' => [
                         'allow_self_signed' => true,
