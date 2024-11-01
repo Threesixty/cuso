@@ -13,10 +13,12 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'google-fonts.css',
+        'select2.css',
         'css/style.css',
     ];
     public $js = [
     	'js/plugins.min.js',
+        'select2.js',
         'js/script.js',
     ];
     public $depends = [

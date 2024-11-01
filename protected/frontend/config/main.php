@@ -44,6 +44,8 @@ return [
         'assetManager' => [
             'assetMap' => [
                 'google-fonts.css' => '//fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap',
+                'select2.css' => '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
+                'select2.js' => '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
             ],
             'bundles' => [
                 'yii\bootstrap\BootstrapPluginAsset' => [

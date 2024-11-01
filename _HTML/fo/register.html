@@ -387,7 +387,7 @@
 					<div class="container container-fluid">
 						<div class="breadcrumb-link">
 							<a href="#">Accueil</a> -
-							<strong>Nous contacter</strong>
+							<strong>Inscription</strong>
 						</div>
 					</div>
 				</div>
@@ -461,57 +461,72 @@
 							</div>
 						</div>
 						<header class="section-header w-760 mx-auto">
-							<h1 class="section-title">Nous contacter</h1>
-							<div class="section-summary mt-20">
-								<p>Vos demandes seront trait&eacute;es dans les plus brefs d&eacute;lais.</p>
-							</div>
+							<h1 class="section-title">Inscription</h1>
 						</header>
 						<div class="section-body w-760 mx-auto">
 							<div class="form">
-								<div class="form-grid">
-									<div class="form-item">
-										<div class="form-group">
-											<label class="form-label" for="fI1">Votre nom *</label>
-											<input class="form-input br-a-10" type="text" placeholder="Nom" id="fI1" name="fI1" required>
-										</div>
-									</div>
-									<div class="form-item">
-										<div class="form-group">
-											<label class="form-label" for="fI2">Votre pr&eacute;nom *</label>
-											<input class="form-input error br-a-10" type="text" placeholder="Pr&eacute;nom" id="fI2" name="fI2" required>
-										</div>
-									</div>
-								</div>
-								<div class="form-grid">
-									<div class="form-item">
-										<div class="form-group">
-											<label class="form-label" for="fI3">Votre email *</label>
-											<input class="form-input br-a-10" type="email" placeholder="Nom" id="fI3" name="fI3" required>
-										</div>
-									</div>
-									<div class="form-item">
-										<div class="form-group">
-											<label class="form-label" for="fI4">Votre téléphone *</label>
-											<input class="form-input br-a-10" type="text" placeholder="Pr&eacute;nom" id="fI4" name="fI4" required>
-										</div>
-									</div>
-								</div>
-								<div class="form-group mt-30">
-									<label class="form-label" for="fI5">Sujet de votre message *</label>
-									<input class="form-input br-a-10" type="text" placeholder="Demande de renseignement" id="fI5" name="fI5" required>
-								</div>
-								<div class="form-group mt-30">
-									<label class="form-label" for="fI6">Votre message *</label>
-									<textarea class="form-textarea br-a-10" rows="10" cols="30" placeholder="Contenu de votre message ici" id="fI6" name="fI6" required></textarea>
-								</div>
-								<div class="form-option mt-30">
-									<input type="checkbox" id="fI7" name="fI7">
-									<label for="fI7">J&rsquo;ai pris connaissance du traitement de mes donn&eacute;es fait sur les informations envoy&eacute;es via ce formulaire pour le traitement de ma demande d&rsquo;exercice de droit. Aucune autre exploitation de ces donn&eacute;es ne sera effectu&eacute;e.</label>
-								</div>
-								<div class="form-note mt-30">* Les informations recueillies dans ce formulaire ne sont pas enregistr&eacute;es sur ce site mais sont envoy&eacute;es &agrave; à la délégation des Clubs utilisateurs Oracle. Ces donn&eacute;es sont collect&eacute;es aux fins de traiter votre demande d&rsquo;information concernant les Clubs utilisateurs Oracle. Les donn&eacute;es marqu&eacute;es par un ast&eacute;risque dans le questionnaire doivent obligatoirement &ecirc;tre fournies pour l&rsquo;envoi du formulaire et le traitement de votre demande. Elles sont conserv&eacute;es pendant le temps de l&rsquo;analyse et de la r&eacute;ponse &agrave; celle-ci. Vous disposez d&rsquo;un droit d&rsquo;acc&egrave;s, de rectification et d&rsquo;effacement sur vos donn&eacute;es personnelles. Vous pouvez &eacute;galement vous opposer au traitement de vos donn&eacute;es. Pour exercer ces droits ou pour toute question sur le traitement de vos donn&eacute;es vous pouvez contacter le d&eacute;l&eacute;gu&eacute; &agrave; la protection des donn&eacute;es &agrave; l&rsquo;adresse suivante : delegation@clubutilisateursoracle.org. Si vous estimez, apr&egrave;s nous avoir contact&eacute;s, que vos droits &laquo; Informatique et Libert&eacute;s &raquo; ne sont pas respect&eacute;s, vous pouvez adresser une r&eacute;clamation &agrave; la CNIL.</div>
+                                <div id="layer1" class="wizard-layer row clearfix active">
+                                    <div class="section-summary mt-20">
+                                        <h3>1. Informations générales</h3>
+                                    </div>
+    								<div class="form-grid mt-20">
+    									<div class="form-item">
+    										<div class="form-group">
+    											<label class="form-label" for="fI1">Prénom *</label>
+    											<input class="form-input br-a-10" type="text" placeholder="Nom" id="fI1" name="fI1" required>
+    										</div>
+    									</div>
+    									<div class="form-item">
+    										<div class="form-group">
+    											<label class="form-label" for="fI2">Nom *</label>
+    											<input class="form-input error br-a-10" type="text" placeholder="Pr&eacute;nom" id="fI2" name="fI2" required>
+    										</div>
+    									</div>
+    								</div>
+                                    <div class="form-grid">
+                                        <div class="form-item">
+                                            <div class="form-group">
+                                                <label class="form-label" for="fI3">Email *</label>
+                                                <input class="form-input br-a-10" type="email" placeholder="Nom" id="fI3" name="fI3" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <div class="form-group">
+                                                <label class="form-label" for="fI4">Mot de passe *</label>
+                                                <input class="form-input br-a-10" type="text" placeholder="Pr&eacute;nom" id="fI4" name="fI4" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-grid">
+                                        <div class="form-item">
+                                            <div class="form-group">
+                                                <label class="form-label" for="fI5">Téléphone **</label>
+                                                <input class="form-input br-a-10" type="email" placeholder="Nom" id="fI5" name="fI5" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <div class="form-group">
+                                                <label class="form-label" for="fI6">Mobile **</label>
+                                                <input class="form-input br-a-10" type="text" placeholder="Pr&eacute;nom" id="fI6" name="fI6" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="layer5" class="wizard-layer row clearfix">
+    								<div class="form-option mt-30">
+    									<input type="checkbox" id="fI7" name="fI7">
+    									<label for="fI7">J'ai pris connaissance et j'accepte les <a href="">conditions générales d'inscription</a>.</label>
+    								</div>
+                                </div>
 								<div class="form-button mt-50">
-									<button class="button orange icon-right shadow br-a-10" type="submit">
-										<span>Envoyer ce message</span>
+                                    <a href="#" class="button gray icon-left shadow br-a-20">
+                                        <svg width="20" height="14">
+                                            <use xlink:href="assets/img/sprites.svg#left"></use>
+                                        </svg>
+                                        <span>Annuler</span>
+                                    </a>
+									<button class="button float-right orange icon-right shadow br-a-20" type="submit">
+										<span>Suivant</span>
 										<svg width="20" height="14">
 											<use xlink:href="assets/img/sprites.svg#right"></use>
 										</svg>

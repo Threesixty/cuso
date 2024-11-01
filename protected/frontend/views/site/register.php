@@ -12,129 +12,239 @@ use common\components\MainHelper;
 
 $this->title = MainHelper::getPageTitle($cms->title, '', true); ?>
 
-        <!-- contact-section -->
-        <section class="contact-section login-section mt_100 pt_140 pb_140">
-            <div class="pattern-layer" style="background-image: url(<?= Yii::$app->request->BaseUrl ?>/images/background/error-bg.jpg);"></div>
-            <div class="auto-container">
-                <div class="row clearfix">
-                    <div class="offset-lg-1 col-lg-10 col-md-12 col-sm-12 form-column">
-                        <div class="form-inner px-5">
-                            <!--begin::Form-->
+
+
+                <div class="breadcrumb">
+                    <div class="container container-fluid">
+                        <div class="breadcrumb-link">
+                            <a href="#">Accueil</a> -
+                            <strong>Inscription</strong>
+                        </div>
+                    </div>
+                </div>
+                <!-- breadcrumb -->
+                <section class="section i4">
+                    <div class="container container-fixed">
+                        <div class="section-toolbar">
+                            <div class="toolbar i3 navy">
+                                <div class="toolbar-item">
+                                    <button class="toolbar-button button orange icon-only s1 shadow br-round" type="button">
+                                        <svg width="18" height="20">
+                                            <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#share"></use>
+                                        </svg>
+                                    </button>
+                                    <div class="toolbar-share">
+                                        <ul class="br-a-20">
+                                            <li>
+                                                <a href="#">
+                                                <span>
+                                                <img src="<?= Yii::$app->request->BaseUrl ?>/img/ico-facebook.svg" alt="" width="16" height="32">
+                                                </span>
+                                                <em>Partager par Facebook</em>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                <span>
+                                                <img src="<?= Yii::$app->request->BaseUrl ?>/img/ico-linkedin.svg" alt="" width="32" height="32">
+                                                </span>
+                                                <em>Partager par Linkedin</em>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                <span>
+                                                <img src="<?= Yii::$app->request->BaseUrl ?>/img/ico-twitter.svg" alt="" width="40" height="32">
+                                                </span>
+                                                <em>Partager par Twitter</em>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span>
+                                                        <svg width="20" height="16">
+                                                            <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#email"></use>
+                                                        </svg>
+                                                    </span>
+                                                    <em>Partager par mail</em>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span>
+                                                        <svg width="20" height="10">
+                                                            <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#link"></use>
+                                                        </svg>
+                                                    </span>
+                                                    <em>Copier le lien</em>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="toolbar-item">
+                                    <button class="toolbar-button button orange icon-only s1 shadow br-round" type="button">
+                                        <svg width="20" height="18">
+                                            <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#print"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <header class="section-header w-760 mx-auto">
+                            <div class="register-header">
+                                <h1 class="section-title">
+                                    <?= $cms->title ?> 
+                                </h1>
+                                <span><?= Yii::t('app', "ou") ?></span>
+                                <a href="<?= Url::to(['site/content', 'url' => $login->url]) ?>" class="button orange icon-right shadow br-a-20">
+                                    <span>Connexion</span>
+                                    <svg width="20" height="14">
+                                        <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#right"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                        </header>
+                        <div class="section-body w-760 mx-auto">                            
                             <?php $form = ActiveForm::begin(['id' => 'register-form']); ?>
 
                                 <div class="wizard">
-                                    <div class="pb-5 pt-5 pt-lg-15">
-                                        <h3 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg text-center"><?= $cms->title ?> <span class="fw-100"><?= Yii::t('app', "ou") ?></span> <a href="<?= Url::to(['site/content', 'url' => $login->url]) ?>" class="theme-btn btn-one">Connexion</a></h3>
-                                    </div>
                                     <div id="layer1" class="wizard-layer row clearfix active">
-                                        <h3 class="text-primary font-size-h3 mb-5">1. <?= Yii::t('app', "Informations personnelles") ?></h3>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <?= $form->field($model, 'firstname', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'autofocus' => true,
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Prénom")
-                                                ])->label(Yii::t('app', "Prénom")) ?>
+                                        <div class="section-summary mt-20">
+                                            <h3>1. <?= Yii::t('app', "Informations personnelles") ?></h3>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <?= $form->field($model, 'lastname', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Nom")
-                                                ])->label(Yii::t('app', "Nom")) ?>
+                                        <div class="form-grid mt-20">
+                                            <div class="form-item">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="<?= Html::getInputId($model, 'firstname') ?>">Prénom *</label>
+                                                    <?= $form->field($model, 'firstname')
+                                                        ->textInput([
+                                                            'autofocus' => true,
+                                                            'class' => 'form-input br-a-10',
+                                                            'placeholder' => Yii::t('app', "Prénom")
+                                                        ])->label(false) ?>
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="<?= Html::getInputId($model, 'lastname') ?>">Nom *</label>
+                                                    <?= $form->field($model, 'lastname')
+                                                        ->textInput([
+                                                            'class' => 'form-input br-a-10',
+                                                            'placeholder' => Yii::t('app', "Nom")
+                                                        ])->label(false) ?>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <?= $form->field($model, 'email', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'type' => 'email',
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Email")
-                                                ])->label(Yii::t('app', "Email")) ?>
+                                        <div class="form-grid mt-20">
+                                            <div class="form-item">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="<?= Html::getInputId($model, 'email') ?>">Email *</label>
+                                                    <?= $form->field($model, 'email')
+                                                        ->textInput([
+                                                            'type' => 'email',
+                                                            'class' => 'form-input br-a-10',
+                                                            'placeholder' => Yii::t('app', "Email")
+                                                        ])->label(false) ?>
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="<?= Html::getInputId($model, 'password') ?>">Mot de passe *</label>
+                                                    <?= $form->field($model, 'password')
+                                                        ->passwordInput([
+                                                            'autocomplete' => 'off',
+                                                            'class' => 'form-input br-a-10',
+                                                            'placeholder' => Yii::t('app', "Mot de passe")
+                                                        ])->label(false) ?>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <?= $form->field($model, 'password', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->passwordInput([
-                                                    'autocomplete' => 'off',
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Mot de passe")
-                                                ])->label(Yii::t('app', "Mot de passe")) ?>
+                                        <div class="form-grid mt-20">
+                                            <div class="form-item">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="<?= Html::getInputId($model, 'phone') ?>">Téléphone **</label>
+                                                    <?= $form->field($model, 'phone')
+                                                        ->textInput([
+                                                            'class' => 'form-input br-a-10',
+                                                            'placeholder' => Yii::t('app', "Téléphone")
+                                                        ])->label(false) ?>
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="<?= Html::getInputId($model, 'mobile') ?>">Mobile **</label>
+                                                    <?= $form->field($model, 'mobile')
+                                                        ->textInput([
+                                                            'class' => 'form-input br-a-10',
+                                                            'placeholder' => Yii::t('app', "Mobile")
+                                                        ])->label(false) ?>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <?= $form->field($model, 'phone', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Téléphone")
-                                                ])->label(Yii::t('app', "Téléphone")) ?>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <?= $form->field($model, 'mobile', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Mobile")
-                                                ])->label(Yii::t('app', "Mobile")) ?>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <?php
-                                            $decisionScopesList = Option::getOption('name', 'user-decision-scope', 'select');
-                                            $decisionScopes = array_replace([''=>''], $decisionScopesList); ?>
+                                        <div class="form-grid mt-20">
+                                            <div class="form-item">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="<?= Html::getInputId($model, 'decisionScope') ?>">Périmètre décisionnel *</label>
+                                                    <?php
+                                                    $decisionScopesList = Option::getOption('name', 'user-decision-scope', 'select');
+                                                    $decisionScopes = array_replace([''=>''], $decisionScopesList); ?>
 
-                                            <?= $form->field($model, 'decisionScope', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->dropDownList(
-                                                    $decisionScopes, 
-                                                    [
-                                                        'class' => 'form-control form-control-edit w-100',
-                                                        'data-placeholder' => '',
-                                                    ]
-                                                )
-                                                ->label(Yii::t('app', "Périmètre décisionnel")) ?>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <?php
-                                            $departmentsList = Option::getOption('name', 'user-departments', 'select');
-                                            $departments = array_replace([''=>''], $departmentsList); ?>
+                                                    <?= $form->field($model, 'decisionScope')
+                                                        ->dropDownList(
+                                                            $decisionScopes, 
+                                                            [
+                                                                'class' => 'form-input br-a-10',
+                                                                'data-placeholder' => "Sélectionnez un prérimètre décisionnel",
+                                                            ]
+                                                        )->label(false) ?>
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="<?= Html::getInputId($model, 'department') ?>">Département / Service *</label>
+                                                    <?php
+                                                    $departmentsList = Option::getOption('name', 'user-departments', 'select');
+                                                    $departments = array_replace([''=>''], $departmentsList); ?>
 
-                                            <?= $form->field($model, 'department', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->dropDownList(
-                                                    $departments, 
-                                                    [
-                                                        'class' => 'form-control form-control-edit w-100',
-                                                        'data-placeholder' => '',
-                                                    ]
-                                                )
-                                                ->label(Yii::t('app', "Département / Service")) ?>
+                                                    <?= $form->field($model, 'department')
+                                                        ->dropDownList(
+                                                            $departments, 
+                                                            [
+                                                                'class' => 'form-input br-a-10',
+                                                                'data-placeholder' => "Sélectionnez un département",
+                                                            ]
+                                                        )->label(false) ?>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <?= $form->field($model, 'function', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Fonction")
-                                                ])->label(Yii::t('app', "Fonction")) ?>
+                                        <div class="form-grid mt-20">
+                                            <div class="form-item">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="<?= Html::getInputId($model, 'function') ?>">Fonction *</label>
+                                                    <?= $form->field($model, 'function')
+                                                        ->textInput([
+                                                            'class' => 'form-input br-a-10',
+                                                            'placeholder' => Yii::t('app', "Fonction")
+                                                        ])->label(false) ?>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 message-btn mt-4">
-                                            <a href="javascript:void(0)" class="theme-btn btn-one next float-right" data-id="2"><?= Yii::t('app', "Suivant") ?></a>
+                                        <div class="form-button text-right mt-50">
+                                            <a href="javascript:void(0)" class="button orange icon-right shadow br-a-20 next" data-id="2">
+                                                <span>Suivant</span>
+                                                <svg width="20" height="14">
+                                                    <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#right"></use>
+                                                </svg>
+                                            </a>
                                         </div>
                                     </div>
                                     <div id="layer2" class="wizard-layer row clearfix">
-                                        <h3 class="text-primary font-size-h3 mb-5">2. <?= Yii::t('app', "Société") ?></h3>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 select-company">
+                                        <div class="section-summary mt-20">
+                                            <h3>2. <?= Yii::t('app', "Société") ?></h3>
+                                        </div>
+                                        <div class="form-group mt-30 select-company">
+                                            <label class="form-label" for="<?= Html::getInputId($model, 'company') ?>">Société *</label>
                                             <?php 
                                             if (null !== $companyList) {
                                                 $companies = [''=>''];
@@ -153,231 +263,349 @@ $this->title = MainHelper::getPageTitle($cms->title, '', true); ?>
                                                     ->label(false) ?>
                                             <?php } ?>
                                         </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 mt-4 text-center">
-                                            <a href="javascript:void(0)" class="theme-btn btn-one font-size-18 show-company-form" data-id="2"><?= Yii::t('app', "Je ne trouve pas ma société") ?></a>
+                                        <div class="form-group mt-30 text-center">
+                                            <a href="javascript:void(0)" class="button navy icon-right shadow br-a-20 show-company-form" data-id="2">
+                                                <span><?= Yii::t('app', "Je ne trouve pas ma société") ?></span>
+                                                <svg width="20" height="14">
+                                                    <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#right"></use>
+                                                </svg>
+                                            </a>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 mt-4 no-company">
-                                            <?= $form->field($model, 'companyName', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Nom de la société")
-                                                ])->label(Yii::t('app', "Nom de la société")) ?>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 mt-4 no-company">
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 no-company">
-                                            <?= $form->field($model, 'companyAddressLine1', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Numéro et Voie")
-                                                ])->label(Yii::t('app', "Numéro et Voie")) ?>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 no-company">
-                                            <?= $form->field($model, 'companyAddressLine2', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Voie (suite)")
-                                                ])->label(Yii::t('app', "Voie (suite)")) ?>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 no-company">
-                                            <?= $form->field($model, 'companyAddressZipcode', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Code postal")
-                                                ])->label(Yii::t('app', "Code postal")) ?>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 no-company">
-                                            <?= $form->field($model, 'companyAddressCity', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Ville")
-                                                ])->label(Yii::t('app', "Ville")) ?>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 no-company">
-                                            <?php 
-                                            $tplActivityAreas = Option::getOption('name', 'activity-areas', 'select');
-                                            $activityAreas = array_replace(array(''=>''), $tplActivityAreas); ?>
 
-                                            <?= $form->field($model, 'companyActivityArea', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->dropDownList(
-                                                    $activityAreas, 
-                                                    [
-                                                        'class' => 'form-control form-control-edit w-100',
-                                                        'data-placeholder' => '',
-                                                    ]
-                                                )
-                                                ->label(Yii::t('app', "Secteur d'activité")) ?>
+                                        <div class="no-company">
+                                            <div class="form-grid mt-20">
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyName') ?>">Nom de la société *</label>
+                                                        <?= $form->field($model, 'companyName')
+                                                            ->textInput([
+                                                                'autofocus' => true,
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Nom de la société")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-grid mt-20">
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyAddressLine1') ?>">Numéro et Voie *</label>
+                                                        <?= $form->field($model, 'companyAddressLine1')
+                                                            ->textInput([
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Numéro et Voie")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyAddressLine2') ?>">Voie (suite)</label>
+                                                        <?= $form->field($model, 'companyAddressLine2')
+                                                            ->textInput([
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Voie (suite)")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-grid mt-20">
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyAddressZipcode') ?>">Code postal *</label>
+                                                        <?= $form->field($model, 'companyAddressZipcode')
+                                                            ->textInput([
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Code postal")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyAddressCity') ?>">Ville *</label>
+                                                        <?= $form->field($model, 'companyAddressCity')
+                                                            ->textInput([
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Ville")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-grid mt-20">
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyActivityArea') ?>">Secteur d'activité *</label>
+                                                        <?php
+                                                        $tplActivityAreas = Option::getOption('name', 'activity-areas', 'select');
+                                                        $activityAreas = array_replace(array(''=>''), $tplActivityAreas); ?>
+
+                                                        <?= $form->field($model, 'companyActivityArea')
+                                                            ->dropDownList(
+                                                                $activityAreas, 
+                                                                [
+                                                                    'class' => 'form-input br-a-10',
+                                                                    'data-placeholder' => "Sélectionnez un secteur d'activité",
+                                                                ]
+                                                            )->label(false) ?>
+                                                    </div>
+                                                </div>
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companySize') ?>">Taille de l'entreprise *</label>
+                                                        <?php 
+                                                        $sizes = array_replace([''=>''], [
+                                                                '- de 1000 salariés' => '- de 1000 salariés',
+                                                                '+ de 1000 salariés' => '+ de 1000 salariés'
+                                                            ]); ?>
+
+                                                        <?= $form->field($model, 'companySize')
+                                                            ->dropDownList(
+                                                                $sizes, 
+                                                                [
+                                                                    'class' => 'form-input br-a-10',
+                                                                    'data-placeholder' => "Sélectionnez une taille",
+                                                                ]
+                                                            )->label(false) ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-grid mt-20">
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyMainContactName') ?>">Contact principal *</label>
+                                                        <?= $form->field($model, 'companyMainContactName')
+                                                            ->textInput([
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Nom et prénom")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyBillingContactName') ?>">Contact facturation</label>
+                                                        <?= $form->field($model, 'companyBillingContactName')
+                                                            ->textInput([
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Nom et prénom")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-grid mt-20">
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyMainContactEmail') ?>">Email du contact principal *</label>
+                                                        <?= $form->field($model, 'companyMainContactEmail')
+                                                            ->textInput([
+                                                                'type' => 'email',
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Email du contact principal")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyBillingContactEmail') ?>">Email du contact facturation *</label>
+                                                        <?= $form->field($model, 'companyBillingContactEmail')
+                                                            ->textInput([
+                                                                'type' => 'email',
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Email du contact facturation")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-grid mt-20">
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyMainContactPhone') ?>">Téléphone du contact principal *</label>
+                                                        <?= $form->field($model, 'companyMainContactPhone')
+                                                            ->textInput([
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Téléphone du contact principal")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                                <div class="form-item">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="<?= Html::getInputId($model, 'companyBillingContactPhone') ?>">Téléphone du contact facturation *</label>
+                                                        <?= $form->field($model, 'companyBillingContactPhone')
+                                                            ->textInput([
+                                                                'class' => 'form-input br-a-10',
+                                                                'placeholder' => Yii::t('app', "Téléphone du contact facturation")
+                                                            ])->label(false) ?>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 no-company">
-                                            <?php 
-                                            $sizes = array_replace([''=>''], [
-                                                    '- de 1000 salariés' => '- de 1000 salariés',
-                                                    '+ de 1000 salariés' => '+ de 1000 salariés'
-                                                ]); ?>
 
-                                            <?= $form->field($model, 'companySize', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->dropDownList(
-                                                    $sizes, 
-                                                    [
-                                                        'class' => 'form-control form-control-edit w-100',
-                                                        'data-placeholder' => '',
-                                                    ]
-                                                )
-                                                ->label(Yii::t('app', "Taille de l'entreprise")) ?>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 no-company">
-                                            <h4 class="text-dark font-size-h4 my-3 ms-2"><?= Yii::t('app', "Contact principal") ?></h4>
-                                            <?= $form->field($model, 'companyMainContactName', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Nom du contact principal")
-                                                ])->label(Yii::t('app', "Nom du contact principal")) ?>
-
-                                            <?= $form->field($model, 'companyMainContactEmail', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'type' => 'email',
-                                                    'placeholder' => Yii::t('app', "Email du contact principal")
-                                                ])->label(Yii::t('app', "Email du contact principal")) ?>
-
-                                            <?= $form->field($model, 'companyMainContactPhone', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Téléphone du contact principal")
-                                                ])->label(Yii::t('app', "Téléphone du contact principal")) ?>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 no-company">
-                                            <h4 class="text-dark font-size-h4 my-3 ms-2"><?= Yii::t('app', "Contact facturation") ?></h4>
-                                            <?= $form->field($model, 'companyBillingContactName', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Nom du contact facturation")
-                                                ])->label(Yii::t('app', "Nom du contact facturation")) ?>
-
-                                            <?= $form->field($model, 'companyBillingContactEmail', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'type' => 'email',
-                                                    'placeholder' => Yii::t('app', "Email du contact facturation")
-                                                ])->label(Yii::t('app', "Email du contact facturation")) ?>
-
-                                            <?= $form->field($model, 'companyBillingContactPhone', [
-                                                    'template' => '{input}{label}{hint}{error}', 
-                                                    'options' => ['class' => 'form-group form-floating']
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-edit',
-                                                    'placeholder' => Yii::t('app', "Téléphone du contact facturation")
-                                                ])->label(Yii::t('app', "Téléphone du contact facturation")) ?>
-                                        </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 message-btn mt-4">
-                                            <a href="javascript:void(0)" class="theme-btn btn-two prev" data-id="1"><?= Yii::t('app', "Précédent") ?></a>
-                                            <a href="javascript:void(0)" class="theme-btn btn-one next float-right" data-id="3"><?= Yii::t('app', "Suivant") ?></a>
+                                        <div class="form-button mt-50">
+                                            <a href="javascript:void(0)" class="button gray icon-left shadow br-a-20 prev" data-id="1">
+                                                <svg width="20" height="14">
+                                                    <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#left"></use>
+                                                </svg>
+                                                <span>Précédent</span>
+                                            </a>
+                                            <a href="javascript:void(0)" class="button float-right orange icon-right shadow br-a-20 next" data-id="3">
+                                                <span>Suivant</span>
+                                                <svg width="20" height="14">
+                                                    <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#right"></use>
+                                                </svg>
+                                            </a>
                                         </div>
                                     </div>
                                     <div id="layer3" class="wizard-layer row clearfix">
-                                        <h3 class="text-primary font-size-h3 mb-5">3. <?= Yii::t('app', "Centres d'intérêts") ?></h3>
-                                        <div class="row flex-options">
+                                        <div class="section-summary mt-20">
+                                            <h3>3. <?= Yii::t('app', "Centres d'intérêts") ?></h3>
+                                        </div>
+                                        <div class="form-grid flex-options mt-20">
                                             <?php 
                                             if (!empty($interestList)) {
-                                                foreach ($interestList as $interestCat => $interests) {
-                                                    if (is_array($interests)) { ?>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 d-grid">
-                                                            <blockquote>
-                                                                <h6 class="my-3"><?= strtoupper($interestCat) ?></h6>
-                                                                <?php
-                                                                foreach ($interests as $key => $interest) { ?>
-                                                                    <?= $form->field($model, 'interests[]')
-                                                                        ->checkbox([
-                                                                            'value' => $key,
-                                                                            'id' => 'registerform-interests_'.MainHelper::cleanUrl($interestCat).'_'.MainHelper::cleanUrl($key),
-                                                                            'checked' => null !== $model->interests && in_array($key, $model->interests) ? true : false,
-                                                                        ])->label($interest); ?>
-                                                                <?php } ?>
-                                                            </blockquote>
-                                                        </div>
-                                                    <?php }
-                                                }
+                                                $tmpArr = $interestList;
+                                                rsort($tmpArr);
+                                                if (is_array($tmpArr[0])) {
+                                                    foreach ($interestList as $interestCat => $interests) {
+                                                        if (is_array($interests)) { ?>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 d-grid">
+                                                                <blockquote>
+                                                                    <h6 class="my-3"><?= strtoupper($interestCat) ?></h6>
+                                                                    <?php
+                                                                    foreach ($interests as $key => $interest) { ?>
+                                                                        <?= $form->field($model, 'interests[]')
+                                                                            ->checkbox([
+                                                                                'value' => $key,
+                                                                                'id' => 'registerform-interests_'.MainHelper::cleanUrl($interestCat).'_'.MainHelper::cleanUrl($key),
+                                                                                'checked' => null !== $model->interests && in_array($key, $model->interests) ? true : false,
+                                                                            ])->label($interest); ?>
+                                                                    <?php } ?>
+                                                                </blockquote>
+                                                            </div>
+                                                        <?php }
+                                                    }                                                    
+                                                } else { ?>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 d-grid">
+                                                        <blockquote>
+                                                            <?php
+                                                            foreach ($interestList as $key => $interest) { ?>
+                                                                <?= $form->field($model, 'interests[]')
+                                                                    ->checkbox([
+                                                                        'value' => $key,
+                                                                        'id' => 'registerform-interests_'.MainHelper::cleanUrl($key),
+                                                                        'checked' => null !== $model->interests && in_array($key, $model->interests) ? true : false,
+                                                                    ])->label($interest); ?>
+                                                            <?php } ?>
+                                                        </blockquote>
+                                                    </div>
+                                                <?php }
                                             } ?>
                                         </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 message-btn mt-4">
-                                            <a href="javascript:void(0)" class="theme-btn btn-two prev" data-id="2"><?= Yii::t('app', "Précédent") ?></a>
-                                            <a href="javascript:void(0)" class="theme-btn btn-one next float-right" data-id="4"><?= Yii::t('app', "Suivant") ?></a>
+
+                                        <div class="form-button mt-50">
+                                            <a href="javascript:void(0)" class="button gray icon-left shadow br-a-20 prev" data-id="2">
+                                                <svg width="20" height="14">
+                                                    <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#left"></use>
+                                                </svg>
+                                                <span>Précédent</span>
+                                            </a>
+                                            <a href="javascript:void(0)" class="button float-right orange icon-right shadow br-a-20 next" data-id="4">
+                                                <span>Suivant</span>
+                                                <svg width="20" height="14">
+                                                    <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#right"></use>
+                                                </svg>
+                                            </a>
                                         </div>
                                     </div>
                                     <div id="layer4" class="wizard-layer row clearfix">
-                                        <h3 class="text-primary font-size-h3 mb-5">4. <?= Yii::t('app', "Produits utilisés") ?></h3>
-                                        <div class="row flex-options">
+                                        <div class="section-summary mt-20">
+                                            <h3>4. <?= Yii::t('app', "Produits utilisés") ?></h3>
+                                        </div>
+                                        <div class="form-grid flex-options mt-20">
                                             <?php 
                                             if (!empty($productList)) {
-                                                foreach ($productList as $productCat => $products) {
-                                                    if (is_array($products)) { ?>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                                            <blockquote>
-                                                                <h6 class="my-3"><?= strtoupper($productCat) ?></h6>
-                                                                <?php
-                                                                foreach ($products as $key => $product) { ?>
-                                                                    <?= $form->field($model, 'products[]')
-                                                                        ->checkbox([
-                                                                            'value' => $key,
-                                                                            'id' => 'registerform-products_'.MainHelper::cleanUrl($productCat).'_'.MainHelper::cleanUrl($key),
-                                                                            'checked' => null !== $model->products && in_array($key, $model->products) ? true : false,
-                                                                        ])->label($product); ?>
-                                                                <?php } ?>
-                                                            </blockquote>
-                                                        </div>
-                                                    <?php }
-                                                }
+                                                $tmpArr = $productList;
+                                                rsort($tmpArr);
+                                                if (is_array($tmpArr[0])) {
+                                                    foreach ($productList as $productCat => $products) {
+                                                        if (is_array($products)) { ?>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                                                <blockquote>
+                                                                    <h6 class="my-3"><?= strtoupper($productCat) ?></h6>
+                                                                    <?php
+                                                                    foreach ($products as $key => $product) { ?>
+                                                                        <?= $form->field($model, 'products[]')
+                                                                            ->checkbox([
+                                                                                'value' => $key,
+                                                                                'id' => 'registerform-products_'.MainHelper::cleanUrl($productCat).'_'.MainHelper::cleanUrl($key),
+                                                                                'checked' => null !== $model->products && in_array($key, $model->products) ? true : false,
+                                                                            ])->label($product); ?>
+                                                                    <?php } ?>
+                                                                </blockquote>
+                                                            </div>
+                                                        <?php }
+                                                    }
+                                                } else { ?>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 d-grid">
+                                                        <blockquote>
+                                                            <?php
+                                                            foreach ($products as $key => $product) { ?>
+                                                                <?= $form->field($model, 'products[]')
+                                                                    ->checkbox([
+                                                                        'value' => $key,
+                                                                        'id' => 'registerform-products_'.MainHelper::cleanUrl($key),
+                                                                        'checked' => null !== $model->products && in_array($key, $model->products) ? true : false,
+                                                                    ])->label($product); ?>
+                                                            <?php } ?>
+                                                        </blockquote>
+                                                    </div>
+                                                <?php }
                                             } ?>
                                         </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 message-btn mt-4">
-                                            <a href="javascript:void(0)" class="theme-btn btn-two prev" data-id="3"><?= Yii::t('app', "Précédent") ?></a>
-                                            <a href="javascript:void(0)" class="theme-btn btn-one next float-right" data-id="5"><?= Yii::t('app', "Suivant") ?></a>
+
+                                        <div class="form-button mt-50">
+                                            <a href="javascript:void(0)" class="button gray icon-left shadow br-a-20 prev" data-id="3">
+                                                <svg width="20" height="14">
+                                                    <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#left"></use>
+                                                </svg>
+                                                <span>Précédent</span>
+                                            </a>
+                                            <a href="javascript:void(0)" class="button float-right orange icon-right shadow br-a-20 next" data-id="5">
+                                                <span>Suivant</span>
+                                                <svg width="20" height="14">
+                                                    <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#right"></use>
+                                                </svg>
+                                            </a>
                                         </div>
                                     </div>
                                     <div id="layer5" class="wizard-layer row clearfix">
-                                        <h3 class="text-primary font-size-h3 mb-5">5. <?= Yii::t('app', "Validation") ?></h3>
-                                        <div class="col-lg-12 col-md-6 col-sm-12">
-                                            <?php
-                                            $cgu = 'J\'ai bien pris connaissance et j\'accepte les <a href="'.Url::to(['site/content', 'url' => $cgi->url]).'" target="_blank">conditions générales d\'inscription</a>'; ?>
-                                            <?= $form->field($model, 'cgu')->checkbox([
-                                                'value' => 1,
-                                            ])->label($cgu); ?>
+                                        <div class="section-summary mt-20">
+                                            <h3>5. <?= Yii::t('app', "Validation") ?></h3>
                                         </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 message-btn mt-4">
-                                            <a href="javascript:void(0)" class="theme-btn btn-two prev" data-id="4"><?= Yii::t('app', "Précédent") ?></a>
-                                            <?= Html::submitButton(Yii::t('app', "Valider"), ['class' => 'theme-btn btn-one float-right', 'name' => 'register-button']) ?>
+                                        <div class="form-option mt-30">
+                                            <?= $form->field($model, 'cgu')->checkbox([
+                                                    'value' => 1,
+                                                    'template' => '{input}<label for="'.Html::getInputId($model, 'cgu').'">J\'ai pris connaissance et j\'accepte les <a href="'.Url::to(['site/content', 'url' => $cgi->url]).'">conditions générales d\'inscription</a>.</label>{error}'
+                                                ])->label(false); ?>
+                                        </div>
+
+                                        <div class="form-button mt-50">
+                                            <a href="javascript:void(0)" class="button gray icon-left shadow br-a-20 prev" data-id="4">
+                                                <svg width="20" height="14">
+                                                    <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#left"></use>
+                                                </svg>
+                                                <span>Précédent</span>
+                                            </a>
+                                            <button type="submit" class="button float-right orange icon-right shadow br-a-20" data-id="3">
+                                                <span>Suivant</span>
+                                                <svg width="20" height="14">
+                                                    <use xlink:href="<?= Yii::$app->request->BaseUrl ?>/img/sprites.svg#right"></use>
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
 
                             <?php ActiveForm::end(); ?>
+                            <!-- form -->
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-        <!-- contact-section end -->
+                </section>
+                <!-- section -->

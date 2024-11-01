@@ -4529,6 +4529,9 @@ pre {
   .form-button {
     text-align: left;
   }
+  .form-button.align-right {
+    text-align: right;
+  }
   .form-upload {
     display: -webkit-box;
     display: -ms-flexbox;
